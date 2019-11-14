@@ -28,3 +28,5 @@ LinkingTo:
     Rcpp
 Imports: 
     Rcpp
+URL: https://github.com/astamm/rvtk
+BugReports: https://github.com/astamm/rvtk/issues
