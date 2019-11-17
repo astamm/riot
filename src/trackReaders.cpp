@@ -1,6 +1,7 @@
 #include <Rcpp.h>
-#include <vtk-8.2/vtkXMLPolyDataReader.h>
 #include <vtk-8.2/vtkPolyData.h>
+#include <vtk-8.2/vtkSmartPointer.h>
+#include <vtk-8.2/vtkXMLPolyDataReader.h>
 
 // [[Rcpp::export]]
 Rcpp::DataFrame ReadVTP(std::string &file)
