@@ -4,7 +4,7 @@
 #include <vtk-8.2/vtkXMLPolyDataReader.h>
 
 // [[Rcpp::export]]
-Rcpp::DataFrame ReadVTP(std::string &file)
+Rcpp::List ReadVTP(std::string &file)
 {
   vtkSmartPointer <vtkXMLPolyDataReader> vtpReader = vtkXMLPolyDataReader::New();
   vtpReader->SetFileName(file.c_str());
@@ -31,7 +31,7 @@ Rcpp::DataFrame ReadVTP(std::string &file)
     vz[i] = p[2];
   }
 
-  return Rcpp::DataFrame::create(
+  return Rcpp::List::create(
     Rcpp::Named("x") = vx,
     Rcpp::Named("y") = vy,
     Rcpp::Named("z") = vz

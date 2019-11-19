@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // ReadVTP
-Rcpp::DataFrame ReadVTP(std::string& file);
+Rcpp::List ReadVTP(std::string& file);
 RcppExport SEXP _trio_ReadVTP(SEXP fileSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
