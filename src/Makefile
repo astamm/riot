@@ -1,6 +1,5 @@
 all:
 	"${R_HOME}/bin${R_ARCH_BIN}/Rscript" -e "utils::untar('VTK-8.2.0.tar.gz')";
-	rm -rf __MACOSX/;
 	mkdir -p build_tmp;
 	mkdir -p ../inst;
 	cmake \
