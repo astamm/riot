@@ -1,3 +1,3 @@
-#' @useDynLib trio, .registration = TRUE
+#' @useDynLib trio
 #' @importFrom Rcpp sourceCpp
 "_PACKAGE"
