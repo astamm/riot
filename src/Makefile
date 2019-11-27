@@ -2,7 +2,7 @@ all:
 	"${R_HOME}/bin${R_ARCH_BIN}/Rscript" -e "utils::untar('VTK-8.2.0.tar.gz')";
 	mkdir -p vtk_build;
 	mkdir -p ../inst;
-	cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../inst -SVTK-8.2.0 -Bvtk_build;
+	cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../inst -Bvtk_build -SVTK-8.2.0;
 	cd vtk_build && make clean && make -j`"${R_HOME}/bin${R_ARCH_BIN}/Rscript" -e "writeLines(as.character(parallel::detectCores(logical = FALSE)))"` && make install;
 	rm -fr VTK-8.2.0;
 	rm -fr vtk_build;
