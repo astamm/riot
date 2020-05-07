@@ -1,5 +1,7 @@
 all:
+	"${R_HOME}/bin${R_ARCH_BIN}/Rscript" -e "utils::download.file('https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz', 'VTK-8.2.0.tar.gz')";
 	"${R_HOME}/bin${R_ARCH_BIN}/Rscript" -e "utils::untar('VTK-8.2.0.tar.gz')";
+	rm -fr VTK-8.2.0.tar.gz;
 	mkdir -p vtk_build;
 	mkdir -p ../inst;
 	cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../inst -Bvtk_build -SVTK-8.2.0;
