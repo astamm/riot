@@ -17,5 +17,17 @@ RCPP_DIR=$(${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "cat(system.file(package='R
 export RCPP_DIR
 export R_ARCH_BIN
 cd src
-cmake . -G "MSYS Makefiles"
+
+VTKDIR=`find $HOME -mindepth 1 -maxdepth 1 -type d -perm -o=r -print0 | while read -d $'\0' folder
+do
+    find $folder -name VTKConfig.cmake -print0 | while read -d $'\0' infolder
+    do
+        if [[ $infolder =~ "CMakeFiles" ]]; then
+            continue
+        fi
+        echo $infolder | rev | cut -d'/' -f2- | rev
+    done
+done`
+cmake -DVTK_DIR=$VTKDIR . -G "MSYS Makefiles"
+
 cp Makefile Makefile.win

@@ -46,9 +46,7 @@ set(required_vtk_modules
     vtksys
     vtkzlib
 )
-## set(VTK_DIR /Users/stamm-a/Softs/Anima/build/VTK/)
-## include(VTKConfig.cmake)
-find_package( VTK REQUIRED COMPONENTS ${required_vtk_modules} PATHS /Users/stamm-a/Softs/Anima/build/VTK )
+find_package( VTK REQUIRED COMPONENTS ${required_vtk_modules} )
 include_directories(${VTK_INCLUDE_DIRS})
 include(${VTK_USE_FILE})
 

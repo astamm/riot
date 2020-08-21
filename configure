@@ -17,4 +17,14 @@ RCPP_DIR=$(${R_HOME}/bin/Rscript -e "cat(system.file(package='Rcpp'))")
 export RCPP_DIR
 cd src
 
-cmake . $@
+VTKDIR=`find $HOME -mindepth 1 -maxdepth 1 -type d -perm -o=r -print0 | while read -d $'\0' folder
+do
+    find $folder -name VTKConfig.cmake -print0 | while read -d $'\0' infolder
+    do
+        if [[ $infolder =~ "CMakeFiles" ]]; then
+            continue
+        fi
+        echo $infolder | rev | cut -d'/' -f2- | rev
+    done
+done`
+cmake -DVTK_DIR=$VTKDIR . $@
