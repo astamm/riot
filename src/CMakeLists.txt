@@ -54,7 +54,7 @@ include(${VTK_USE_FILE})
 
 LINK_DIRECTORIES(${RLIB} ${VTK_LIBRARY_DIR})
 include_directories(BEFORE ${R_INCLUDE_DIR} ${RCPP_DIR} ${VTK_INCLUDE_DIR} "../inst/include/")
-add_library(trio SHARED trackReaders.cpp)
+add_library(trio SHARED trackReaders.cpp RcppExports.cpp)
 set(CMAKE_SHARED_LINKER_FLAGS "${BLAS_LIBS} ${LAPACK_LIBS}")
 option(LINK_STATIC_LIBSTDC "link statically against libstdc++" OFF)
 if (LINK_STATIC_LIBSTDC)
