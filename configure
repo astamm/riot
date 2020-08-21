@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 # obtain and export Rs environment variables
 export R_HOME
 CXX=$(${R_HOME}/bin/R CMD config CXX)
