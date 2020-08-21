@@ -1,9 +1,8 @@
-#include <Rcpp.h>
-#include <vtk-8.2/vtkPolyData.h>
-#include <vtk-8.2/vtkSmartPointer.h>
-#include <vtk-8.2/vtkXMLPolyDataReader.h>
+#include "trackReaders.h"
+#include <vtkPolyData.h>
+#include <vtkSmartPointer.h>
+#include <vtkXMLPolyDataReader.h>
 
-// [[Rcpp::export]]
 Rcpp::List ReadVTP(std::string &file)
 {
   vtkSmartPointer <vtkXMLPolyDataReader> vtpReader = vtkXMLPolyDataReader::New();
