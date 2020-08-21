@@ -9,7 +9,7 @@
 read_vtp <- function(file) {
   file <- normalizePath(file)
   res <- ReadVTP(file)
-  as_tibble(res)
+  tibble::as_tibble(res)
 }
 
 #' Read tracts in VTK format
@@ -79,7 +79,7 @@ read_vtk <- function(filename) {
     scan(what = 1.0, n = 3 * pts_n, quiet = TRUE) %>%
     matrix(ncol = 3, byrow = TRUE) %>%
     `colnames<-`(c("x", "y", "z")) %>%
-    as_tibble()
+    tibble::as_tibble()
 
   lines_header <- toupper(readLines(con, 1))
 
