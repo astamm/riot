@@ -5,20 +5,32 @@
 
 using namespace Rcpp;
 
-// ReadVTP
-Rcpp::List ReadVTP(std::string& file);
-RcppExport SEXP _trio_ReadVTP(SEXP fileSEXP) {
+// ReadVTK
+void ReadVTK(const std::string& inputTracts, std::string& outputFile);
+RcppExport SEXP _trio_ReadVTK(SEXP inputTractsSEXP, SEXP outputFileSEXP) {
 BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string& >::type file(fileSEXP);
-    rcpp_result_gen = Rcpp::wrap(ReadVTP(file));
-    return rcpp_result_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type inputTracts(inputTractsSEXP);
+    Rcpp::traits::input_parameter< std::string& >::type outputFile(outputFileSEXP);
+    ReadVTK(inputTracts, outputFile);
+    return R_NilValue;
+END_RCPP
+}
+// ReadVTP
+void ReadVTP(const std::string& inputTracts, std::string& outputFile);
+RcppExport SEXP _trio_ReadVTP(SEXP inputTractsSEXP, SEXP outputFileSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type inputTracts(inputTractsSEXP);
+    Rcpp::traits::input_parameter< std::string& >::type outputFile(outputFileSEXP);
+    ReadVTP(inputTracts, outputFile);
+    return R_NilValue;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_trio_ReadVTP", (DL_FUNC) &_trio_ReadVTP, 1},
+    {"_trio_ReadVTK", (DL_FUNC) &_trio_ReadVTK, 2},
+    {"_trio_ReadVTP", (DL_FUNC) &_trio_ReadVTP, 2},
     {NULL, NULL, 0}
 };
 

@@ -39,6 +39,7 @@ set(required_vtk_modules
     vtkCommonTransforms
     vtkexpat
     vtkIOCore
+    vtkIOLegacy
     vtkIOXML
     vtkIOXMLParser
     vtklz4

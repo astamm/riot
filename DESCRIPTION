@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: c(
     person(
         given = "Benoit",
-        family = "Combès",
+        family = "Comb<U+00E8>s",
         role = "aut"
     ),
     person(
@@ -35,7 +35,8 @@ Imports:
     tibble,
     dplyr,
     purrr,
-    stringr
+    stringr,
+    readr
 SystemRequirement: VTK >= 7, cmake
 URL: https://github.com/astamm/trio
 BugReports: https://github.com/astamm/trio/issues
