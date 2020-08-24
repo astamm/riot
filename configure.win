@@ -28,6 +28,6 @@ do
         echo $infolder | rev | cut -d'/' -f2- | rev
     done
 done`
-cmake -DVTK_DIR=$VTKDIR . -G "MSYS Makefiles"
+cmake -DVTK_DIR=$VTKDIR -DCMAKE_BUILD_TYPE=Release . -G "MSYS Makefiles"
 
 cp Makefile Makefile.win
