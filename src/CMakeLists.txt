@@ -31,25 +31,24 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 ### only link against necessary libs
 set(required_vtk_modules
-    vtkCommonCore
-    vtkCommonDataModel
-    vtkCommonExecutionModel
-    vtkCommonMath
-    vtkCommonMisc
-    vtkCommonTransforms
-    vtkexpat
-    vtkIOCore
-    vtkIOLegacy
-    vtkIOXML
-    vtkIOXMLParser
-    vtklz4
-    vtklzma
+    CommonCore
+    CommonDataModel
+    CommonExecutionModel
+    CommonMath
+    CommonMisc
+    CommonTransforms
+    expat
+    IOCore
+    IOLegacy
+    IOXML
+    IOXMLParser
+    lz4
+    lzma
     vtksys
-    vtkzlib
+    zlib
 )
 find_package( VTK REQUIRED COMPONENTS ${required_vtk_modules} )
 include_directories(${VTK_INCLUDE_DIRS})
-include(${VTK_USE_FILE})
 
 LINK_DIRECTORIES(${RLIB} ${VTK_LIBRARY_DIR})
 include_directories(BEFORE ${R_INCLUDE_DIR} ${RCPP_DIR} ${VTK_INCLUDE_DIR} "../inst/include/")
