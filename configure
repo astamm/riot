@@ -33,7 +33,7 @@ mkdir -p vtk-install
 # Build and install VTK
 NCORES=`${R_HOME}/bin/Rscript -e "cat(parallel::detectCores(logical = FALSE))"`
 cmake -DCMAKE_BUILD_TYPE=Release -S vtk-src -B vtk-build
-cmake --build vtk-build -j ${NCORES}
+cmake --build vtk-build -j ${NCORES} --clean-first
 cmake --install vtk-build --prefix vtk-install
 
 # Cleanup VTK files
