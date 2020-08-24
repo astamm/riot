@@ -26,19 +26,14 @@ ${R_HOME}/bin/Rscript -e "utils::download.file(
 ${R_HOME}/bin/Rscript -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
 mv VTK-9.0.1 vtk-src
 
-# Create VTK build and install folders
+# Build VTK
 mkdir -p vtk-build
-mkdir -p vtk-install
-
-# Build and install VTK
 NCORES=`${R_HOME}/bin/Rscript -e "cat(parallel::detectCores(logical = FALSE))"`
 cmake -DCMAKE_BUILD_TYPE=Release -S vtk-src -B vtk-build
 cmake --build vtk-build -j ${NCORES} --clean-first
-cmake --install vtk-build --prefix vtk-install
 
 # Cleanup VTK files
 rm -fr vtk-src
-rm -fr vtk-build
 rm -f vtk-src.tar.gz
 
 # VTKDIR=`find $HOME -mindepth 1 -maxdepth 1 -type d -perm -o=r -print0 | while read -d $'\0' folder
@@ -53,4 +48,4 @@ rm -f vtk-src.tar.gz
 # done`
 
 # cmake -DVTK_DIR=$VTKDIR -DCMAKE_BUILD_TYPE=Release . $@
-cmake -DVTK_DIR=vtk-install -DCMAKE_BUILD_TYPE=Release . $@
+cmake -DVTK_DIR=vtk-build -DCMAKE_BUILD_TYPE=Release . $@
