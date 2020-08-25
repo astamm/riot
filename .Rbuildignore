@@ -1,4 +1,7 @@
-^rvtk\.Rproj$
+^trio\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^\.github$
+\.fsrc$
+\.o$
+\.so$
