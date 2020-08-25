@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 # obtain and export Rs environment variables
 export R_HOME
 CXX=$(${R_HOME}/bin/R CMD config CXX)
@@ -27,10 +27,30 @@ ${R_HOME}/bin/Rscript -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
 mv VTK-9.0.1 vtk-src
 
 # Build VTK
-mkdir -p vtk-build
-mkdir -p vtk-install
+rm -fr vtk-build
+rm -fr vtk-install
+cmake \
+	-D CMAKE_BUILD_TYPE:STRING=“Release” \
+	-D BUILD_SHARED_LIBS=ON \
+	-D VTK_GROUP_ENABLE_Imaging=NO \
+	-D VTK_GROUP_ENABLE_MPI=NO \
+	-D VTK_GROUP_ENABLE_Qt=NO \
+	-D VTK_GROUP_ENABLE_StandAlone=NO \
+	-D VTK_GROUP_ENABLE_Views=NO \
+	-D VTK_GROUP_ENABLE_Web=NO \
+	-D VTK_MODULE_ENABLE_VTK_CommonCore=YES \
+	-D VTK_MODULE_ENABLE_VTK_CommonExecutionModel=YES \
+	-D VTK_MODULE_ENABLE_VTK_CommonMath=YES \
+	-D VTK_MODULE_ENABLE_VTK_CommonMisc=YES \
+	-D VTK_MODULE_ENABLE_VTK_CommonSystem=YES \
+	-D VTK_MODULE_ENABLE_VTK_CommonTransforms=YES \
+	-D VTK_MODULE_ENABLE_VTK_IOCore=YES \
+	-D VTK_MODULE_ENABLE_VTK_IOLegacy=YES \
+	-D VTK_MODULE_ENABLE_VTK_IOXML=YES \
+	-D VTK_MODULE_ENABLE_VTK_IOXMLParser=YES \
+	-S vtk-src \
+	-B vtk-build
 NCORES=`${R_HOME}/bin/Rscript -e "cat(parallel::detectCores(logical = FALSE))"`
-cmake -DCMAKE_BUILD_TYPE=Release -S vtk-src -B vtk-build
 cmake --build vtk-build -j ${NCORES} --clean-first
 cmake --install vtk-build --prefix vtk-install
 
@@ -39,16 +59,5 @@ rm -fr vtk-src
 rm -fr vtk-build
 rm -f vtk-src.tar.gz
 
-# VTKDIR=`find $HOME -mindepth 1 -maxdepth 1 -type d -perm -o=r -print0 | while read -d $'\0' folder
-# do
-#     find $folder -name VTKConfig.cmake -print0 | while read -d $'\0' infolder
-#     do
-#         if [[ $infolder =~ "CMakeFiles" ]]; then
-#             continue
-#         fi
-#         echo $infolder | rev | cut -d'/' -f2- | rev
-#     done
-# done`
-
-# cmake -DVTK_DIR=$VTKDIR -DCMAKE_BUILD_TYPE=Release . $@
+# Compile trio library
 cmake -DVTK_DIR=vtk-install/lib/cmake/vtk-9.0 -DCMAKE_BUILD_TYPE=Release . $@

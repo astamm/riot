@@ -31,21 +31,21 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 ### only link against necessary libs
 set(required_vtk_modules
-    CommonCore
-    CommonDataModel
-    CommonExecutionModel
-    CommonMath
-    CommonMisc
-    CommonTransforms
-    expat
-    IOCore
-    IOLegacy
-    IOXML
-    IOXMLParser
-    lz4
-    lzma
-    vtksys
-    zlib
+    CommonCore # vtkSmartPointer.h
+    CommonDataModel # vtkPolyData.h, vtkPointData.h
+    #CommonExecutionModel
+    #CommonMath
+    #CommonMisc
+    #CommonTransforms
+    #expat
+    #IOCore
+    IOLegacy # vtkPolyDataReader.h
+    IOXML # vtkXMLPolyDataReader.h
+    #IOXMLParser
+    #lz4
+    #lzma
+    #vtksys
+    #zlib
 )
 find_package( VTK REQUIRED COMPONENTS ${required_vtk_modules} )
 include_directories(${VTK_INCLUDE_DIRS})
