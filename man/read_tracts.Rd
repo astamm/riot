@@ -16,3 +16,7 @@ A \code{\link[tibble]{tibble}} storing the set of tracts.
 \description{
 Read tracts in VTP format
 }
+\examples{
+uf_left <- trio::read_tracts(system.file("extdata", "UF_left.vtp", package = "trio"))
+uf_right <- trio::read_tracts(system.file("extdata", "UF_right.vtp", package = "trio"))
+}
