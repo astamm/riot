@@ -1,6 +1,8 @@
 #! /bin/sh
 
-NCORES=$1
+RSCRIPT_BIN=$1
+
+NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
 
 # Download VTK source
 ${R_HOME}/bin/Rscript -e "utils::download.file(

@@ -1,11 +1,11 @@
 #! /bin/sh
 
-RBIN=${R_HOME}/bin
+R_BIN=${R_HOME}/bin/R
+RSCRIPT_BIN=${R_HOME}/bin/Rscript
 
 cd src
 
-NCORES=`${RBIN}/Rscript -e "cat(parallel::detectCores(logical = FALSE))"`
-sh install_vtk.sh ${NCORES}
+sh install_vtk.sh ${RSCRIPT_BIN}
 
 # Generate the Makevars file
 echo "CXX_STD = CXX11" > ./Makevars
@@ -27,7 +27,7 @@ TRIO_LIBS="${TRIO_LIBS} -lvtklz4-9.0"
 TRIO_LIBS="${TRIO_LIBS} -lvtklzma-9.0"
 TRIO_LIBS="${TRIO_LIBS} -lvtksys-9.0"
 TRIO_LIBS="${TRIO_LIBS} -lvtkzlib-9.0"
-TRIO_LIBS="${TRIO_LIBS} `${RBIN}/R CMD config LAPACK_LIBS`"
-TRIO_LIBS="${TRIO_LIBS} `${RBIN}/R CMD config BLAS_LIBS`"
-TRIO_LIBS="${TRIO_LIBS} `${RBIN}/R CMD config FLIBS`"
+TRIO_LIBS="${TRIO_LIBS} `${R_BIN} CMD config LAPACK_LIBS`"
+TRIO_LIBS="${TRIO_LIBS} `${R_BIN} CMD config BLAS_LIBS`"
+TRIO_LIBS="${TRIO_LIBS} `${R_BIN} CMD config FLIBS`"
 echo ${TRIO_LIBS} >> ./Makevars
