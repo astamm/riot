@@ -1,19 +1,19 @@
 cmake_minimum_required(VERSION 3.15)
 
+if (POLICY CMP0042)
+  cmake_policy(SET CMP0042 NEW)
+endif ()
+
+if (POLICY CMP0054)
+  cmake_policy(SET CMP0054 NEW)
+endif ()
+
 project(trio)
-
-if( POLICY CMP0042 )
-  cmake_policy( SET CMP0042 NEW )
-endif()
-
-if( POLICY CMP0054 )
-  cmake_policy( SET CMP0054 NEW )
-endif()
 
 ## GET R-specific ENV variables
 set(R_HOME $ENV{R_HOME})
-SET(RLIB "${R_HOME}/lib")
-set (RSCRIPT "${R_HOME}/bin/Rscript")
+set(RLIB "${R_HOME}/lib")
+set(RSCRIPT "${R_HOME}/bin/Rscript")
 set(RCPP_DIR "$ENV{RCPP_DIR}/include")
 set(R_INCLUDE_DIR "$ENV{R_INCLUDE_DIR}")
 set(CXX "$ENV{CXX}")
@@ -26,8 +26,21 @@ set(LAPACK_LIBS "$ENV{LAPACK_LIBS}")
 ## set variables accordingly
 set(CMAKE_CXX_FLAGS "${CXXFLAGS}")
 set(CMAKE_C_FLAGS "${CPPFLAGS} ${CFLAGS}")
-SET(CMAKE_CXX_COMPILER::string "${CXX}")
+set(CMAKE_CXX_COMPILER "${CXX}")
 set(CMAKE_VERBOSE_MAKEFILE OFF)
+
+# helpful for setting the language standard
+set(CMAKE_C_STANDARD    11 CACHE STRING "C language standard")
+set(CMAKE_CXX_STANDARD  11 CACHE STRING "C++ language standard")
+set(CMAKE_CUDA_STANDARD 11 CACHE STRING "CUDA language standard")
+
+set(CMAKE_C_STANDARD_REQUIRED    ON CACHE BOOL "Require the C language standard to set")
+set(CMAKE_CXX_STANDARD_REQUIRED  ON CACHE BOOL "Require the C++ language standard to set")
+set(CMAKE_CUDA_STANDARD_REQUIRED ON CACHE BOOL "Require the CUDA language standard to set")
+
+set(CMAKE_C_EXTENSIONS    OFF CACHE BOOL "Enable/disable extensions, e.g. -std=gnu11 vs. -std=c11")
+set(CMAKE_CXX_EXTENSIONS  OFF CACHE BOOL "Enable/disable extensions, e.g. -std=gnu++11 vs. -std=c++11")
+set(CMAKE_CUDA_EXTENSIONS OFF CACHE BOOL "Enable/disable extensions")
 
 ### only link against necessary libs
 set(required_vtk_modules

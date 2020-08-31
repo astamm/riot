@@ -1,30 +1,14 @@
-# obtain and export Rs environment variables
-export R_HOME
-CXX=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config CXX)
-CXXFLAGS=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config CXXFLAGS)
-CPPFLAGS=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config CPPFLAGS)
-BLAS_LIBS=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config BLAS_LIBS)
-LAPACK_LIBS=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config LAPACK_LIBS)
-export CXX
-export CXXFLAGS
-export CPPFLAGS
-export BLAS_LIBS
-export LAPACK_LIBS
-export R_INCLUDE_DIR
+#! /bin/sh
 
-RCPP_DIR=$(${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "cat(system.file(package='Rcpp'))")
-
-export RCPP_DIR
-export R_ARCH_BIN
-cd src
+NCORES=$1
 
 # Download VTK source
-${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "utils::download.file(
+${R_HOME}/bin/Rscript -e "utils::download.file(
     url = 'https://www.vtk.org/files/release/9.0/VTK-9.0.1.tar.gz',
     destfile = 'vtk-src.tar.gz')"
 
 # Uncompress VTK source
-${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
+${R_HOME}/bin/Rscript -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
 mv VTK-9.0.1 vtk-src
 
 # Build VTK
@@ -54,14 +38,9 @@ cmake \
 	-D VTK_MODULE_ENABLE_VTK_IOXMLParser=YES \
 	-S vtk-src \
 	-B vtk-build
-NCORES=`${R_HOME}/bin/Rscript -e "cat(parallel::detectCores(logical = FALSE))"`
 cmake --build vtk-build -j ${NCORES} --clean-first
 cmake --install vtk-build --prefix vtk-install
 
 rm -fr vtk-src
 rm -fr vtk-build
 rm -f vtk-src.tar.gz
-
-# Compile trio library
-cmake -DVTK_DIR=vtk-install/lib/cmake/vtk-9.0 -DCMAKE_BUILD_TYPE=Release . -G "MSYS Makefiles"
-cp Makefile Makefile.win
