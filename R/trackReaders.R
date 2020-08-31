@@ -7,6 +7,8 @@
 #' @export
 #'
 #' @examples
+#' uf_left <- trio::read_tracts(system.file("extdata", "UF_left.vtp", package = "trio"))
+#' uf_right <- trio::read_tracts(system.file("extdata", "UF_right.vtp", package = "trio"))
 read_tracts <- function(file) {
   input_file <- normalizePath(file)
   output_file <- tempfile(fileext = ".csv")

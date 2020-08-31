@@ -5,12 +5,12 @@ RSCRIPT_BIN=$1
 NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
 
 # Download VTK source
-${R_HOME}/bin/Rscript -e "utils::download.file(
+${RSCRIPT_BIN} -e "utils::download.file(
     url = 'https://www.vtk.org/files/release/9.0/VTK-9.0.1.tar.gz',
     destfile = 'vtk-src.tar.gz')"
 
 # Uncompress VTK source
-${R_HOME}/bin/Rscript -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
+${RSCRIPT_BIN} -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
 mv VTK-9.0.1 vtk-src
 
 # Build VTK
