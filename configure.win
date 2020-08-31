@@ -2,6 +2,7 @@
 
 R_BIN=${R_HOME}/bin${R_ARCH_BIN}/R
 RSCRIPT_BIN=${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe
+VTK_VERSION=9.0
 
 cd src
 
@@ -11,22 +12,22 @@ sh install_vtk.sh ${RSCRIPT_BIN}
 echo "CXX_STD = CXX11" > ./Makevars.win
 echo 'PKG_CPPFLAGS = $(CPPFLAGS) -I../inst/include -I../inst/vtk-install/include/vtk-9.0' >> ./Makevars.win
 TRIO_LIBS="PKG_LIBS = -L../inst/vtk-install/lib"
-TRIO_LIBS="${TRIO_LIBS} -lvtkCommonCore-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtkCommonDataModel-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtkCommonExecutionModel-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtkCommonMath-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtkCommonMisc-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtkCommonTransforms-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtkexpat-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtkIOCore-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtkIOLegacy-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtkIOXML-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtkIOXMLParser-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtkloguru-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtklz4-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtklzma-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtksys-9.0.1"
-TRIO_LIBS="${TRIO_LIBS} -lvtkzlib-9.0.1"
+TRIO_LIBS="${TRIO_LIBS} -lvtkCommonCore-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtkCommonDataModel-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtkCommonExecutionModel-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtkCommonMath-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtkCommonMisc-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtkCommonTransforms-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtkexpat-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtkIOCore-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtkIOLegacy-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtkIOXML-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtkIOXMLParser-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtkloguru-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtklz4-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtklzma-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtksys-${VTK_VERSION}"
+TRIO_LIBS="${TRIO_LIBS} -lvtkzlib-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} `${R_BIN} CMD config LAPACK_LIBS`"
 TRIO_LIBS="${TRIO_LIBS} `${R_BIN} CMD config BLAS_LIBS`"
 TRIO_LIBS="${TRIO_LIBS} `${R_BIN} CMD config FLIBS`"
