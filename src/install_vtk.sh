@@ -19,6 +19,7 @@ rm -fr vtk-build
 rm -fr ../inst/vtk-install
 ${CMAKE_BIN} \
 	-D CMAKE_BUILD_TYPE=Release \
+	-D CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON \
 	-D BUILD_SHARED_LIBS=OFF \
 	-D VTK_LEGACY_SILENT=ON \
 	-D VTK_GROUP_ENABLE_Imaging=NO \
