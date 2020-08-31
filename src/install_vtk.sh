@@ -13,11 +13,10 @@ mv VTK-9.0.1 vtk-src
 
 # Build VTK
 rm -fr vtk-build
-rm -fr vtk-install
+rm -fr ../inst/vtk-install
 cmake \
 	-D CMAKE_BUILD_TYPE=Release \
-	-D CMAKE_CXX_FLAGS="-w" \
-	-D BUILD_SHARED_LIBS=ON \
+	-D BUILD_SHARED_LIBS=OFF \
 	-D VTK_LEGACY_SILENT=ON \
 	-D VTK_GROUP_ENABLE_Imaging=NO \
 	-D VTK_GROUP_ENABLE_MPI=NO \
@@ -39,7 +38,7 @@ cmake \
 	-S vtk-src \
 	-B vtk-build
 cmake --build vtk-build -j ${NCORES} --clean-first
-cmake --install vtk-build --prefix vtk-install
+cmake --install vtk-build --prefix ../inst/vtk-install
 
 rm -fr vtk-src
 rm -fr vtk-build

@@ -1,67 +1,33 @@
-# obtain and export Rs environment variables
-export R_HOME
-CXX=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config CXX)
-CXXFLAGS=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config CXXFLAGS)
-CPPFLAGS=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config CPPFLAGS)
-BLAS_LIBS=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config BLAS_LIBS)
-LAPACK_LIBS=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config LAPACK_LIBS)
-export CXX
-export CXXFLAGS
-export CPPFLAGS
-export BLAS_LIBS
-export LAPACK_LIBS
-export R_INCLUDE_DIR
+#! /bin/sh
 
-RCPP_DIR=$(${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "cat(system.file(package='Rcpp'))")
+RBIN=${R_HOME}/bin${R_ARCH_BIN}
 
-export RCPP_DIR
-export R_ARCH_BIN
 cd src
 
-# Download VTK source
-${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "utils::download.file(
-    url = 'https://www.vtk.org/files/release/9.0/VTK-9.0.1.tar.gz',
-    destfile = 'vtk-src.tar.gz')"
+NCORES=`${RBIN}/Rscript.exe -e "cat(parallel::detectCores(logical = FALSE))"`
+sh install_vtk.sh ${NCORES}
 
-# Uncompress VTK source
-${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
-mv VTK-9.0.1 vtk-src
-
-# Build VTK
-rm -fr vtk-build
-rm -fr vtk-install
-cmake \
-	-D CMAKE_BUILD_TYPE=Release \
-	-D CMAKE_CXX_FLAGS="-w" \
-	-D BUILD_SHARED_LIBS=ON \
-	-D VTK_LEGACY_SILENT=ON \
-	-D VTK_GROUP_ENABLE_Imaging=NO \
-	-D VTK_GROUP_ENABLE_MPI=NO \
-	-D VTK_GROUP_ENABLE_Qt=NO \
-	-D VTK_GROUP_ENABLE_StandAlone=NO \
-	-D VTK_GROUP_ENABLE_Views=NO \
-	-D VTK_GROUP_ENABLE_Web=NO \
-	-D VTK_MODULE_ENABLE_VTK_CommonCore=YES \
-	-D VTK_MODULE_ENABLE_VTK_CommonDataModel=YES \
-	-D VTK_MODULE_ENABLE_VTK_CommonExecutionModel=YES \
-	-D VTK_MODULE_ENABLE_VTK_CommonMath=YES \
-	-D VTK_MODULE_ENABLE_VTK_CommonMisc=YES \
-	-D VTK_MODULE_ENABLE_VTK_CommonSystem=YES \
-	-D VTK_MODULE_ENABLE_VTK_CommonTransforms=YES \
-	-D VTK_MODULE_ENABLE_VTK_IOCore=YES \
-	-D VTK_MODULE_ENABLE_VTK_IOLegacy=YES \
-	-D VTK_MODULE_ENABLE_VTK_IOXML=YES \
-	-D VTK_MODULE_ENABLE_VTK_IOXMLParser=YES \
-	-S vtk-src \
-	-B vtk-build
-NCORES=`${R_HOME}/bin/Rscript -e "cat(parallel::detectCores(logical = FALSE))"`
-cmake --build vtk-build -j ${NCORES} --clean-first
-cmake --install vtk-build --prefix vtk-install
-
-rm -fr vtk-src
-rm -fr vtk-build
-rm -f vtk-src.tar.gz
-
-# Compile trio library
-cmake -DVTK_DIR=vtk-install/lib/cmake/vtk-9.0 -DCMAKE_BUILD_TYPE=Release . -G "MSYS Makefiles"
-cp Makefile Makefile.win
+# Generate the Makevars file
+echo "CXX_STD = CXX11" > ./Makevars.win
+echo 'PKG_CPPFLAGS = $(CPPFLAGS) -I../inst/include -I../inst/vtk-install/include/vtk-9.0' >> ./Makevars.win
+TRIO_LIBS="PKG_LIBS = -L../inst/vtk-install/lib"
+TRIO_LIBS="${TRIO_LIBS} -lvtkCommonCore-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtkCommonDataModel-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtkCommonExecutionModel-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtkCommonMath-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtkCommonMisc-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtkCommonTransforms-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtkexpat-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtkIOCore-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtkIOLegacy-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtkIOXML-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtkIOXMLParser-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtkloguru-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtklz4-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtklzma-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtksys-9.0"
+TRIO_LIBS="${TRIO_LIBS} -lvtkzlib-9.0"
+TRIO_LIBS="${TRIO_LIBS} `${RBIN}/R CMD config LAPACK_LIBS`"
+TRIO_LIBS="${TRIO_LIBS} `${RBIN}/R CMD config BLAS_LIBS`"
+TRIO_LIBS="${TRIO_LIBS} `${RBIN}/R CMD config FLIBS`"
+echo ${TRIO_LIBS} >> ./Makevars.win
