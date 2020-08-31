@@ -1,6 +1,7 @@
 #! /bin/sh
 
 RSCRIPT_BIN=$1
+CMAKE_BIN=`which cmake`
 
 NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
 
@@ -16,7 +17,7 @@ mv VTK-9.0.1 vtk-src
 # Build VTK
 rm -fr vtk-build
 rm -fr ../inst/vtk-install
-cmake \
+${CMAKE_BIN} \
 	-D CMAKE_BUILD_TYPE=Release \
 	-D BUILD_SHARED_LIBS=OFF \
 	-D VTK_LEGACY_SILENT=ON \
@@ -39,8 +40,8 @@ cmake \
 	-D VTK_MODULE_ENABLE_VTK_IOXMLParser=YES \
 	-S vtk-src \
 	-B vtk-build
-cmake --build vtk-build -j ${NCORES} --clean-first
-cmake --install vtk-build --prefix ../inst/vtk-install
+${CMAKE_BIN} --build vtk-build -j ${NCORES} --clean-first
+${CMAKE_BIN} --install vtk-build --prefix ../inst/vtk-install
 
 rm -fr vtk-src
 rm -fr vtk-build
