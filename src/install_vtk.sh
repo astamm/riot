@@ -19,7 +19,6 @@ rm -fr vtk-build
 rm -fr ../inst/vtk
 ${CMAKE_BIN} \
 	-D BUILD_SHARED_LIBS=OFF \
-	-D CMAKE_BUILD_TYPE=Release \
 	-D VTK_ENABLE_WRAPPING=OFF \
 	-D VTK_GROUP_ENABLE_Imaging=NO \
 	-D VTK_GROUP_ENABLE_MPI=NO \
@@ -42,7 +41,7 @@ ${CMAKE_BIN} \
 	-D VTK_MODULE_ENABLE_VTK_IOXMLParser=YES \
 	-S vtk-src \
 	-B vtk-build
-${CMAKE_BIN} --build vtk-build -j ${NCORES} --clean-first
+${CMAKE_BIN} --build vtk-build -j ${NCORES} --clean-first --config Release
 ${CMAKE_BIN} --install vtk-build --prefix ../inst/vtk
 
 rm -fr vtk-src vtk-build
