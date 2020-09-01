@@ -10,7 +10,7 @@ sh install_vtk.sh ${RSCRIPT_BIN}
 
 # Generate the Makevars file
 echo "PKG_CPPFLAGS = \$(CPPFLAGS) -I../inst/vtk/include/vtk-${VTK_VERSION}" > ./Makevars.win
-TRIO_LIBS="PKG_LIBS = \$(LDFLAGS) -L../inst/vtk/lib"
+TRIO_LIBS="PKG_LIBS = -L../inst/vtk/lib"
 TRIO_LIBS="${TRIO_LIBS} -lvtkCommonCore-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtkCommonDataModel-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtkCommonExecutionModel-${VTK_VERSION}"
