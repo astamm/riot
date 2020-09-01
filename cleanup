@@ -4,5 +4,5 @@
 rm -f src/Makevars*
 
 # Cleanup VTK files
-rm -fr inst/vtk/bin
-rm -fr inst/vtk/share
+rm -fr src/vtk/bin
+rm -fr src/vtk/share

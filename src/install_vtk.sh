@@ -16,7 +16,7 @@ mv VTK-9.0.1 vtk-src
 
 # Build VTK
 rm -fr vtk-build
-rm -fr ../inst/vtk
+rm -fr vtk
 ${CMAKE_BIN} \
 	-D BUILD_SHARED_LIBS=OFF \
 	-D VTK_ENABLE_WRAPPING=OFF \
@@ -41,8 +41,8 @@ ${CMAKE_BIN} \
 	-D VTK_MODULE_ENABLE_VTK_IOXMLParser=YES \
 	-S vtk-src \
 	-B vtk-build
-${CMAKE_BIN} --build vtk-build -j ${NCORES} --clean-first --config Release
-${CMAKE_BIN} --install vtk-build --prefix ../inst/vtk
+${CMAKE_BIN} --build vtk-build -j ${NCORES} --config Release
+${CMAKE_BIN} --install vtk-build --prefix vtk
 
 rm -fr vtk-src vtk-build
 rm -f vtk-src.tar.gz

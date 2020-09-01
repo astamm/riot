@@ -9,8 +9,8 @@ cd src
 sh install_vtk.sh ${RSCRIPT_BIN}
 
 # Generate the Makevars file
-echo "PKG_CPPFLAGS = \$(CPPFLAGS) -I../inst/vtk/include/vtk-${VTK_VERSION}" > ./Makevars.win
-TRIO_LIBS="PKG_LIBS = -L../inst/vtk/lib"
+echo "PKG_CPPFLAGS = \$(CPPFLAGS) -I./vtk/include/vtk-${VTK_VERSION}" > ./Makevars.win
+TRIO_LIBS="PKG_LIBS = -L./vtk/lib"
 TRIO_LIBS="${TRIO_LIBS} -lvtkCommonCore-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtkCommonDataModel-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtkCommonExecutionModel-${VTK_VERSION}"
@@ -21,7 +21,6 @@ TRIO_LIBS="${TRIO_LIBS} -lvtkIOCore-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtkIOLegacy-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtkIOXML-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtkIOXMLParser-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtkdoubleconversion-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtkexpat-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtkloguru-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtklz4-${VTK_VERSION}"
