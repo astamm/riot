@@ -9,9 +9,8 @@ cd src
 sh install_vtk.sh ${RSCRIPT_BIN}
 
 # Generate the Makevars file
-echo "CXX_STD = CXX11" > ./Makevars.win
-echo 'PKG_CPPFLAGS = $(CPPFLAGS) -I../inst/include -I../inst/vtk-install/include/vtk-9.0' >> ./Makevars.win
-TRIO_LIBS="PKG_LIBS = -L../inst/vtk-install/lib"
+echo "PKG_CPPFLAGS = \$(CPPFLAGS) -I../inst/vtk/include/vtk-${VTK_VERSION}" > ./Makevars.win
+TRIO_LIBS="PKG_LIBS = \$(LDFLAGS) -L../inst/vtk/lib"
 TRIO_LIBS="${TRIO_LIBS} -lvtkCommonCore-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtkCommonDataModel-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtkCommonExecutionModel-${VTK_VERSION}"
@@ -28,7 +27,4 @@ TRIO_LIBS="${TRIO_LIBS} -lvtklz4-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtklzma-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtksys-${VTK_VERSION}"
 TRIO_LIBS="${TRIO_LIBS} -lvtkzlib-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} `${R_BIN} CMD config LAPACK_LIBS`"
-TRIO_LIBS="${TRIO_LIBS} `${R_BIN} CMD config BLAS_LIBS`"
-TRIO_LIBS="${TRIO_LIBS} `${R_BIN} CMD config FLIBS`"
 echo ${TRIO_LIBS} >> ./Makevars.win

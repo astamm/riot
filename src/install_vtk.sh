@@ -16,7 +16,7 @@ mv VTK-9.0.1 vtk-src
 
 # Build VTK
 rm -fr vtk-build
-rm -fr ../inst/vtk-install
+rm -fr ../inst/vtk
 ${CMAKE_BIN} \
 	-D BUILD_SHARED_LIBS=OFF \
 	-D CMAKE_BUILD_TYPE=Release \
@@ -43,8 +43,7 @@ ${CMAKE_BIN} \
 	-S vtk-src \
 	-B vtk-build
 ${CMAKE_BIN} --build vtk-build -j ${NCORES} --clean-first
-${CMAKE_BIN} --install vtk-build --prefix ../inst/vtk-install
+${CMAKE_BIN} --install vtk-build --prefix ../inst/vtk
 
-rm -fr vtk-src
-rm -fr vtk-build
+rm -fr vtk-src vtk-build
 rm -f vtk-src.tar.gz
