@@ -3,11 +3,10 @@
 # Generate the Makevars file
 
 VTK_VERSION=$1
-VTK_LIBNAME=$2
 
 echo "PKG_CPPFLAGS = \$(CPPFLAGS) -Ivtk/include/vtk-${VTK_VERSION}" > Makevars
 echo "PKG_LIBS = -Lvtk/lib -lvtk" >> Makevars
-echo "VTK_LIB = vtk/lib/${VTK_LIBNAME}" >> Makevars
+echo "VTK_LIB = vtk/lib/libvtk.a" >> Makevars
 echo "" >> Makevars
 echo "PKG_CXXFLAGS = \$(CXX_VISIBILITY)" >> Makevars
 echo "PKG_CFLAGS = \$(C_VISIBILITY) \$(subst 64,-D__USE_MINGW_ANSI_STDIO,\$(subst 32,64,\$(WIN)))" >> Makevars

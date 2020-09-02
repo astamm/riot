@@ -16,7 +16,11 @@ mv VTK-9.0.1 vtk-src
 
 # Build VTK
 rm -fr vtk-build vtk
-${CMAKE_BIN} \
+HACK=""
+if [[ `uname -s` =~ "MINGW" ]]; then
+  HACK="-D VTK_USE_EXTERN_TEMPLATE=OFF"
+fi
+${CMAKE_BIN} ${HACK} \
 	-D BUILD_SHARED_LIBS=OFF \
 	-D VTK_ENABLE_WRAPPING=OFF \
 	-D VTK_GROUP_ENABLE_Imaging=NO \

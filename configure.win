@@ -3,4 +3,4 @@
 cd src
 
 sh install_vtk.sh ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe
-sh generate_makevars.sh 9.0 vtk.lib
+sh generate_makevars.sh 9.0
