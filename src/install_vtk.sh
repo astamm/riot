@@ -44,4 +44,12 @@ ${CMAKE_BIN} --build vtk-build -j ${NCORES} --config Release
 ${CMAKE_BIN} --install vtk-build --prefix vtk
 
 rm -fr vtk-src
-rm -f vtk-src.tar.gz `find vtk-build -name "*Makefile"`
+rm -f vtk-src.tar.gz
+rm -f `find vtk-build -name "*Makefile"`
+rm -f `find vtk-build -name "*.bin"`
+rm -f `find vtk-build -name "*.out"`
+rm -f `find vtk-build -name "*.cmake"`
+rm -f `find vtk-build -name "*.make"`
+rm -f `find vtk-build -name "*.txt"`
+rm -f `find vtk-build -name "*.internal"`
+rm -f `find vtk-build -name "*.includecache"`
