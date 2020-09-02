@@ -2,4 +2,4 @@
 *.so
 *.dll
 Makevars*
-vtk
+vtk*

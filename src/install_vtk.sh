@@ -15,8 +15,7 @@ ${RSCRIPT_BIN} -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
 mv VTK-9.0.1 vtk-src
 
 # Build VTK
-rm -fr vtk-build
-rm -fr vtk
+rm -fr vtk-build vtk
 ${CMAKE_BIN} \
 	-D BUILD_SHARED_LIBS=OFF \
 	-D VTK_ENABLE_WRAPPING=OFF \
@@ -44,5 +43,5 @@ ${CMAKE_BIN} \
 ${CMAKE_BIN} --build vtk-build -j ${NCORES} --config Release
 ${CMAKE_BIN} --install vtk-build --prefix vtk
 
-rm -fr vtk-src vtk-build
+rm -fr vtk-src
 rm -f vtk-src.tar.gz

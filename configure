@@ -10,39 +10,23 @@ sh install_vtk.sh ${RSCRIPT_BIN}
 
 # Generate the Makevars file
 echo "PKG_CPPFLAGS = \$(CPPFLAGS) -Ivtk/include/vtk-${VTK_VERSION}" > Makevars
-# echo "PKG_LIBS = -Lvtk/lib -lvtk" >> Makevars
-# echo "VTKLIB = vtk/lib/libvtk.a" >> Makevars
+echo "PKG_LIBS = -Lvtk/lib -lvtk" >> Makevars
+echo "VTK_LIB = vtk/lib/libvtk.a" >> Makevars
 echo "" >> Makevars
 echo "PKG_CXXFLAGS = \$(CXX_VISIBILITY)" >> Makevars
 echo "PKG_CFLAGS = \$(C_VISIBILITY)" >> Makevars
 echo "" >> Makevars
-TRIO_LIBS="PKG_LIBS ="
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkCommonCore-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkCommonDataModel-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkCommonExecutionModel-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkCommonMath-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkCommonMisc-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkCommonTransforms-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkIOCore-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkIOLegacy-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkIOXML-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkIOXMLParser-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkexpat-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkloguru-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtklz4-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtklzma-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtksys-${VTK_VERSION}.a"
-TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkzlib-${VTK_VERSION}.a"
+TRIO_LIBS="BIN_LIBS = `find vtk-build -name "*.o"`"
 echo ${TRIO_LIBS} >> Makevars
 echo "" >> Makevars
 echo ".PHONY: all" >> Makevars
 echo "" >> Makevars
 echo "all: \$(SHLIB)" >> Makevars
 echo "" >> Makevars
-echo "\$(SHLIB): \$(PKG_LIBS)" >> Makevars
-# echo "" >> Makevars
-# echo "\$(VTKLIB): \$(LIBVTK)" >> Makevars
-# echo "	\$(AR) rcs \$(VTKLIB) \$(LIBVTK)" >> Makevars
-# echo "" >> Makevars
-# echo "clean:" >> Makevars
-# echo "	rm -f \$(LIBVTK) \$(SHLIB) \$(OBJECTS) \$(VTKLIB)" >> Makevars
+echo "\$(SHLIB): \$(VTK_LIB)" >> Makevars
+echo "" >> Makevars
+echo "\$(VTK_LIB): \$(BIN_LIBS)" >> Makevars
+echo "	\$(AR) rcs \$(VTK_LIB) \$(BIN_LIBS)" >> Makevars
+echo "" >> Makevars
+echo "clean:" >> Makevars
+echo "	rm -f \$(BIN_LIBS) \$(SHLIB) \$(OBJECTS) \$(VTK_LIB)" >> Makevars
