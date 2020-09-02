@@ -18,7 +18,7 @@ mv VTK-9.0.1 vtk-src
 rm -fr vtk-build vtk
 HACK=""
 if [[ `uname -s` =~ "MINGW" ]]; then
-  HACK="-D VTK_USE_EXTERN_TEMPLATE=OFF"
+  HACK='-G "MinGW Makefiles"'
 fi
 ${CMAKE_BIN} ${HACK} \
 	-D BUILD_SHARED_LIBS=OFF \
