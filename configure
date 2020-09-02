@@ -1,32 +1,6 @@
 #! /bin/sh
 
-R_BIN=${R_HOME}/bin/R
-RSCRIPT_BIN=${R_HOME}/bin/Rscript
-VTK_VERSION=9.0
-
 cd src
 
-sh install_vtk.sh ${RSCRIPT_BIN}
-
-# Generate the Makevars file
-echo "PKG_CPPFLAGS = \$(CPPFLAGS) -Ivtk/include/vtk-${VTK_VERSION}" > Makevars
-echo "PKG_LIBS = -Lvtk/lib -lvtk" >> Makevars
-echo "VTK_LIB = vtk/lib/libvtk.a" >> Makevars
-echo "" >> Makevars
-echo "PKG_CXXFLAGS = \$(CXX_VISIBILITY)" >> Makevars
-echo "PKG_CFLAGS = \$(C_VISIBILITY)" >> Makevars
-echo "" >> Makevars
-TRIO_LIBS="BIN_LIBS = `find vtk-build -name "*.o"`"
-echo ${TRIO_LIBS} >> Makevars
-echo "" >> Makevars
-echo ".PHONY: all" >> Makevars
-echo "" >> Makevars
-echo "all: \$(SHLIB)" >> Makevars
-echo "" >> Makevars
-echo "\$(SHLIB): \$(VTK_LIB)" >> Makevars
-echo "" >> Makevars
-echo "\$(VTK_LIB): \$(BIN_LIBS)" >> Makevars
-echo "	\$(AR) rcs \$(VTK_LIB) \$(BIN_LIBS)" >> Makevars
-echo "" >> Makevars
-echo "clean:" >> Makevars
-echo "	rm -f \$(BIN_LIBS) \$(SHLIB) \$(OBJECTS) \$(VTK_LIB)" >> Makevars
+sh install_vtk.sh ${R_HOME}/bin/Rscript
+sh generate_makevars.sh 9.0

@@ -1,30 +1,6 @@
 #! /bin/sh
 
-R_BIN=${R_HOME}/bin${R_ARCH_BIN}/R
-RSCRIPT_BIN=${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe
-VTK_VERSION=9.0
-
 cd src
 
-sh install_vtk.sh ${RSCRIPT_BIN}
-
-# Generate the Makevars file
-echo "PKG_CPPFLAGS = \$(CPPFLAGS) -I./vtk/include/vtk-${VTK_VERSION}" > ./Makevars.win
-TRIO_LIBS="PKG_LIBS = -L./vtk/lib"
-TRIO_LIBS="${TRIO_LIBS} -lvtkCommonCore-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtkCommonDataModel-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtkCommonExecutionModel-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtkCommonMath-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtkCommonMisc-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtkCommonTransforms-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtkIOCore-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtkIOLegacy-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtkIOXML-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtkIOXMLParser-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtkexpat-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtkloguru-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtklz4-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtklzma-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtksys-${VTK_VERSION}"
-TRIO_LIBS="${TRIO_LIBS} -lvtkzlib-${VTK_VERSION}"
-echo ${TRIO_LIBS} >> ./Makevars.win
+sh install_vtk.sh ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe
+sh generate_makevars.sh 9.0
