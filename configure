@@ -9,7 +9,13 @@ cd src
 sh install_vtk.sh ${RSCRIPT_BIN}
 
 # Generate the Makevars file
-echo "PKG_CPPFLAGS = \$(CPPFLAGS) -I./vtk/include/vtk-${VTK_VERSION}" > ./Makevars
+echo "PKG_CPPFLAGS = \$(CPPFLAGS) -Ivtk/include/vtk-${VTK_VERSION}" > Makevars
+# echo "PKG_LIBS = -Lvtk/lib -lvtk" >> Makevars
+# echo "VTKLIB = vtk/lib/libvtk.a" >> Makevars
+echo "" >> Makevars
+echo "PKG_CXXFLAGS = \$(CXX_VISIBILITY)" >> Makevars
+echo "PKG_CFLAGS = \$(C_VISIBILITY)" >> Makevars
+echo "" >> Makevars
 TRIO_LIBS="PKG_LIBS ="
 TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkCommonCore-${VTK_VERSION}.a"
 TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkCommonDataModel-${VTK_VERSION}.a"
@@ -27,4 +33,16 @@ TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtklz4-${VTK_VERSION}.a"
 TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtklzma-${VTK_VERSION}.a"
 TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtksys-${VTK_VERSION}.a"
 TRIO_LIBS="${TRIO_LIBS} vtk/lib/libvtkzlib-${VTK_VERSION}.a"
-echo ${TRIO_LIBS} >> ./Makevars
+echo ${TRIO_LIBS} >> Makevars
+echo "" >> Makevars
+echo ".PHONY: all" >> Makevars
+echo "" >> Makevars
+echo "all: \$(SHLIB)" >> Makevars
+echo "" >> Makevars
+echo "\$(SHLIB): \$(PKG_LIBS)" >> Makevars
+# echo "" >> Makevars
+# echo "\$(VTKLIB): \$(LIBVTK)" >> Makevars
+# echo "	\$(AR) rcs \$(VTKLIB) \$(LIBVTK)" >> Makevars
+# echo "" >> Makevars
+# echo "clean:" >> Makevars
+# echo "	rm -f \$(LIBVTK) \$(SHLIB) \$(OBJECTS) \$(VTKLIB)" >> Makevars
