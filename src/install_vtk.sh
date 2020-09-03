@@ -17,9 +17,9 @@ mv VTK-9.0.1 vtk-src
 # Build VTK
 rm -fr vtk-build vtk-install
 HACK=""
-# if [[ `uname -s` =~ "MINGW" ]]; then
-#   HACK='-G "MinGW Makefiles" -D VTK_USE_EXTERN_TEMPLATE=OFF'
-# fi
+if [[ `uname -s` =~ "MINGW" ]]; then
+  HACK='-G "MinGW Makefiles" -D VTK_USE_EXTERN_TEMPLATE=OFF'
+fi
 ${CMAKE_BIN} ${HACK} \
 	-D BUILD_SHARED_LIBS=OFF \
 	-D VTK_ENABLE_WRAPPING=OFF \
@@ -56,11 +56,3 @@ cp `find vtk-build -type f -name "*.o" -o -name "*.obj" | xargs` vtk/lib
 
 rm -fr vtk-src vtk-build vtk-install
 rm -f vtk-src.tar.gz
-# rm -f `find vtk-build -name "*Makefile"`
-# rm -f `find vtk-build -name "*.bin"`
-# rm -f `find vtk-build -name "*.out"`
-# rm -f `find vtk-build -name "*.cmake"`
-# rm -f `find vtk-build -name "*.make"`
-# rm -f `find vtk-build -name "*.txt"`
-# rm -f `find vtk-build -name "*.internal"`
-# rm -f `find vtk-build -name "*.includecache"`
