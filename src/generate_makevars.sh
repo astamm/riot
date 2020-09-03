@@ -7,7 +7,7 @@ echo "" >> Makevars
 echo "PKG_CXXFLAGS = \$(CXX_VISIBILITY)" >> Makevars
 echo "PKG_CFLAGS = \$(C_VISIBILITY)" >> Makevars
 echo "" >> Makevars
-echo "VTK_LIBS = `ls vtk/lib/*.o*`" >> Makevars
+echo "VTK_LIBS = `ls vtk/lib/*.o* | xargs`" >> Makevars
 echo "" >> Makevars
 echo ".PHONY: all" >> Makevars
 echo "" >> Makevars
