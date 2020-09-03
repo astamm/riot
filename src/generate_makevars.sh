@@ -6,7 +6,7 @@ echo "PKG_CPPFLAGS = \$(CPPFLAGS) -Ivtk/include" > Makevars
 echo "PKG_LIBS = vtk/lib/libvtk.a" >> Makevars
 echo "" >> Makevars
 echo "PKG_CXXFLAGS = \$(CXX_VISIBILITY)" >> Makevars
-echo "PKG_CFLAGS = \$(C_VISIBILITY)" >> Makevars
+echo "PKG_CFLAGS = \$(C_VISIBILITY) \$(subst 64,-D__USE_MINGW_ANSI_STDIO,\$(subst 32,64,\$(WIN)))" >> Makevars
 echo "" >> Makevars
 echo "VTK_LIBS = `find vtk/lib -type f -name "*.o" -o -name "*.obj" | xargs`" >> Makevars
 echo "" >> Makevars
