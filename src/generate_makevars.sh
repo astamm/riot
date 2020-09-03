@@ -10,7 +10,9 @@ echo "" >> Makevars
 echo "PKG_CXXFLAGS = \$(CXX_VISIBILITY)" >> Makevars
 echo "PKG_CFLAGS = \$(C_VISIBILITY)" >> Makevars
 echo "" >> Makevars
-echo "VTK_LIBS = `find vtk/lib -type f -name "*.o" -o -name "*.obj" | xargs`" >> Makevars
+TRIO_LIBS="VTK_LIBS = `find vtk/lib -type f -name "*.o" -o -name "*.obj" | xargs`"
+echo ${TRIO_LIBS}
+echo ${TRIO_LIBS} >> Makevars
 echo "" >> Makevars
 echo ".PHONY: all" >> Makevars
 echo "" >> Makevars
