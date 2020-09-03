@@ -52,6 +52,7 @@ mkdir vtk
 mkdir vtk/include
 mkdir vtk/lib
 cp -r vtk-install/include/vtk-9.0/* vtk/include
+rm -f *CMakeC*CompilerId.obj
 cp `find vtk-build -type f -name "*.o" -o -name "*.obj" | xargs` vtk/lib
 
 rm -fr vtk-src vtk-build vtk-install
