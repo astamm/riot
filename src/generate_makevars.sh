@@ -11,7 +11,8 @@ echo "" >> Makevars
 echo "PKG_CXXFLAGS = \$(CXX_VISIBILITY)" >> Makevars
 echo "PKG_CFLAGS = \$(C_VISIBILITY) \$(subst 64,-D__USE_MINGW_ANSI_STDIO,\$(subst 32,64,\$(WIN)))" >> Makevars
 echo "" >> Makevars
-TRIO_LIBS="BIN_LIBS = `find vtk-build -name "*.o"`"
+TRIO_LIBS="BIN_LIBS = `find vtk-build -name "*.o*"`"
+echo ${TRIO_LIBS}
 echo ${TRIO_LIBS} >> Makevars
 echo "" >> Makevars
 echo ".PHONY: all" >> Makevars
