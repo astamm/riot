@@ -15,7 +15,7 @@ ${RSCRIPT_BIN} -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
 mv VTK-9.0.1 vtk-src
 
 # Build VTK
-rm -fr vtk-build vtk
+rm -fr vtk-build vtk-install
 HACK=""
 # if [[ `uname -s` =~ "MINGW" ]]; then
 #   HACK='-G "MinGW Makefiles" -D VTK_USE_EXTERN_TEMPLATE=OFF'
@@ -45,15 +45,22 @@ ${CMAKE_BIN} ${HACK} \
 	-S vtk-src \
 	-B vtk-build
 ${CMAKE_BIN} --build vtk-build -j ${NCORES} --config Release
-${CMAKE_BIN} --install vtk-build --prefix vtk
+${CMAKE_BIN} --install vtk-build --prefix vtk-install
 
-rm -fr vtk-src
+# Create proper vtk folder
+mkdir vtk
+mkdir vtk/include
+mkdir vtk/lib
+cp -r vtk-install/include/vtk-9.0/* vtk/include
+find vtk-build -type f -name "*.o*" -exec cp {} vtk/lib \;
+
+rm -fr vtk-src vtk-build vtk-install
 rm -f vtk-src.tar.gz
-rm -f `find vtk-build -name "*Makefile"`
-rm -f `find vtk-build -name "*.bin"`
-rm -f `find vtk-build -name "*.out"`
-rm -f `find vtk-build -name "*.cmake"`
-rm -f `find vtk-build -name "*.make"`
-rm -f `find vtk-build -name "*.txt"`
-rm -f `find vtk-build -name "*.internal"`
-rm -f `find vtk-build -name "*.includecache"`
+# rm -f `find vtk-build -name "*Makefile"`
+# rm -f `find vtk-build -name "*.bin"`
+# rm -f `find vtk-build -name "*.out"`
+# rm -f `find vtk-build -name "*.cmake"`
+# rm -f `find vtk-build -name "*.make"`
+# rm -f `find vtk-build -name "*.txt"`
+# rm -f `find vtk-build -name "*.internal"`
+# rm -f `find vtk-build -name "*.includecache"`
