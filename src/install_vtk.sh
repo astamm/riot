@@ -7,10 +7,10 @@ CMAKE_BIN=`which cmake`
 NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
 
 ## Get R compilers and flags.
-CC=`"${R_BIN}" CMD config CC`
-CFLAGS=`"${R_BIN}" CMD config CFLAGS`
-CXX=`"${R_BIN}" CMD config CXX`
-CXXFLAGS=`"${R_BIN}" CMD config CXXFLAGS`
+CC=$("${R_HOME}/bin/R" CMD config CC)
+CFLAGS="$("${R_BIN}" CMD config CFLAGS)"
+CXX=$("${R_HOME}/bin/R" CMD config CXX)
+CXXFLAGS="$("${R_BIN}" CMD config CXXFLAGS)"
 
 # Download VTK source
 ${RSCRIPT_BIN} -e "utils::download.file(
@@ -22,17 +22,18 @@ ${RSCRIPT_BIN} -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
 mv VTK-9.0.1 vtk-src
 
 MINGW_HACK=""
-if [[ "`uname -s`" =~ "MINGW" ]]; then
+if [[ "$(uname -s)" =~ "MINGW" ]]; then
   MINGW_HACK='-G "MinGW Makefiles" -D CMAKE_SH="CMAKE_SH-NOTFOUND"'
-  CXXFLAGS='"${CXXFLAGS}" -Wa -mbig-obj'
+  CXXFLAGS="${CXXFLAGS} -Wa -mbig-obj"
 fi
 
-echo ${HACK}
+echo ${MINGW_HACK}
 
 # Build VTK
 rm -fr vtk-build vtk-install
 ${CMAKE_BIN} "${MINGW_HACK}" \
 	-D BUILD_SHARED_LIBS=OFF \
+	-D CMAKE_BUILD_TYPE=Release \
 	-D CMAKE_C_COMPILER="${CC}" \
 	-D CMAKE_C_FLAGS="${CFLAGS}" \
 	-D CMAKE_CXX_COMPILER="${CXX}" \
@@ -63,9 +64,9 @@ ${CMAKE_BIN} --build vtk-build -j ${NCORES} --config Release
 ${CMAKE_BIN} --install vtk-build --prefix vtk-install
 
 # Create proper vtk folder
-mkdir vtk
-mkdir vtk/include
-mkdir vtk/lib
+mkdir -p vtk
+mkdir -p vtk/include
+mkdir -p vtk/lib
 cp -r vtk-install/include/vtk-9.0/* vtk/include
 # rm -f `find vtk-build -name "*CMakeC*CompilerId.obj" | xargs`
 cp `find vtk-build -type f -name "*.o" -o -name "*.obj" | xargs` vtk/lib
