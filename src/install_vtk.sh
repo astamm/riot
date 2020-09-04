@@ -7,7 +7,8 @@ CMAKE_BIN=`which cmake`
 NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
 
 ## Get R compilers and flags.
-CC=`${R_BIN} CMD config CC | tr -d '\n' | tr -d ' '`
+CC=`${R_BIN} CMD config CC`
+echo $CC
 CFLAGS=`${R_BIN} CMD config CFLAGS | tr -d '\n' | tr -d ' '`
 CXX=`${R_BIN} CMD config CXX | tr -d '\n' | tr -d ' '`
 CXXFLAGS=`${R_BIN} CMD config CXXFLAGS | tr -d '\n' | tr -d ' '`
@@ -21,15 +22,16 @@ ${RSCRIPT_BIN} -e "utils::download.file(
 ${RSCRIPT_BIN} -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
 mv VTK-9.0.1 vtk-src
 
+	# -D CMAKE_C_COMPILER=${CC} \
+	# -D CMAKE_C_FLAGS=${CFLAGS} \
+	# -D CMAKE_CXX_COMPILER=${CXX} \
+	# -D CMAKE_CXX_FLAGS=${CXXFLAGS} \
+
 # Build VTK
 rm -fr vtk-build vtk-install
 ${CMAKE_BIN} \
   -G "MinGW Makefiles" \
 	-D BUILD_SHARED_LIBS=OFF \
-	-D CMAKE_C_COMPILER=${CC} \
-	-D CMAKE_C_FLAGS=${CFLAGS} \
-	-D CMAKE_CXX_COMPILER=${CXX} \
-	-D CMAKE_CXX_FLAGS=${CXXFLAGS} \
 	-D CMAKE_SH="CMAKE_SH-NOTFOUND" \
 	-D VTK_ENABLE_WRAPPING=OFF \
 	-D VTK_GROUP_ENABLE_Imaging=NO \
