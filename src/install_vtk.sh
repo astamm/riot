@@ -24,6 +24,7 @@ mv VTK-9.0.1 vtk-src
 # Build VTK
 rm -fr vtk-build vtk-install
 ${CMAKE_BIN} \
+  -G "MinGW Makefiles" \
 	-D BUILD_SHARED_LIBS=OFF \
 	-D CMAKE_C_COMPILER=${CC} \
 	-D CMAKE_C_FLAGS=${CFLAGS} \
