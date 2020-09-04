@@ -2,15 +2,10 @@
 
 RSCRIPT_BIN=$1
 R_BIN=$2
-CXXFLAGS=$3
-GENERATOR=$4
+WIN_STUFF=$3
 CMAKE_BIN=`which cmake`
 
 NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
-
-## Get R compilers and flags.
-CFLAGS="$("${R_BIN}" CMD config CFLAGS)"
-CXXFLAGS="${CXXFLAGS} $("${R_BIN}" CMD config CXXFLAGS)"
 
 # Download VTK source
 ${RSCRIPT_BIN} -e "utils::download.file(
@@ -23,11 +18,9 @@ mv VTK-9.0.1 vtk-src
 
 # Build VTK
 rm -fr vtk-build vtk-install
-${CMAKE_BIN} "${GENERATOR}" \
+${CMAKE_BIN} ${WIN_STUFF} \
 	-D BUILD_SHARED_LIBS=OFF \
 	-D CMAKE_BUILD_TYPE=Release \
-	-D CMAKE_C_FLAGS="${CFLAGS}" \
-	-D CMAKE_CXX_FLAGS="${CXXFLAGS}" \
 	-D VTK_ENABLE_WRAPPING=OFF \
 	-D VTK_GROUP_ENABLE_Imaging=NO \
 	-D VTK_GROUP_ENABLE_MPI=NO \
