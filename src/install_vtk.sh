@@ -7,9 +7,9 @@ CMAKE_BIN=`which cmake`
 NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
 
 ## Get R compilers and flags.
-CC=`${R_BIN} CMD config CC`
+CC="`${R_BIN} CMD config CC`"
 CFLAGS=`${R_BIN} CMD config CFLAGS`
-CXX=`${R_BIN} CMD config CXX`
+CXX="`${R_BIN} CMD config CXX`"
 CXXFLAGS=`${R_BIN} CMD config CXXFLAGS`
 
 # Download VTK source
