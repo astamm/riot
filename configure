@@ -2,5 +2,5 @@
 
 cd src
 
-sh install_vtk.sh ${R_HOME}/bin/Rscript
-sh generate_makevars.sh
+sh install_vtk.sh ${R_HOME}/bin/Rscript ${R_HOME}/bin/R
+sh generate_makevars.sh libvtk.a

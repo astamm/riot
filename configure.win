@@ -3,5 +3,5 @@
 ulimit -s 65536
 cd src
 
-sh install_vtk.sh ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe
-sh generate_makevars.sh
+sh install_vtk.sh ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe ${R_HOME}/bin${R_ARCH_BIN}/R.exe
+sh generate_makevars.sh libvtk.a

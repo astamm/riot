@@ -1,9 +1,10 @@
 #! /bin/sh
 
 # Generate the Makevars file
+VTK_LIBNAME=$1
 
 echo "PKG_CPPFLAGS = \$(CPPFLAGS) -Ivtk/include" > Makevars
-echo "PKG_LIBS = vtk/lib/libvtk.a" >> Makevars
+echo "PKG_LIBS = vtk/lib/${VTK_LIBNAME}" >> Makevars
 # echo "PKG_LIBS = -Lvtk/lib -lvtk" >> Makevars
 # echo "VTK_LIB = vtk/lib/libvtk.a" >> Makevars
 echo "" >> Makevars
