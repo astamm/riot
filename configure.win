@@ -3,6 +3,6 @@
 ulimit -s 65536
 cd src
 
-GEM='-G "MinGW Makefiles" -D CMAKE_SH="CMAKE_SH-NOTFOUND"'
+GEN='-G "MinGW Makefiles" -D CMAKE_SH="CMAKE_SH-NOTFOUND"'
 sh install_vtk.sh ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe ${R_HOME}/bin${R_ARCH_BIN}/R.exe "-Wa -mbig-obj" ${GEN}
 sh generate_makevars.sh libvtk.a
