@@ -43,6 +43,7 @@ ${CMAKE_BIN} \
 	-D VTK_MODULE_ENABLE_VTK_IOLegacy=YES \
 	-D VTK_MODULE_ENABLE_VTK_IOXML=YES \
 	-D VTK_MODULE_ENABLE_VTK_IOXMLParser=YES \
+	-D VTK_USE_EXTERN_TEMPLATE=OFF \
 	-S vtk-src \
 	-B vtk-build
 ${CMAKE_BIN} --build vtk-build -j ${NCORES} --config Release
