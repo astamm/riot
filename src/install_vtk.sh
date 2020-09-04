@@ -33,6 +33,8 @@ ${CMAKE_BIN} \
   -G "MinGW Makefiles" \
 	-D BUILD_SHARED_LIBS=OFF \
 	-D CMAKE_SH="CMAKE_SH-NOTFOUND" \
+	-D CMAKE_C_FLAGS="-Wa,-mbig-obj" \
+	-D CMAKE_CXX_FLAGS="-Wa,-mbig-obj" \
 	-D VTK_ENABLE_WRAPPING=OFF \
 	-D VTK_GROUP_ENABLE_Imaging=NO \
 	-D VTK_GROUP_ENABLE_MPI=NO \
