@@ -20,7 +20,6 @@ mv VTK-9.0.1 vtk-src
 rm -fr vtk-build vtk-install
 ${CMAKE_BIN} ${WIN_STUFF} \
 	-D BUILD_SHARED_LIBS=OFF \
-	-D CMAKE_BUILD_TYPE=Release \
 	-D VTK_ENABLE_WRAPPING=OFF \
 	-D VTK_GROUP_ENABLE_Imaging=NO \
 	-D VTK_GROUP_ENABLE_MPI=NO \

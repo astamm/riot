@@ -6,5 +6,5 @@ cd src
 sh install_vtk.sh \
   ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe \
   ${R_HOME}/bin${R_ARCH_BIN}/R.exe \
-  "-G 'MinGW Makefiles' -D CMAKE_SH='CMAKE_SH-NOTFOUND' -D CMAKE_CXX_FLAGS='-Wa -mbig-obj'"
+  "-G \"MinGW Makefiles\" -D CMAKE_SH=\"CMAKE_SH-NOTFOUND\" -D CMAKE_CXX_FLAGS=\"-Wa -mbig-obj\" -D CMAKE_BUILD_TYPE=Release"
 sh generate_makevars.sh libvtk.a
