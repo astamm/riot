@@ -18,7 +18,11 @@ mv VTK-9.0.1 vtk-src
 # Build VTK
 rm -fr vtk-build vtk-install
 ${CMAKE_BIN} \
+  -G "MinGW Makefiles" \
 	-D BUILD_SHARED_LIBS=OFF \
+	-D CMAKE_BUILD_TYPE=Release \
+	-D CMAKE_CXX_FLAGS="-Wa -mbig-obj" \
+	-D CMAKE_SH="CMAKE_SH-NOTFOUND" \
 	-D VTK_ENABLE_WRAPPING=OFF \
 	-D VTK_GROUP_ENABLE_Imaging=NO \
 	-D VTK_GROUP_ENABLE_MPI=NO \
