@@ -6,7 +6,6 @@ CXXFLAGS=$3
 GENERATOR=$4
 CMAKE_BIN=`which cmake`
 
-
 NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
 
 ## Get R compilers and flags.
