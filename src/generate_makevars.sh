@@ -1,6 +1,6 @@
 #! /bin/sh
 
-echo "PKG_CPPFLAGS = -Ivtk/include" > Makevars
+echo "PKG_CPPFLAGS = -Ivtk/include/vtk-9.0" > Makevars
 VTK_LIBS=`find vtk/lib -type f -name "*.a" | xargs`
 echo "PKG_LIBS = ${VTK_LIBS}" >> Makevars
 
