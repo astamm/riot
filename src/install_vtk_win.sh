@@ -47,17 +47,15 @@ ${CMAKE_BIN} \
 	-B vtk-build
 # -D VTK_USE_EXTERN_TEMPLATE=OFF \
 ${CMAKE_BIN} --build vtk-build -j ${NCORES} --config Release
-# ${CMAKE_BIN} --install vtk-build --prefix vtk-install
-${CMAKE_BIN} --install vtk-build --prefix vtk
+${CMAKE_BIN} --install vtk-build --prefix vtk-install
 
 # Create proper vtk folder
-# mkdir -p vtk
-# mkdir -p vtk/include
-# mkdir -p vtk/lib
-# # cp -r vtk-install/include/vtk-9.0/* vtk/include
-# cp `find vtk-build -type f -name "*.h" | xargs` vtk/include
-# # rm -f `find vtk-build -name "*CMakeC*CompilerId.obj" | xargs`
-# cp `find vtk-build -type f -name "*.o" -o -name "*.obj" | xargs` vtk/lib
+mkdir -p vtk
+mkdir -p vtk/include
+mkdir -p vtk/lib
+cp -r vtk-install/include/vtk-9.0/* vtk/include
+# rm -f `find vtk-build -name "*CMakeC*CompilerId.obj" | xargs`
+cp `find vtk-build -name "*.o" -o -name "*.obj" | xargs` vtk/lib
 
 rm -fr vtk-src vtk-build vtk-install
 rm -f vtk-src.tar.gz

@@ -6,4 +6,4 @@ cd src
 sh install_vtk_win.sh \
   ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe \
   ${R_HOME}/bin${R_ARCH_BIN}/R.exe
-sh generate_makevars.sh libvtk.a
+sh generate_makevars.sh
