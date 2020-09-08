@@ -3,4 +3,4 @@
 cd src
 
 sh install_vtk.sh ${R_HOME}/bin/Rscript ${R_HOME}/bin/R
-sh generate_makevars.sh
+sh generate_makevars.sh .o

@@ -57,3 +57,4 @@ cp -r vtk-install/include/vtk/* vtk/include
 
 rm -fr vtk-src vtk-install
 rm -f vtk-src.tar.gz
+rm -f `find vtk-build -name "*Makefile" | xargs`

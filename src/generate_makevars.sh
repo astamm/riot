@@ -2,6 +2,8 @@
 
 # Generate the Makevars file
 
+OBJECT_EXT=$1
+
 # mkdir -p vtk
 # mkdir -p vtk/include
 # mkdir -p vtk/include/vtkdoubleconversion
@@ -127,7 +129,7 @@ echo "" >> Makevars
 # HEADERS_IO_XMLPARSER=`find ./vtk-src/IO/XMLParser -type f -name "*.h" -o -name "*.hxx" -o -name "*.txx" | xargs`
 # cp ${HEADERS_IO_XMLPARSER} vtk/include
 
-OBJECTS_VTK_ALL="OBJECTS_VTK_ALL = `find vtk-build -name "*.o" -o -name "*.obj" | xargs`"
+OBJECTS_VTK_ALL="OBJECTS_VTK_ALL = `echo "*${OBJECT_EXT}" | xargs find vtk-build -name`"
 echo ${OBJECTS_VTK_ALL} >> Makevars
 echo "" >> Makevars
 echo "all: \$(SHLIB)" >> Makevars
