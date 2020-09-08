@@ -16,9 +16,11 @@ ${RSCRIPT_BIN} -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
 mv VTK-9.0.1 vtk-src
 
 # Build VTK
-rm -fr vtk-build vtk-install
 ${CMAKE_BIN} \
 	-D BUILD_SHARED_LIBS=OFF \
+	-D CMAKE_BUILD_TYPE=Release \
+	-D VTK_ENABLE_LOGGING=OFF \
+	-D VTK_ENABLE_REMOTE_MODULES=OFF \
 	-D VTK_ENABLE_WRAPPING=OFF \
 	-D VTK_GROUP_ENABLE_Imaging=NO \
 	-D VTK_GROUP_ENABLE_MPI=NO \
@@ -39,6 +41,7 @@ ${CMAKE_BIN} \
 	-D VTK_MODULE_ENABLE_VTK_IOLegacy=YES \
 	-D VTK_MODULE_ENABLE_VTK_IOXML=YES \
 	-D VTK_MODULE_ENABLE_VTK_IOXMLParser=YES \
+	-D VTK_VERSIONED_INSTALL=OFF \
 	-S vtk-src \
 	-B vtk-build
 ${CMAKE_BIN} --build vtk-build -j ${NCORES} --config Release
@@ -48,9 +51,9 @@ ${CMAKE_BIN} --install vtk-build --prefix vtk-install
 mkdir -p vtk
 mkdir -p vtk/include
 mkdir -p vtk/lib
-cp -r vtk-install/include/vtk-9.0/* vtk/include
+cp -r vtk-install/include/vtk/* vtk/include
 # rm -f `find vtk-build -name "*CMakeC*CompilerId.obj" | xargs`
-cp `find vtk-build -name "*.o" -o -name "*.obj" | xargs` vtk/lib
+# cp `find vtk-build -name "*.o" -o -name "*.obj" | xargs` vtk/lib
 
-rm -fr vtk-src vtk-build vtk-install
+rm -fr vtk-src vtk-install
 rm -f vtk-src.tar.gz
