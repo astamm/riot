@@ -13,6 +13,7 @@ echo "OBJECTS = \$(SOURCES:.cpp=.o)" >> Makevars
 echo "" >> Makevars
 
 OBJECTS_VTK_ALL=`find vtk/lib -name "*.o" -o -name "*.obj" | xargs`
+echo ${OBJECTS_VTK_ALL}
 echo "OBJECTS_VTK_ALL = ${OBJECTS_VTK_ALL}" >> Makevars
 echo "" >> Makevars
 echo "all: \$(SHLIB)" >> Makevars
