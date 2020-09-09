@@ -3,7 +3,7 @@
 # Generate the Makevars file
 
 # First find Rtools install folder
-RTOOLS_HOME=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "pkgbuild::has_rtools(); cat(pkgbuild::rtools_path())"`
+RTOOLS_HOME=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "invisible(install.packages("pkgbuild")); invisible(pkgbuild::has_rtools()); cat(pkgbuild::rtools_path())"`
 
 echo "PKG_CPPFLAGS = -Ivtk/include" > Makevars
 echo "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -L${RTOOLS_HOME}/mingw64/lib -lws2_32 -Lvtk/lib -lvtk_all" >> Makevars
