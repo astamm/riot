@@ -2,8 +2,6 @@
 
 # Generate the Makevars file
 
-OBJECT_EXT=$1
-
 # mkdir -p vtk
 # mkdir -p vtk/include
 # mkdir -p vtk/include/vtkdoubleconversion
@@ -20,7 +18,7 @@ OBJECT_EXT=$1
 # mkdir -p vtk/include/vtkutf8
 # mkdir -p vtk/include/vtkzlib
 
-echo "PKG_CPPFLAGS = -Ivtk/include -Ivtk/lib" > Makevars
+echo "PKG_CPPFLAGS = -Ivtk/include/vtk -Ivtk/lib" > Makevars
 echo "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -Lvtk/lib -lvtk_all" >> Makevars
 echo "" >> Makevars
 echo ".PHONY: all ./vtk/lib/libvtk_all.a" >> Makevars
@@ -129,8 +127,8 @@ echo "" >> Makevars
 # HEADERS_IO_XMLPARSER=`find ./vtk-src/IO/XMLParser -type f -name "*.h" -o -name "*.hxx" -o -name "*.txx" | xargs`
 # cp ${HEADERS_IO_XMLPARSER} vtk/include
 
-OBJECTS_VTK_ALL="OBJECTS_VTK_ALL = `echo "*${OBJECT_EXT}" | xargs find vtk-build -name`"
-echo ${OBJECTS_VTK_ALL} >> Makevars
+OBJECTS_VTK_ALL=`find vtk/lib -name "*.o" -o -name "*.obj" | xargs`
+echo "OBJECTS_VTK_ALL = ${OBJECTS_VTK_ALL}" >> Makevars
 echo "" >> Makevars
 echo "all: \$(SHLIB)" >> Makevars
 echo "" >> Makevars
@@ -141,5 +139,5 @@ echo "	  \$(AR) -crvs ./vtk/lib/libvtk_all.a \$(OBJECTS_VTK_ALL)" >> Makevars
 echo "	  \$(RANLIB) \$@" >> Makevars
 echo "" >> Makevars
 echo "clean:" >> Makevars
-echo "	  rm -f \$(OBJECTS_VTK_ALL) *.dll *.exe vtk/lib/libvtk.a" >> Makevars
-echo "	  rm -fr vtk-build" >> Makevars
+echo "	  rm -f \$(OBJECTS_VTK_ALL) *.dll *.exe vtk/lib/libvtk_all.a" >> Makevars
+echo "	  rm -fr vtk" >> Makevars
