@@ -3,7 +3,7 @@
 # Generate the Makevars file
 
 echo "PKG_CPPFLAGS = -Ivtk/include" > Makevars
-echo "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -lws2_32 -Lvtk/lib -lvtk_all" >> Makevars
+echo "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -lwsock32 -Lvtk/lib -lvtk_all" >> Makevars
 echo "" >> Makevars
 echo ".PHONY: all ./vtk/lib/libvtk_all.a" >> Makevars
 echo "" >> Makevars
