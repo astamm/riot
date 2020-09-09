@@ -36,7 +36,8 @@ Imports:
     dplyr,
     purrr,
     stringr,
-    readr
+    readr,
+    pkgbuild
 SystemRequirements: cmake >= 3.15
 URL: https://github.com/astamm/trio
 BugReports: https://github.com/astamm/trio/issues
