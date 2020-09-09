@@ -3,7 +3,7 @@
 # Generate the Makevars file
 
 echo "PKG_CPPFLAGS = -Ivtk/include" > Makevars
-echo "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -Lvtk/lib -lvtk_all" >> Makevars
+echo "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -L${RTOOLS40_HOME}/lib -lws2_32 -Lvtk/lib -lvtk_all" >> Makevars
 echo "" >> Makevars
 echo ".PHONY: all ./vtk/lib/libvtk_all.a" >> Makevars
 echo "" >> Makevars
@@ -12,7 +12,7 @@ echo "" >> Makevars
 echo "OBJECTS = \$(SOURCES:.cpp=.o)" >> Makevars
 echo "" >> Makevars
 
-OBJECTS_VTK_ALL="OBJECTS_VTK_ALL = `find vtk/lib -name "*.obj" -a ! -name "SystemInformation.cxx.obj" -a ! -name "vtkSocket.cxx.obj" -a ! -name "vtkWin32OutputWindow.cxx.obj" -a ! -name "vtkClientSocket.cxx.obj" -a ! -name "vtkOutputWindow.cxx.obj" -a ! -name "vtkServerSocket.cxx.obj" -a ! -name "vtkSocketCollection.cxx.obj" | xargs`"
+OBJECTS_VTK_ALL="OBJECTS_VTK_ALL = `find vtk/lib -name "*.obj" | xargs`"
 echo ${OBJECTS_VTK_ALL} >> Makevars
 echo "" >> Makevars
 echo "all: \$(SHLIB)" >> Makevars

@@ -12,7 +12,7 @@ echo "" >> Makevars
 echo "OBJECTS = \$(SOURCES:.cpp=.o)" >> Makevars
 echo "" >> Makevars
 
-OBJECTS_VTK_ALL="OBJECTS_VTK_ALL = `find vtk/lib -name "*.o" -a ! -name "SystemInformation.cxx.o" -a ! -name "vtkSocket.cxx.o" -a ! -name "vtkWin32OutputWindow.cxx.o" -a ! -name "vtkClientSocket.cxx.o" -a ! -name "vtkOutputWindow.cxx.obj" -a ! -name "vtkServerSocket.cxx.o" -a ! -name "vtkSocketCollection.cxx.o" | xargs`"
+OBJECTS_VTK_ALL="OBJECTS_VTK_ALL = `find vtk/lib -name "*.o" | xargs`"
 echo ${OBJECTS_VTK_ALL} >> Makevars
 echo "" >> Makevars
 echo "all: \$(SHLIB)" >> Makevars
