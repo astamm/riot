@@ -6,7 +6,7 @@
 # RTOOLS_HOME=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "invisible(install.packages("pkgbuild")); invisible(pkgbuild::has_rtools()); cat(pkgbuild::rtools_path())"`
 
 echo "PKG_CPPFLAGS = -Ivtk/include" > Makevars
-echo "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -Lvtk/lib -lvtk_all -lwsock32 -lws2_32" >> Makevars
+echo "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -Lvtk/lib -lvtk_all -lwsock32 -lws2_32 -lgdi32 -lpsapi" >> Makevars
 echo "" >> Makevars
 echo ".PHONY: all ./vtk/lib/libvtk_all.a" >> Makevars
 echo "" >> Makevars

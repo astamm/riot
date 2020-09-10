@@ -14,6 +14,8 @@ ${RSCRIPT_BIN} -e "utils::download.file(
 # Uncompress VTK source
 ${RSCRIPT_BIN} -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
 mv VTK-9.0.1 vtk-src
+# cat <(echo "#pragma comment(lib, "Ws2_32.lib")") vtk-src/Utilities/KWSys/vtksys/SystemInformation.cxx > tmp.cxx
+# mv tmp.cxx vtk-src/Utilities/KWSys/vtksys/SystemInformation.cxx
 
 # Build VTK
 ${CMAKE_BIN} \
