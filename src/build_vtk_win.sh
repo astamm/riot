@@ -1,23 +1,7 @@
 #! /bin/sh
 
-RSCRIPT_BIN=$1
-R_BIN=$2
-CMAKE_BIN=`which cmake`
+CMAKE_BIN=$1
 
-NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
-
-# Download VTK source
-${RSCRIPT_BIN} -e "utils::download.file(
-    url = 'https://www.vtk.org/files/release/9.0/VTK-9.0.1.tar.gz',
-    destfile = 'vtk-src.tar.gz')"
-
-# Uncompress VTK source
-${RSCRIPT_BIN} -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
-mv VTK-9.0.1 vtk-src
-# cat <(echo "#pragma comment(lib, "Ws2_32.lib")") vtk-src/Utilities/KWSys/vtksys/SystemInformation.cxx > tmp.cxx
-# mv tmp.cxx vtk-src/Utilities/KWSys/vtksys/SystemInformation.cxx
-
-# Build VTK
 ${CMAKE_BIN} \
   -G "MinGW Makefiles" \
 	-D BUILD_SHARED_LIBS=OFF \
@@ -49,13 +33,3 @@ ${CMAKE_BIN} \
 	-D VTK_VERSIONED_INSTALL=OFF \
 	-S vtk-src \
 	-B vtk-build
-${CMAKE_BIN} --build vtk-build -j ${NCORES} --config Release
-${CMAKE_BIN} --install vtk-build --prefix vtk
-
-rm -fr vtk/lib/*
-cp -r vtk/include/vtk/* vtk/include
-rm -fr vtk/include/vtk
-cp -r `find vtk-build -name "*.o" -o -name "*.obj" | xargs` vtk/lib
-
-rm -fr vtk-src vtk-build
-rm -f vtk-src.tar.gz
