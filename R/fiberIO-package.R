@@ -1,3 +1,2 @@
-#' @useDynLib fiberIO, .registration=TRUE
-#' @importFrom Rcpp sourceCpp
+#' @useDynLib fiberIO, .registration = TRUE
 NULL
