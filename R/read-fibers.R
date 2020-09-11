@@ -1,4 +1,4 @@
-#' Read tracts in VTP format
+#' Import fibers into R
 #'
 #' @param file A path string to the file from tractography algorithm. Currently
 #'   supported files are `.vtk` and `.vtp` files.
@@ -7,9 +7,9 @@
 #' @export
 #'
 #' @examples
-#' uf_left <- trio::read_tracts(system.file("extdata", "UF_left.vtp", package = "trio"))
-#' uf_right <- trio::read_tracts(system.file("extdata", "UF_right.vtp", package = "trio"))
-read_tracts <- function(file) {
+#' uf_left  <- fiberIO::read_tracts(system.file("extdata", "UF_left.vtp", package = "fiberIO"))
+#' uf_right <- fiberIO::read_tracts(system.file("extdata", "UF_right.vtp", package = "fiberIO"))
+read_fibers <- function(file) {
   input_file <- normalizePath(file)
   output_file <- tempfile(fileext = ".csv")
   ext <- tools::file_ext(file)

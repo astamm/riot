@@ -9,7 +9,7 @@ echo ${PKG_LIBS} >> Makevars
 echo "" >> Makevars
 echo ".PHONY: all ./vtk/lib/libvtk_all.a" >> Makevars
 echo "" >> Makevars
-echo "SOURCES = trackReaders.cpp RcppExports.cpp" >> Makevars
+echo "SOURCES = fiberReaders.cpp RcppExports.cpp" >> Makevars
 echo "" >> Makevars
 echo "OBJECTS = \$(SOURCES:.cpp=.o)" >> Makevars
 echo "" >> Makevars

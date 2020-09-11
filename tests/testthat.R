@@ -1,4 +1,4 @@
 library(testthat)
-library(trio)
+library(fiberIO)
 
-test_check("trio")
+test_check("fiberIO")

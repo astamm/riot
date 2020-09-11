@@ -6,8 +6,8 @@ CMAKE_BIN=`which cmake`
 
 cd src
 
-sh download_vtk.sh ${RSCRIPT_BIN} ${R_BIN}
-sh build_vtk.sh ${CMAKE_BIN}
+sh ./scripts/vtk_download.sh ${RSCRIPT_BIN} ${R_BIN}
+sh ./scripts/vtk_build.sh ${CMAKE_BIN}
 NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
-sh install_vtk.sh ${CMAKE_BIN} ${NCORES}
-sh generate_makevars.sh "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -Lvtk/lib -lvtk_all"
+sh ./scripts/vtk_install.sh ${CMAKE_BIN} ${NCORES}
+sh ./scripts/generate_makevars.sh "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -Lvtk/lib -lvtk_all"
