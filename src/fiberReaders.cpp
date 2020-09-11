@@ -1,4 +1,4 @@
-#include "trackReaders.h"
+#include "fiberReaders.h"
 #include <vtkPointData.h>
 #include <vtkPolyDataReader.h>
 #include <vtkXMLPolyDataReader.h>
@@ -43,8 +43,8 @@ void ProcessPolyData(const vtkSmartPointer <vtkPolyData> &inputData, std::string
 
   unsigned int numberOfPoints = inputData->GetNumberOfPoints();
   unsigned int numberOfStreamlines = inputData->GetNumberOfLines();
-  std::cout << "Number of data points: " << numberOfPoints << std::endl;
-  std::cout << "Number of streamlines: " << numberOfStreamlines << std::endl;
+  Rcpp::Rcout << "Number of data points: " << numberOfPoints << std::endl;
+  Rcpp::Rcout << "Number of streamlines: " << numberOfStreamlines << std::endl;
 
   // Extract streamline information by point
   IndexVectorType pointId(numberOfPoints, -1);

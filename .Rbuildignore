@@ -1,4 +1,8 @@
-^rvtk\.Rproj$
+^fiberIO\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^\.github$
+\.fsrc$
+\.o$
+\.so$
+\.a$

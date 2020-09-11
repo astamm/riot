@@ -1,2 +1,8 @@
-rm -f src/CMakeCache.txt src/cmake_install.cmake src/Makefile*
-rm -rf src/CMakeFiles
+#! /bin/sh
+
+# Clean up generated Makevars
+rm -f src/Makevars*
+
+# Cleanup VTK files
+rm -fr src/vtk/bin
+rm -fr src/vtk/share

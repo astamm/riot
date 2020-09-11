@@ -1,33 +1,13 @@
-# obtain and export Rs environment variables
-export R_HOME
-CXX=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config CXX)
-CXXFLAGS=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config CXXFLAGS)
-CPPFLAGS=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config CPPFLAGS)
-BLAS_LIBS=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config BLAS_LIBS)
-LAPACK_LIBS=$(${R_HOME}/bin${R_ARCH_BIN}/R CMD config LAPACK_LIBS)
-export CXX
-export CXXFLAGS
-export CPPFLAGS
-export BLAS_LIBS
-export LAPACK_LIBS
-export R_INCLUDE_DIR
+#! /bin/sh
 
-RCPP_DIR=$(${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "cat(system.file(package='Rcpp'))")
+RSCRIPT_BIN=${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe
+R_BIN=${R_HOME}/bin${R_ARCH_BIN}/R.exe
+CMAKE_BIN=`which cmake`
 
-export RCPP_DIR
-export R_ARCH_BIN
 cd src
 
-VTKDIR=`find $HOME -mindepth 1 -maxdepth 1 -type d -perm -o=r -print0 | while read -d $'\0' folder
-do
-    find $folder -name VTKConfig.cmake -print0 | while read -d $'\0' infolder
-    do
-        if [[ $infolder =~ "CMakeFiles" ]]; then
-            continue
-        fi
-        echo $infolder | rev | cut -d'/' -f2- | rev
-    done
-done`
-cmake -DVTK_DIR=$VTKDIR . -G "MSYS Makefiles"
-
-cp Makefile Makefile.win
+sh ./scripts/vtk_download.sh ${RSCRIPT_BIN} ${R_BIN}
+sh ./scripts/vtk_build_win.sh ${CMAKE_BIN}
+NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
+sh ./scripts/vtk_install.sh ${CMAKE_BIN} ${NCORES}
+sh ./scripts/generate_makevars.sh "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -Lvtk/lib -lvtk_all -lwsock32 -lws2_32 -lgdi32 -lpsapi"

@@ -1,5 +1,5 @@
-#ifndef _TRACKREADERS_H
-#define _TRACKREADERS_H
+#ifndef _FIBERREADERS_H
+#define _FIBERREADERS_H
 
 #include <Rcpp.h>
 #include <string>
@@ -12,4 +12,4 @@ void ReadVTK(const std::string &inputTracts, std::string &outputFile);
 // [[Rcpp::export]]
 void ReadVTP(const std::string &inputTracts, std::string &outputFile);
 
-#endif /* _TRACKREADERS_H */
+#endif /* _FIBERREADERS_H */
