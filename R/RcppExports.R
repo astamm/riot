@@ -2,10 +2,10 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 ReadVTK <- function(inputTracts, outputFile) {
-    invisible(.Call('_fiberIO_ReadVTK', PACKAGE = 'fiberIO', inputTracts, outputFile))
+    invisible(.Call(`_fiberIO_ReadVTK`, inputTracts, outputFile))
 }
 
 ReadVTP <- function(inputTracts, outputFile) {
-    invisible(.Call('_fiberIO_ReadVTP', PACKAGE = 'fiberIO', inputTracts, outputFile))
+    invisible(.Call(`_fiberIO_ReadVTP`, inputTracts, outputFile))
 }
 
