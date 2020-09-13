@@ -9,10 +9,10 @@ cd src
 sh ./scripts/vtk_download.sh ${RSCRIPT_BIN} ${R_BIN}
 
 ${RSCRIPT_BIN} -e "utils::download.file(
-    url = 'https://github.com/Kitware/CMake/releases/download/v3.18.2/cmake-3.18.2.tar.gz',
-    destfile = 'cmake.tar.gz')"
+    url = 'https://github.com/Kitware/CMake/releases/download/v3.18.2/cmake-3.18.2.zip',
+    destfile = 'cmake.zip')"
 
-${RSCRIPT_BIN} -e "utils::untar(tarfile = 'cmake.tar.gz')"
+${RSCRIPT_BIN} -e "utils::unzip(tarfile = 'cmake.zip')"
 mv cmake-3.18.2 cmake
 
 cd cmake
