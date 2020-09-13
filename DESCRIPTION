@@ -1,5 +1,5 @@
 Package: fiberIO
-Title: TRactography Input/Output
+Title: fiberIO: an Input-Output module for fiber analysis in R
 Version: 0.0.0.9000
 Authors@R: c(
     person(
@@ -34,7 +34,6 @@ Imports:
     Rcpp,
     tibble,
     readr
-SystemRequirements: cmake >= 3.15
 URL: https://github.com/astamm/fiberIO
 BugReports: https://github.com/astamm/fiberIO/issues
 Suggests: 
