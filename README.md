@@ -1,5 +1,4 @@
-
-# fiberIO: an Input/Output module for fiber analysis in R
+# fiberIO: An Input/Output Module for Fiber Analysis in R
 
 <!-- badges: start -->
 [![R build status](https://github.com/astamm/fiberIO/workflows/R-CMD-check/badge.svg)](https://github.com/astamm/fiberIO/actions)

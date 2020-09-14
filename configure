@@ -16,7 +16,7 @@ ${RSCRIPT_BIN} -e "utils::untar('cmake.tar.gz')"
 mv cmake-3.18.2 cmake
 
 cd cmake
-./bootstrap -- -DCMAKE_BUILD_TYPE:STRING=Release
+./bootstrap -- -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF
 make -j${NCORES}
 cd ..
 
