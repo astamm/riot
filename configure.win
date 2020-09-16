@@ -1,5 +1,6 @@
 #! /bin/sh
 
+PATH="${RTOOLS40_HOME}\usr\bin;${PATH}"
 RSCRIPT_BIN=${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe
 R_BIN=${R_HOME}/bin${R_ARCH_BIN}/R.exe
 NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
@@ -28,6 +29,6 @@ sh ./scripts/vtk_build_win.sh ${CMAKE_BIN}
 sh ./scripts/vtk_install.sh ${CMAKE_BIN} ${NCORES}
 
 rm -fr cmake
-rm -f cmake.msi
+rm -f cmake.zip
 
 sh ./scripts/generate_makevars.sh "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -Lvtk/lib -lvtk_all -lwsock32 -lws2_32 -lgdi32 -lpsapi"

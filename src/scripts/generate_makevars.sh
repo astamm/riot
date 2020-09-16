@@ -4,7 +4,8 @@ PKG_LIBS=$1
 
 # Generate the Makevars file
 
-echo "PKG_CPPFLAGS = -Ivtk/include" > Makevars
+echo "CXX_STD = CXX11" > Makevars
+echo "PKG_CPPFLAGS = -Ivtk/include" >> Makevars
 echo ${PKG_LIBS} >> Makevars
 echo "" >> Makevars
 echo ".PHONY: all ./vtk/lib/libvtk_all.a" >> Makevars

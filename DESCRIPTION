@@ -1,5 +1,5 @@
 Package: fiberIO
-Title: An Input-Output Module For Fiber Analysis in R
+Title: An Input-Output Module for Fiber Analysis in R
 Version: 0.0.0.9000
 Authors@R: c(
     person(
