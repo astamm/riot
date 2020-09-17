@@ -1,6 +1,5 @@
 #! /bin/sh
 
-PATH="${RTOOLS40_HOME}\usr\bin;${PATH}"
 RSCRIPT_BIN=${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe
 R_BIN=${R_HOME}/bin${R_ARCH_BIN}/R.exe
 NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
