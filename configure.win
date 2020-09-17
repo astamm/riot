@@ -34,12 +34,9 @@ else
     CC=`${R_BIN} CMD config CC`
     CXX=`${R_BIN} CMD config CXX`
     ${CMAKE_BIN} \
-        -G "MinGW Makefiles" \
         -D BUILD_SHARED_LIBS=OFF \
         -D CMAKE_BUILD_TYPE=Release \
-        -D CMAKE_SH="CMAKE_SH-NOTFOUND" \
-        -S . \
-        -B .
+        .
     ${CMAKE_BIN} --build . -j ${NCORES}
     cd ..
 fi
