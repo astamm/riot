@@ -1,6 +1,7 @@
 #! /bin/sh
 
 RSCRIPT_BIN=$1
+R_BIN=$2
 NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
 
 ${RSCRIPT_BIN} -e "utils::download.file(
@@ -11,6 +12,6 @@ ${RSCRIPT_BIN} -e "utils::untar('cmake.tar.gz')"
 mv cmake-3.18.2 cmake
 
 cd cmake
-./bootstrap -- -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF
+env CC=`${R_BIN} CMD config CC` CXX=`${R_BIN} CMD config CXX` ./bootstrap -- -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF
 make -j${NCORES}
 cd ..

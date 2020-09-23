@@ -1,6 +1,7 @@
 #! /bin/sh
 
 RSCRIPT_BIN=$1
+R_BIN=$2
 NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
 
 if [[ ${R_ARCH} =~ "x64" ]]; then
