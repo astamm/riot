@@ -11,7 +11,6 @@ CXXFLAGS=`${R_BIN} CMD config CXXFLAGS`
 
 cd src
 
-echo "Number of cores: ${NCORES}"
 sh ./scripts/cmake_install.sh ${RSCRIPT_BIN} ${CC} ${CFLAGS} ${CXX} ${CXXFLAGS} ${NCORES}
 sh ./scripts/vtk_download.sh ${RSCRIPT_BIN} ${R_BIN}
 sh ./scripts/vtk_build.sh ${CMAKE_BIN}

@@ -16,7 +16,8 @@ mv cmake-3.18.2 cmake
 
 cd cmake
 ./bootstrap -- -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF -DCMAKE_C_STANDARD=11 -DCMAKE_CXX_STANDARD=11
-make -j${NCORES}
+echo "Number of cores: ${NCORES}"
+make -j ${NCORES}
 cd ..
 
 CMAKE_BIN=./cmake/bin/cmake
