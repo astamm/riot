@@ -24,7 +24,7 @@ echo "\$(SHLIB): ./vtk/lib/libvtk_all.a" >> Makevars
 echo "" >> Makevars
 echo "./vtk/lib/libvtk_all.a: \$(OBJECTS_VTK_ALL)" >> Makevars
 echo "	  \$(AR) -crvs ./vtk/lib/libvtk_all.a \$(OBJECTS_VTK_ALL)" >> Makevars
-echo "	  \$(RANLIB) \$@" >> Makevars
+#echo "	  \$(RANLIB) \$@" >> Makevars
 echo "" >> Makevars
 echo "clean:" >> Makevars
 echo "	  rm -f \$(OBJECTS) *.dll *.exe" >> Makevars
