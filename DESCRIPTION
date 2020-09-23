@@ -38,3 +38,4 @@ URL: https://github.com/astamm/fiberIO
 BugReports: https://github.com/astamm/fiberIO/issues
 Suggests: 
     testthat
+Biarch: true
