@@ -13,7 +13,7 @@ ${RSCRIPT_BIN} -e "utils::untar('cmake.tar.gz')"
 mv cmake-3.18.2 cmake
 
 cd cmake
-./bootstrap CC="${CC}" CXX="${CXX}" -- -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF -DCMAKE_C_STANDARD=11 -DCMAKE_CXX_STANDARD=11
+./bootstrap CC="${CC}" CXX="${CXX}" -- -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF -DCMAKE_C_STANDARD=11
 echo "Number of cores: ${NCORES}"
 make -j${NCORES}
 cd ..
