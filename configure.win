@@ -14,6 +14,7 @@ CXXFLAGS=`${R_BIN} CMD config CXXFLAGS`
 cd src
 
 sh ./scripts/cmake_install_win.sh ${RSCRIPT_BIN} ${CC} ${CXX}
+CMAKE_BIN=./cmake/bin/cmake
 sh ./scripts/vtk_download.sh ${RSCRIPT_BIN} ${R_BIN}
 sh ./scripts/vtk_build_win.sh ${CMAKE_BIN}
 sh ./scripts/vtk_install.sh ${CMAKE_BIN} ${NCORES}

@@ -16,5 +16,3 @@ cd cmake
 ./bootstrap CC="${CC}" CXX="${CXX}" -- -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF -DCMAKE_C_STANDARD=11
 make -j${NCORES}
 cd ..
-
-CMAKE_BIN=./cmake/bin/cmake
