@@ -19,7 +19,7 @@ for WIN in 32 64; do
   sh ./scripts/cmake_install.sh ${NCORES}
   CMAKE_BIN=./cmake/bin/cmake.exe
   sh ./scripts/vtk_build.sh "${CMAKE_BIN} -G \"MSYS Makefiles\""
-  sh ./scripts/vtk_install.sh ${CMAKE_BIN} ${NCORES}
+  sh ./scripts/vtk_install.sh ${CMAKE_BIN} ${NCORES} ${WIN}
 done
 
 sh ./scripts/cmake_cleanup.sh
