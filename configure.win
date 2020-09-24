@@ -9,7 +9,7 @@ NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
 
 cd src
 
-MAKE=${RTOOLS40_HOME}/usr/bin/make.exe
+MAKE="${RTOOLS40_HOME}\usr\bin\make.exe"
 sh ./scripts/cmake_download.sh ${RSCRIPT_BIN}
 sh ./scripts/vtk_download.sh ${RSCRIPT_BIN}
 
