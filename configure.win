@@ -1,8 +1,8 @@
 #! /bin/sh
 
 # PATH="${RTOOLS40_HOME}\usr\bin;${PATH}"
-PATH="/c/rtools40/usr/bin:${PATH}"
-echo $PATH
+# PATH="/c/rtools40/usr/bin:${PATH}"
+# echo $PATH
 
 RSCRIPT_BIN=${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe
 R_BIN=${R_HOME}/bin${R_ARCH_BIN}/R.exe
