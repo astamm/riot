@@ -8,7 +8,7 @@ CXX=$3
 
 
 cd cmake
-./bootstrap -- -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF -DCMAKE_C_COMPILER=${CC} -DCMAKE_CXX_COMPILER=${CXX}
+env CC="${CC}" CXX="${CXX}" ./bootstrap -- -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF
 make -j${NCORES}
 cd ..
 
