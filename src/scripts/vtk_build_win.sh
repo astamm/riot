@@ -1,10 +1,5 @@
 #! /bin/sh
 
-echo $PATH
-echo $R_ARCH
-echo $R_ARCH_BIN
-echo `${R_HOME}/bin${R_ARCH_BIN}/R.exe CMD config CC`
-echo `${R_HOME}/bin${R_ARCH_BIN}/R.exe CMD config CXX`
 CMAKE_BIN=$1
 
 ${CMAKE_BIN} \

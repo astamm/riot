@@ -1,6 +1,9 @@
 #! /bin/sh
 
 PKG_LIBS=$1
+CMAKE_BIN=$2
+NCORES=$3
+VTK_BUILD_SCRIPT=$4
 
 # Generate the Makevars file
 
@@ -14,10 +17,6 @@ echo "SOURCES = fiberReaders.cpp RcppExports.cpp" >> Makevars
 echo "" >> Makevars
 echo "OBJECTS = \$(SOURCES:.cpp=.o)" >> Makevars
 echo "" >> Makevars
-
-OBJECTS_VTK_ALL="OBJECTS_VTK_ALL = `find vtk/lib -name "*.o" -o -name "*.obj" | xargs`"
-echo ${OBJECTS_VTK_ALL} >> Makevars
-echo "" >> Makevars
 echo "all: \$(SHLIB)" >> Makevars
 echo "" >> Makevars
 echo "\$(SHLIB): ./vtk/lib/libvtk_all.a" >> Makevars
@@ -25,6 +24,12 @@ echo "" >> Makevars
 echo "./vtk/lib/libvtk_all.a: \$(OBJECTS_VTK_ALL)" >> Makevars
 echo "	  \$(AR) -crvs ./vtk/lib/libvtk_all.a \$(OBJECTS_VTK_ALL)" >> Makevars
 echo "	  \$(RANLIB) \$@" >> Makevars
+echo "" >> Makevars
+echo "\$(OBJECTS_VTK_ALL):" >> Makevars
+echo "    sh ${VTK_BUILD_SCRIPT} ${CMAKE_BIN}" >> Makevars
+echo "    sh ./scripts/vtk_install.sh ${CMAKE_BIN} ${NCORES}" >> Makevars
+echo "    sh ./scripts/cmake_cleanup.sh" >> Makevars
+echo "    OBJECTS_VTK_ALL = `find vtk/lib -name "*.o" -o -name "*.obj" | xargs`" >> Makevars
 echo "" >> Makevars
 echo "clean:" >> Makevars
 echo "	  rm -f \$(OBJECTS) *.dll *.exe" >> Makevars
