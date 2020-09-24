@@ -19,9 +19,9 @@ for WIN in 32 64; do
   CXX="${RTOOLS40_HOME}\mingw${WIN}\g++.exe"
   echo "- C   compiler: $CC"
   echo "- C++ compiler: $CXX"
-  sh ./scripts/cmake_install_win.sh ${NCORES} ${CC} ${CXX}
+  sh ./scripts/cmake_install_win.sh ${RSCRIPT_BIN}
   CMAKE_BIN=./cmake/bin/cmake.exe
-  sh ./scripts/vtk_build_win.sh ${CMAKE_BIN}
+  sh ./scripts/vtk_build_win.sh ${CMAKE_BIN} ${CC} ${CXX} ${MAKE}
   sh ./scripts/vtk_install.sh ${CMAKE_BIN} ${NCORES} ${WIN}
 done
 
