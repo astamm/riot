@@ -1,7 +1,6 @@
 #! /bin/sh
 
 RSCRIPT_BIN=$1
-R_BIN=$2
 
 # Download VTK source
 ${RSCRIPT_BIN} -e "utils::download.file(

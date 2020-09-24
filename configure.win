@@ -9,11 +9,19 @@ NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
 
 cd src
 
-sh ./scripts/cmake_install_win.sh ${RSCRIPT_BIN} ${R_BIN}
-CMAKE_BIN=./cmake/bin/cmake.exe
-sh ./scripts/vtk_download.sh ${RSCRIPT_BIN} ${R_BIN}
+MAKE=${RTOOLS40_HOME}/usr/bin/make.exe
+sh ./scripts/cmake_download.sh ${RSCRIPT_BIN}
+sh ./scripts/vtk_download.sh ${RSCRIPT_BIN}
+
+for WIN in 32 64; do
+  CC=${RTOOLS40_HOME}/mingw${WIN}/gcc.exe
+  CXX=${RTOOLS40_HOME}/mingw${WIN}/g++.exe
+  sh ./scripts/cmake_install.sh ${NCORES}
+  CMAKE_BIN=./cmake/bin/cmake.exe
+  sh ./scripts/vtk_build.sh "${CMAKE_BIN} -G \"MSYS Makefiles\""
+  sh ./scripts/vtk_install.sh ${CMAKE_BIN} ${NCORES}
+done
+
+sh ./scripts/cmake_cleanup.sh
 sh ./scripts/generate_makevars.sh \
-  "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -Lvtk/lib -lvtk_all -lwsock32 -lws2_32 -lgdi32 -lpsapi" \
-  ${CMAKE_BIN} \
-  ${NCORES} \
-  ./scripts/vtk_build_win.sh
+    "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -Lvtk/lib -lvtk_all -lwsock32 -lws2_32 -lgdi32 -lpsapi"

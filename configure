@@ -6,11 +6,12 @@ NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
 
 cd src
 
-sh ./scripts/cmake_install.sh ${RSCRIPT_BIN} ${R_BIN}
+sh ./scripts/cmake_download.sh ${RSCRIPT_BIN}
+sh ./scripts/vtk_download.sh ${RSCRIPT_BIN}
+sh ./scripts/cmake_install.sh ${NCORES}
 CMAKE_BIN=./cmake/bin/cmake
-sh ./scripts/vtk_download.sh ${RSCRIPT_BIN} ${R_BIN}
+sh ./scripts/vtk_build.sh ${CMAKE_BIN}
+sh ./scripts/vtk_install.sh ${CMAKE_BIN} ${NCORES}
+sh ./scripts/cmake_cleanup.sh
 sh ./scripts/generate_makevars.sh \
-  "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -Lvtk/lib -lvtk_all" \
-  ${CMAKE_BIN} \
-  ${NCORES} \
-  ./scripts/vtk_build.sh
+  "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -Lvtk/lib -lvtk_all"
