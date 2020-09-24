@@ -1,6 +1,6 @@
 #! /bin/sh
 
-RSCRIPT_BIN=$1
+NCORES=$1
 CC=$2
 CXX=$3
 # R_BIN=$2
@@ -8,7 +8,7 @@ CXX=$3
 
 
 cd cmake
-env CC="${CC}" CXX="${CXX}" ./bootstrap -- -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF
+./bootstrap CC="${CC}" CXX="${CXX}" -- -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF
 make -j${NCORES}
 cd ..
 
