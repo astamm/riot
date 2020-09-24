@@ -16,6 +16,8 @@ sh ./scripts/vtk_download.sh ${RSCRIPT_BIN}
 for WIN in 32 64; do
   CC=${RTOOLS40_HOME}/mingw${WIN}/gcc.exe
   CXX=${RTOOLS40_HOME}/mingw${WIN}/g++.exe
+  echo "- C   compiler: $CC"
+  echo "- C++ compiler: $CXX"
   sh ./scripts/cmake_install_win.sh ${NCORES} ${CC} ${CXX}
   CMAKE_BIN=./cmake/bin/cmake.exe
   sh ./scripts/vtk_build_win.sh ${CMAKE_BIN}
