@@ -1,30 +1,51 @@
 #! /bin/sh
 
-# PATH="${RTOOLS40_HOME}\usr\bin;${PATH}"
-# PATH="/c/rtools40/usr/bin:${PATH}"
-# echo $PATH
-
 RSCRIPT_BIN=${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe
-R_BIN=${R_HOME}/bin${R_ARCH_BIN}/R.exe
 NCORES=`${RSCRIPT_BIN} -e "cat(parallel::detectCores(logical = FALSE))"`
 
 cd src
 
-MAKE="${RTOOLS40_HOME}\usr\bin\make.exe"
-sh ./scripts/cmake_download.sh ${RSCRIPT_BIN}
-sh ./scripts/vtk_download.sh ${RSCRIPT_BIN}
+#### CMAKE CONFIGURATION ####
+. ./scripts/cmake_config.sh
 
-for WIN in 32 64; do
-  CC="${RTOOLS40_HOME}\mingw${WIN}\gcc.exe"
-  CXX="${RTOOLS40_HOME}\mingw${WIN}\g++.exe"
-  echo "- C   compiler: $CC"
-  echo "- C++ compiler: $CXX"
-  sh ./scripts/cmake_install_win.sh ${RSCRIPT_BIN}
-  CMAKE_BIN=./cmake/bin/cmake.exe
-  sh ./scripts/vtk_build_win.sh ${CMAKE_BIN} ${CC} ${CXX} ${MAKE}
-  sh ./scripts/vtk_install.sh ${CMAKE_BIN} ${NCORES} ${WIN}
+# Compile NLOpt from source
+sh ./scripts/vtk_download.sh ${RSCRIPT_BIN}
+echo ${CMAKE_BIN}
+for ARCH in "/x64" "/i386"; do
+    . ./scripts/r_config.sh ${ARCH}
+    "${CMAKE_BIN}" \
+      -G "MSYS Makefiles" \
+      -D BUILD_SHARED_LIBS=OFF \
+      -D CMAKE_BUILD_TYPE=Release \
+      -D CMAKE_AR=${AR} \
+      -D CMAKE_RANLIB=${RANLIB} \
+      -D VTK_ENABLE_LOGGING=OFF \
+      -D VTK_ENABLE_REMOTE_MODULES=OFF \
+      -D VTK_ENABLE_WRAPPING=OFF \
+      -D VTK_GROUP_ENABLE_Imaging=NO \
+      -D VTK_GROUP_ENABLE_MPI=NO \
+      -D VTK_GROUP_ENABLE_Qt=NO \
+      -D VTK_GROUP_ENABLE_Rendering=NO \
+      -D VTK_GROUP_ENABLE_StandAlone=NO \
+      -D VTK_GROUP_ENABLE_Views=NO \
+      -D VTK_GROUP_ENABLE_Web=NO \
+      -D VTK_LEGACY_SILENT=ON \
+      -D VTK_MODULE_ENABLE_VTK_CommonCore=YES \
+      -D VTK_MODULE_ENABLE_VTK_CommonDataModel=YES \
+      -D VTK_MODULE_ENABLE_VTK_CommonExecutionModel=YES \
+      -D VTK_MODULE_ENABLE_VTK_CommonMath=YES \
+      -D VTK_MODULE_ENABLE_VTK_CommonMisc=YES \
+      -D VTK_MODULE_ENABLE_VTK_CommonSystem=YES \
+      -D VTK_MODULE_ENABLE_VTK_CommonTransforms=YES \
+      -D VTK_MODULE_ENABLE_VTK_IOCore=YES \
+      -D VTK_MODULE_ENABLE_VTK_IOLegacy=YES \
+      -D VTK_MODULE_ENABLE_VTK_IOXML=YES \
+      -D VTK_MODULE_ENABLE_VTK_IOXMLParser=YES \
+      -D VTK_VERSIONED_INSTALL=OFF \
+      -S vtk-src \
+      -B vtk${ARCH}-build
+    sh ./scripts/vtk_install.sh "${CMAKE_BIN}" ${NCORES} ${ARCH}
 done
 
-sh ./scripts/cmake_cleanup.sh
-sh ./scripts/generate_makevars.sh \
-    "PKG_LIBS = \$(LAPACK_LIBS) \$(BLAS_LIBS) \$(FLIBS) -Lvtk/lib -lvtk_all -lwsock32 -lws2_32 -lgdi32 -lpsapi"
+# Cleanup
+sh ./scripts/vtk_cleanup.sh

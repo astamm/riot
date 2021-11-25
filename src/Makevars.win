@@ -1,0 +1,24 @@
+CXX_STD = CXX11
+PKG_CPPFLAGS = -Ivtk$(R_ARCH_BIN)/include/vtk
+PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) \
+	-lwsock32 -lws2_32 -lgdi32 -lpsapi
+	-Lvtk$(R_ARCH_BIN)/lib
+	-lvtkCommonCore \
+	-lvtkCommonDataModel \
+	-lvtkCommonExecutionModel \
+	-lvtkCommonMath \
+	-lvtkCommonMisc \
+	-lvtkCommonSystem \
+	-lvtkCommonTransforms \
+	-lvtkIOCore \
+	-lvtkIOLegacy \
+	-lvtkIOXML \
+	-lvtkIOXMLParser \
+	-lvtkdoubleconversion \
+	-lvtkexpat \
+	-lvtkkissfft \
+	-lvtklz4 \
+	-lvtklzma \
+	-lvtkpugixml \
+	-lvtksys \
+	-lvtkzlib

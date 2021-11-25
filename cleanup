@@ -1,8 +1,3 @@
 #! /bin/sh
 
-# Clean up generated Makevars
-rm -f src/Makevars*
-
-# Cleanup VTK files
-rm -fr src/vtk/bin
-rm -fr src/vtk/share
+rm -fr src/vtk
