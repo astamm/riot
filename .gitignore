@@ -3,3 +3,4 @@
 .RData
 .DS_Store
 inst/include
+src/Makevars*
