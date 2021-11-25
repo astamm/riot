@@ -10,7 +10,6 @@ cd src
 
 # Compile NLOpt from source
 sh ./scripts/vtk_download.sh ${RSCRIPT_BIN}
-echo ${CMAKE_BIN}
 for ARCH in "/x64" "/i386"; do
     . ./scripts/r_config.sh ${ARCH}
     "${CMAKE_BIN}" \
