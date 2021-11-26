@@ -21,13 +21,13 @@ for ARCH in "/x64" "/i386"; do
       -D VTK_ENABLE_LOGGING=OFF \
       -D VTK_ENABLE_REMOTE_MODULES=OFF \
       -D VTK_ENABLE_WRAPPING=OFF \
-      -D VTK_GROUP_ENABLE_Imaging=NO \
-      -D VTK_GROUP_ENABLE_MPI=NO \
-      -D VTK_GROUP_ENABLE_Qt=NO \
-      -D VTK_GROUP_ENABLE_Rendering=NO \
-      -D VTK_GROUP_ENABLE_StandAlone=NO \
-      -D VTK_GROUP_ENABLE_Views=NO \
-      -D VTK_GROUP_ENABLE_Web=NO \
+      -D VTK_GROUP_ENABLE_Imaging=DONT_WANT \
+      -D VTK_GROUP_ENABLE_MPI=DONT_WANT \
+      -D VTK_GROUP_ENABLE_Qt=DONT_WANT \
+      -D VTK_GROUP_ENABLE_Rendering=DONT_WANT \
+      -D VTK_GROUP_ENABLE_StandAlone=DONT_WANT \
+      -D VTK_GROUP_ENABLE_Views=DONT_WANT \
+      -D VTK_GROUP_ENABLE_Web=DONT_WANT \
       -D VTK_LEGACY_SILENT=ON \
       -D VTK_MODULE_ENABLE_VTK_CommonCore=YES \
       -D VTK_MODULE_ENABLE_VTK_CommonDataModel=YES \
@@ -43,7 +43,7 @@ for ARCH in "/x64" "/i386"; do
       -D VTK_VERSIONED_INSTALL=OFF \
       -S vtk-src \
       -B vtk${ARCH}-build
-    sh ./scripts/vtk_install.sh "${CMAKE_BIN}" ${NCORES} ${ARCH}
+    sh ./scripts/vtk_install.sh "${CMAKE_BIN}" ${NCORES} ${ARCH} ${AR}
 done
 
 # Cleanup
