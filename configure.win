@@ -18,6 +18,7 @@ for ARCH in "/x64" "/i386"; do
       -D CMAKE_BUILD_TYPE=Release \
       -D CMAKE_AR=${AR} \
       -D CMAKE_RANLIB=${RANLIB} \
+      -D VTK_DISPATCH_AOS_ARRAYS=NO \
       -D VTK_ENABLE_LOGGING=OFF \
       -D VTK_ENABLE_REMOTE_MODULES=OFF \
       -D VTK_ENABLE_WRAPPING=OFF \
