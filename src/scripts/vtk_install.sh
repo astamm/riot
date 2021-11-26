@@ -11,7 +11,7 @@ AR=$4
 for f in vtk${ARCH}/lib/*.a; do
     "${AR}" -x $f
 done
-"${AR}" -qc vtk${ARCH}/lib/libvtk.a vtk${ARCH}/lib/*.o
+"${AR}" -qc vtk${ARCH}/lib/libvtk.a *.o
 
 rm -fr vtk${ARCH}-build
-rm -f vtk${ARCH}/lib/*.o
+rm -f *.o
