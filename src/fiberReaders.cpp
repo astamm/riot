@@ -1,6 +1,7 @@
 #include "fiberReaders.h"
 #include <vtkPointData.h>
-#include <vtkPolyDataReader.h>
+// #include <vtkPolyDataReader.h>
+#include "vtkPolyDataReader.h"
 #include <vtkXMLPolyDataReader.h>
 
 void ProcessPolyData(const vtkSmartPointer <vtkPolyData> &inputData, std::string &outputFile)
