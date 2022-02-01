@@ -1,10 +1,5 @@
 #### CMAKE CONFIGURATION ####
 
-platform=`"${R_HOME}/bin/Rscript" -e 'cat(R.Version()[["platform"]])'`
-if [[ $platform == *"mingw"* ]]; then
-    pacman -Syu mingw-w64-cmake --noconfirm
-fi
-
 if test -z "$CMAKE_BIN"; then
   # Look for a cmake binary in the current path
   CMAKE_BIN=`which cmake 2>/dev/null`
