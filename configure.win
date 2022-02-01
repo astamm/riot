@@ -10,8 +10,9 @@ cd src
 
 # Compile NLOpt from source
 sh ./scripts/vtk_download.sh ${RSCRIPT_BIN}
+dot() { file=$1; shift; . "$file"; }
 for ARCH in "/x64" "/i386"; do
-    . ./scripts/r_config.sh ${ARCH}
+    dot ./scripts/r_config.sh ${ARCH}
     "${CMAKE_BIN}" \
       -G "MSYS Makefiles" \
       -D BUILD_SHARED_LIBS=OFF \
@@ -19,9 +20,6 @@ for ARCH in "/x64" "/i386"; do
       -D CMAKE_AR=${AR} \
       -D CMAKE_RANLIB=${RANLIB} \
       -D VTK_BUILD_TESTING=OFF \
-      -D VTK_INSTALL_SDK=NO \
-      -D VTK_ENABLE_LOGGING=OFF \
-      -D VTK_ENABLE_REMOTE_MODULES=OFF \
       -D VTK_ENABLE_WRAPPING=OFF \
       -D VTK_GROUP_ENABLE_Imaging=DONT_WANT \
       -D VTK_GROUP_ENABLE_MPI=DONT_WANT \
@@ -30,7 +28,6 @@ for ARCH in "/x64" "/i386"; do
       -D VTK_GROUP_ENABLE_StandAlone=DONT_WANT \
       -D VTK_GROUP_ENABLE_Views=DONT_WANT \
       -D VTK_GROUP_ENABLE_Web=DONT_WANT \
-      -D VTK_LEGACY_SILENT=ON \
       -D VTK_MODULE_ENABLE_VTK_CommonCore=YES \
       -D VTK_MODULE_ENABLE_VTK_CommonDataModel=YES \
       -D VTK_MODULE_ENABLE_VTK_CommonExecutionModel=YES \

@@ -69,7 +69,7 @@ if test x"${need_to_build}" != x"no"; then
     AC_MSG_RESULT([using VTK via local cmake build on ${machine} ])
     tools/cmake_call.sh
     vtk_include="-Ivtk/include/vtk"
-    vtk_libs="-Lvtk/lib -lvtkCommonCore -lvtkCommonDataModel -lvtkCommonExecutionModel -lvtkCommonMath -lvtkCommonMisc -lvtkCommonSystem -lvtkCommonTransforms -lvtkdoubleconversion -lvtkexpat -lvtkIOCore -lvtkIOLegacy -lvtkIOXML -lvtkIOXMLParser -lvtkkissfft -lvtklz4 -lvtklzma -lvtkpugixml -lvtksys -lvtkzlib"
+    vtk_libs="-Lvtk/lib -lvtkCommonCore -lvtkCommonDataModel -lvtkCommonExecutionModel -lvtkCommonMath -lvtkCommonMisc -lvtkCommonSystem -lvtkCommonTransforms -lvtkIOCore -lvtkIOLegacy -lvtkIOXML -lvtkIOXMLParser -lvtkdoubleconversion -lvtkexpat -lvtkkissfft -lvtkloguru -lvtklz4 -lvtklzma -lvtkpugixml -lvtksys -lvtkzlib"
 fi
 
 ## Now use all the values
