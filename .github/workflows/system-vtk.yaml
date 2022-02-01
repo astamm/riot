@@ -31,7 +31,7 @@ jobs:
 
       - name: Dependencies
         run: |
-          ./run.sh install_aptget libvtk-dev
+          ./run.sh install_aptget libvtk9-dev
           ./run.sh install_deps
 
       - name: Test
