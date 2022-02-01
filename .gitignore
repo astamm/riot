@@ -3,3 +3,7 @@
 .RData
 .DS_Store
 inst/include
+autom4te.cache/
+config.log
+config.status
+src/vtk-src*
