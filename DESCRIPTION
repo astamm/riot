@@ -37,6 +37,7 @@ Imports:
 URL: https://github.com/astamm/fiberIO
 BugReports: https://github.com/astamm/fiberIO/issues
 Suggests: 
-    testthat
+    testthat (>= 3.0.0)
 SystemRequirements: cmake
 Biarch: true
+Config/testthat/edition: 3
