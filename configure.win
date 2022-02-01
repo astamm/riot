@@ -42,7 +42,7 @@ for ARCH in "/x64" "/i386"; do
       -D VTK_VERSIONED_INSTALL=OFF \
       -S vtk-src \
       -B vtk${ARCH}-build
-    sh ./scripts/vtk_install.sh "${CMAKE_BIN}" ${NCORES} ${ARCH} ${AR}
+    sh ./scripts/vtk_install.sh "${CMAKE_BIN}" ${NCORES} ${ARCH}
 done
 
 # Cleanup
