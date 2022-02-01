@@ -1,0 +1,38 @@
+# Run CI for R using https://eddelbuettel.github.io/r-ci/
+
+name: with-system-vtk
+
+on:
+  push:
+  pull_request:
+
+env:
+  USE_BSPM: "true"
+  _R_CHECK_FORCE_SUGGESTS_: "false"
+  ADDED_PPAS: "ppa:edd/misc"
+
+jobs:
+  check:
+    strategy:
+      matrix:
+        include:
+          - {os: ubuntu-latest}
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Bootstrap
+        run: |
+          curl -OLs https://eddelbuettel.github.io/r-ci/run.sh
+          chmod 0755 run.sh
+          ./run.sh bootstrap
+
+      - name: Dependencies
+        run: |
+          ./run.sh install_aptget libvtk-dev
+          ./run.sh install_deps
+
+      - name: Test
+        run: ./run.sh run_tests
