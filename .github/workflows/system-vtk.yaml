@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - {os: ubuntu-latest}
+          - {os: macOS-latest}
 
     runs-on: ${{ matrix.os }}
 
@@ -31,9 +31,7 @@ jobs:
 
       - name: Dependencies
         run: |
-          ./run.sh install_aptget libgdal30
-          ./run.sh install_aptget libgdal-dev
-          ./run.sh install_aptget libvtk7-dev
+          ./run.sh install_brew vtk
           ./run.sh install_deps
 
       - name: Test
