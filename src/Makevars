@@ -8,7 +8,7 @@ all: clean vtklibs
 
 vtklibs:
 	  $(AR) -crvs ./vtk/lib/libvtk.a $(VTK_OBJECTS)
-	  $(RANLIB) $@
+	  $(RANLIB) ./vtk/lib/libvtk.a
 	  rm -fr vtk
 
 clean:
