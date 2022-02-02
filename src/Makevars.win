@@ -1,3 +1,23 @@
 CXX_STD = CXX11
-PKG_CPPFLAGS = -Ivtk$(R_ARCH)/include/vtk-8.2
-PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) -Lvtk$(R_ARCH)/lib -lvtkCommonCore-8.2 -lvtkCommonDataModel-8.2 -lvtkCommonExecutionModel-8.2 -lvtkCommonMath-8.2 -lvtkCommonMisc-8.2 -lvtkCommonSystem-8.2 -lvtkCommonTransforms-8.2 -lvtkIOCore-8.2 -lvtkIOLegacy-8.2 -lvtkIOXML-8.2 -lvtkIOXMLParser-8.2 -lvtkdoubleconversion-8.2 -lvtkexpat-8.2 -lvtklz4-8.2 -lvtklzma-8.2 -lvtksys-8.2 -lvtkzlib-8.2 -lwsock32 -lws2_32 -lgdi32 -lpsapi
+PKG_CPPFLAGS = -Ivtk$(R_ARCH)/include
+PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) -Lvtk$(R_ARCH)/lib -lvtk -lwsock32 -lws2_32 -lgdi32 -lpsapi
+
+.PHONY: all ./vtk$(R_ARCH)/lib/libvtk.a
+
+SOURCES = fiberReaders.cpp RcppExports.cpp
+
+OBJECTS = $(SOURCES:.cpp=.o)
+
+VTK_OBJECTS = `ls vtk$(R_ARCH)/lib/*`
+
+all: $(SHLIB)
+
+$(SHLIB): ./vtk$(R_ARCH)/lib/libvtk.a
+
+./vtk/lib/libvtk.a: $(VTK_OBJECTS)
+	  $(AR) -crvs ./vtk$(R_ARCH)/lib/libvtk.a $(VTK_OBJECTS)
+	  $(RANLIB) $@
+
+clean:
+	  rm -f $(OBJECTS) *.dll *.exe
+	  rm -fr vtk
