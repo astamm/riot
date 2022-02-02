@@ -2,9 +2,7 @@ CXX_STD = CXX11
 PKG_CPPFLAGS = -Ivtk/include
 PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) -Lvtk/lib -lvtk
 
-SOURCES = fiberReaders.cpp RcppExports.cpp
 VTK_OBJECTS = `ls vtk/lib/*`
-OBJECTS = $(SOURCES:.cpp=.o)
 
 all: clean vtklibs
 
