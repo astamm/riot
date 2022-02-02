@@ -2,22 +2,13 @@ CXX_STD = CXX11
 PKG_CPPFLAGS = -Ivtk$(R_ARCH)/include
 PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) -Lvtk$(R_ARCH)/lib -lvtk -lwsock32 -lws2_32 -lgdi32 -lpsapi
 
-.PHONY: all ./vtk$(R_ARCH)/lib/libvtk.a
+VTK_OBJECTS = `ls vtk/lib/*`
 
-SOURCES = fiberReaders.cpp RcppExports.cpp
+all: clean vtklibs
 
-OBJECTS = $(SOURCES:.cpp=.o)
-
-VTK_OBJECTS = `ls vtk$(R_ARCH)/lib/*`
-
-all: $(SHLIB)
-
-$(SHLIB): ./vtk$(R_ARCH)/lib/libvtk.a
-
-./vtk/lib/libvtk.a: $(VTK_OBJECTS)
-	  $(AR) -crvs ./vtk$(R_ARCH)/lib/libvtk.a $(VTK_OBJECTS)
-	  $(RANLIB) $@
+vtklibs:
+	  $(AR) -crvs ./vtk/lib/libvtk.a $(VTK_OBJECTS)
+	  $(RANLIB) ./vtk/lib/libvtk.a
 
 clean:
-	  rm -f $(OBJECTS) *.dll *.exe
-	  rm -fr vtk
+	  rm -f $(SHLIB) $(OBJECTS) *.dll *.exe
