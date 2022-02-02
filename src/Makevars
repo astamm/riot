@@ -9,7 +9,7 @@ all: clean vtklibs
 vtklibs:
 	  $(AR) -crvs ./vtk/lib/libvtk.a $(VTK_OBJECTS)
 	  $(RANLIB) $@
+	  rm -fr vtk
 
 clean:
-	  rm -f $(SHLIB) $(OBJECTS) $(VTK_OBJECTS) *.dll *.exe
-	  rm -fr vtk
+	  rm -f $(SHLIB) $(OBJECTS) *.dll *.exe
