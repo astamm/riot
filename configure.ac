@@ -68,8 +68,8 @@ if test x"${need_to_build}" != x"no"; then
     machine=`"${R_HOME}/bin/Rscript" -e 'cat(Sys.info()[["machine"]])'`
     AC_MSG_RESULT([using VTK via local cmake build on ${machine} ])
     tools/cmake_call.sh
-    vtk_include="-Ivtk/include/vtk"
-    vtk_libs="-Lvtk/lib -lvtkCommonCore -lvtkCommonDataModel -lvtkCommonExecutionModel -lvtkCommonMath -lvtkCommonMisc -lvtkCommonSystem -lvtkCommonTransforms -lvtkIOCore -lvtkIOLegacy -lvtkIOXML -lvtkIOXMLParser -lvtkdoubleconversion -lvtkexpat -lvtkkissfft -lvtkloguru -lvtklz4 -lvtklzma -lvtkpugixml -lvtksys -lvtkzlib"
+    vtk_include="-Ivtk/include/vtk-8.2"
+    vtk_libs="-Lvtk/lib -lvtkCommonCore-8.2 -lvtkCommonDataModel-8.2 -lvtkCommonExecutionModel-8.2 -lvtkCommonMath-8.2 -lvtkCommonMisc-8.2 -lvtkCommonSystem-8.2 -lvtkCommonTransforms-8.2 -lvtkIOCore-8.2 -lvtkIOLegacy-8.2 -lvtkIOXML-8.2 -lvtkIOXMLParser-8.2 -lvtkdoubleconversion-8.2 -lvtkexpat-8.2 -lvtklz4-8.2 -lvtklzma-8.2 -lvtksys-8.2 -lvtkzlib-8.2"
 fi
 
 ## Now use all the values
