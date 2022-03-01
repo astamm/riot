@@ -11,5 +11,7 @@ ${RSCRIPT_BIN} -e "utils::download.file(
 ${RSCRIPT_BIN} -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
 mv VTK-9.0.1 vtk-src
 rm -f vtk-src.tar.gz
-rm vtk-src/ThirdParty/expat/vtkexpat/lib/xmltok_impl.c
-rm vtk-src/ThirdParty/expat/vtkexpat/lib/xmltok_ns.c
+
+# Make ISO compilers happy
+echo 'typedef int make_iso_compilers_happy;' | cat - vtk-src/ThirdParty/expat/vtkexpat/lib/xmltok_impl.c > temp && mv temp vtk-src/ThirdParty/expat/vtkexpat/lib/xmltok_impl.c
+echo 'typedef int make_iso_compilers_happy;' | cat - vtk-src/ThirdParty/expat/vtkexpat/lib/xmltok_ns.c > temp && mv temp vtk-src/ThirdParty/expat/vtkexpat/lib/xmltok_ns.c
