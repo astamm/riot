@@ -40,5 +40,4 @@ Suggests:
     covr,
     testthat (>= 3.0.0)
 SystemRequirements: cmake (>= 3.15.0)
-Biarch: true
 Config/testthat/edition: 3
