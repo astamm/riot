@@ -2,20 +2,20 @@
 
 CMAKE_BIN=$1
 NCORES=$2
-ARCH=$3
 
-"${CMAKE_BIN}" --build vtk-build${ARCH} -j ${NCORES} --config Release
-"${CMAKE_BIN}" --install vtk-build${ARCH} --prefix vtk${ARCH}
+"${CMAKE_BIN}" --build vtk-build -j ${NCORES} --config Release
+"${CMAKE_BIN}" --install vtk-build --prefix vtk
 
 echo "Clean install folder"
-LIB_FOLDER=`ls -d vtk${ARCH}/lib*`
-if [ $LIB_FOLDER != "vtk${ARCH}/lib" ]; then
-    mv $LIB_FOLDER vtk${ARCH}/lib
+LIB_FOLDER=`ls -d vtk/lib*`
+if [ $LIB_FOLDER != "vtk/lib" ]; then
+    mv $LIB_FOLDER vtk/lib
 fi
-rm -fr vtk${ARCH}/lib/*
-cp -r vtk${ARCH}/include/vtk/* vtk${ARCH}/include
-rm -fr vtk${ARCH}/include/vtk
+#rm -fr vtk/lib/*
+#cp -r vtk/include/vtk/* vtk/include
+#rm -fr vtk/include/vtk
 
-echo "Move object files in vtk/lib folder"
-cp -r `find vtk-build${ARCH} -name "*.o" -o -name "*.obj" | xargs` vtk${ARCH}/lib
-rm -fr vtk-build${ARCH}
+#echo "Move object files in vtk/lib folder"
+#cp -r `find vtk-build -name "*.o" -o -name "*.obj" | xargs` vtk/lib
+
+rm -fr vtk-build

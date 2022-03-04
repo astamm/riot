@@ -6,8 +6,8 @@ PKG_LIBS= \
 	-L$(RWINLIB)/lib${subst gcc,,${COMPILED_BY}}${R_ARCH} \
 	-L$(RWINLIB)/lib${R_ARCH} \
 	-lvtkIOXML -lvtkIOXMLParser -lvtkIOCore -lvtkIOLegacy \
-	-lvtkCommonExecutionModel -lvtkCommonDataModel -lvtkCommonTransforms   \
-	-lvtkCommonMath -lvtkCommonMisc -lvtkCommonSystem -lvtkCommonCore  \
+	-lvtkCommonExecutionModel -lvtkCommonDataModel -lvtkCommonTransforms \
+	-lvtkCommonMath -lvtkCommonMisc -lvtkCommonSystem -lvtkCommonCore \
 	-lvtkdoubleconversion -lvtkexpat -lvtklz4 -lvtklzma -lvtksys -lvtkzlib \
 	-lgdi32
 

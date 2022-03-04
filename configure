@@ -9,8 +9,7 @@ cd src
 . ./scripts/cmake_config.sh
 
 sh ./scripts/vtk_download.sh ${RSCRIPT_BIN}
-dot() { file=$1; shift; . "$file"; }
-dot ./scripts/r_config.sh ""
+. ./scripts/r_config.sh
 ${CMAKE_BIN} \
   -D BUILD_SHARED_LIBS=OFF \
   -D CMAKE_BUILD_TYPE=Release \
@@ -41,5 +40,5 @@ ${CMAKE_BIN} \
   -D VTK_VERSIONED_INSTALL=OFF \
   -S vtk-src \
   -B vtk-build
-sh ./scripts/vtk_install.sh "${CMAKE_BIN}" ${NCORES} ""
+sh ./scripts/vtk_install.sh "${CMAKE_BIN}" ${NCORES}
 sh ./scripts/vtk_cleanup.sh
