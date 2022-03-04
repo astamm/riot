@@ -12,7 +12,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 // ReadVTK
 void ReadVTK(const std::string& inputTracts, std::string& outputFile);
-RcppExport SEXP _fiberIO_ReadVTK(SEXP inputTractsSEXP, SEXP outputFileSEXP) {
+RcppExport SEXP _riot_ReadVTK(SEXP inputTractsSEXP, SEXP outputFileSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type inputTracts(inputTractsSEXP);
@@ -23,7 +23,7 @@ END_RCPP
 }
 // ReadVTP
 void ReadVTP(const std::string& inputTracts, std::string& outputFile);
-RcppExport SEXP _fiberIO_ReadVTP(SEXP inputTractsSEXP, SEXP outputFileSEXP) {
+RcppExport SEXP _riot_ReadVTP(SEXP inputTractsSEXP, SEXP outputFileSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type inputTracts(inputTractsSEXP);
@@ -34,12 +34,12 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_fiberIO_ReadVTK", (DL_FUNC) &_fiberIO_ReadVTK, 2},
-    {"_fiberIO_ReadVTP", (DL_FUNC) &_fiberIO_ReadVTP, 2},
+    {"_riot_ReadVTK", (DL_FUNC) &_riot_ReadVTK, 2},
+    {"_riot_ReadVTP", (DL_FUNC) &_riot_ReadVTP, 2},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_fiberIO(DllInfo *dll) {
+RcppExport void R_init_riot(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

@@ -1,4 +1,4 @@
 library(testthat)
-library(fiberIO)
+library(riot)
 
-test_check("fiberIO")
+test_check("riot")

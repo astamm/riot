@@ -17,6 +17,6 @@ A \code{\link[tibble]{tibble}} storing the set of tracts.
 Import fibers into R
 }
 \examples{
-uf_left  <- fiberIO::read_fibers(system.file("extdata", "UF_left.vtp", package = "fiberIO"))
-uf_right <- fiberIO::read_fibers(system.file("extdata", "UF_right.vtp", package = "fiberIO"))
+uf_left  <- read_fibers(system.file("extdata", "UF_left.vtp", package = "riot"))
+uf_right <- read_fibers(system.file("extdata", "UF_right.vtp", package = "riot"))
 }

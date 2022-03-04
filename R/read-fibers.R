@@ -7,8 +7,8 @@
 #' @export
 #'
 #' @examples
-#' uf_left  <- fiberIO::read_fibers(system.file("extdata", "UF_left.vtp", package = "fiberIO"))
-#' uf_right <- fiberIO::read_fibers(system.file("extdata", "UF_right.vtp", package = "fiberIO"))
+#' uf_left  <- read_fibers(system.file("extdata", "UF_left.vtp", package = "riot"))
+#' uf_right <- read_fibers(system.file("extdata", "UF_right.vtp", package = "riot"))
 read_fibers <- function(file) {
   input_file <- normalizePath(file)
   output_file <- tempfile(fileext = ".csv")

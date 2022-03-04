@@ -1,3 +1,3 @@
 .onUnload <- function (libpath) {
-  library.dynam.unload("fiberIO", libpath)
+  library.dynam.unload("riot", libpath)
 }
