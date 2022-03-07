@@ -23,11 +23,14 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/riot)](https://CRAN.R-project.org/package=riot)
 <!-- badges: end -->
 
-The goal of riot is to provide readers and writers from and to standard file formats (`.vtk`, `.vtp` and `.fds`) that store diffusion MRI tractography data.
+The goal of `riot` is to provide readers and writers from and to standard file
+formats (`.vtk`, `.vtp` and `.fds`) that store diffusion MRI tractography data.
 
 ## Installation
 
-You can install the development version of [`riot`](https://astamm.github.io/riot/) from [GitHub](https://github.com/) with:
+You can install the development version of
+[`riot`](https://astamm.github.io/riot/) from [GitHub](https://github.com/)
+with:
 
 ``` r
 # install.packages("devtools")
@@ -40,5 +43,6 @@ This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
 library(riot)
-## basic example code
+uf_left  <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = "riot"))
+uf_left
 ```

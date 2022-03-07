@@ -29,7 +29,10 @@ LinkingTo:
 Imports: 
     Rcpp,
     tibble,
-    readr
+    readr,
+    fs,
+    cli,
+    rlang
 URL: https://github.com/astamm/riot
 BugReports: https://github.com/astamm/riot/issues
 Suggests: 

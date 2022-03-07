@@ -1,9 +1,9 @@
-#include "fiberReaders.h"
+#include "fascicleReaders.h"
 #include <vtkPointData.h>
 #include <vtkPolyDataReader.h>
 #include <vtkXMLPolyDataReader.h>
 
-void ProcessPolyData(const vtkSmartPointer <vtkPolyData> &inputData, std::string &outputFile)
+void WriteCSV(const vtkSmartPointer <vtkPolyData> &inputData, std::string &outputFile)
 {
   vtkSmartPointer<vtkPointData> pointData = inputData->GetPointData();
 
@@ -102,7 +102,7 @@ void ReadVTK(const std::string &inputTracts, std::string &outputFile)
   vtkSmartPointer <vtkPolyDataReader> vtkReader = vtkPolyDataReader::New();
   vtkReader->SetFileName(inputTracts.c_str());
   vtkReader->Update();
-  ProcessPolyData(vtkReader->GetOutput(), outputFile);
+  WriteCSV(vtkReader->GetOutput(), outputFile);
 }
 
 void ReadVTP(const std::string &inputTracts, std::string &outputFile)
@@ -110,5 +110,5 @@ void ReadVTP(const std::string &inputTracts, std::string &outputFile)
   vtkSmartPointer <vtkXMLPolyDataReader> vtpReader = vtkXMLPolyDataReader::New();
   vtpReader->SetFileName(inputTracts.c_str());
   vtpReader->Update();
-  ProcessPolyData(vtpReader->GetOutput(), outputFile);
+  WriteCSV(vtpReader->GetOutput(), outputFile);
 }
