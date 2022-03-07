@@ -71,7 +71,7 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of riot is to provide readers and writers from and to standard file formats (<code>.vtk</code>, <code>.vtp</code> and <code>.fds</code>) that store diffusion MRI tractography data.</p>
+<p>The goal of <code>riot</code> is to provide readers and writers from and to standard file formats (<code>.vtk</code>, <code>.vtp</code> and <code>.fds</code>) that store diffusion MRI tractography data.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -86,7 +86,31 @@
 <p>This is a basic example which shows you how to solve a common problem:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/astamm/riot" class="external-link">riot</a></span><span class="op">)</span>
-<span class="co">## basic example code</span></code></pre></div>
+<span class="va">uf_left</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_left.vtp"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; Number of data points: 38697</span>
+<span class="co">#&gt; Number of streamlines: 2042</span>
+<span class="co">#&gt; Rows: 38697 Columns: 5</span>
+<span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; Delimiter: ","</span>
+<span class="co">#&gt; dbl (5): X, Y, Z, PointId, StreamlineId</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span>
+<span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
+<span class="va">uf_left</span>
+<span class="co">#&gt; # A tibble: 38,697 × 5</span>
+<span class="co">#&gt;        X     Y      Z PointId StreamlineId</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt;</span>
+<span class="co">#&gt;  1  13.7 -41.8 -13.1        1            1</span>
+<span class="co">#&gt;  2  13.0 -40.4 -13.9        2            1</span>
+<span class="co">#&gt;  3  13.9 -37.5 -13.8        3            1</span>
+<span class="co">#&gt;  4  14.3 -34.7 -12.8        4            1</span>
+<span class="co">#&gt;  5  15.2 -32.7 -11.8        5            1</span>
+<span class="co">#&gt;  6  14.3 -29.2 -11.3        6            1</span>
+<span class="co">#&gt;  7  12.8 -25.5  -9.73       7            1</span>
+<span class="co">#&gt;  8  12.4 -22.6  -9.89       8            1</span>
+<span class="co">#&gt;  9  11.1 -20.0 -10.7        9            1</span>
+<span class="co">#&gt; 10  12.8 -16.6 -12.8       10            1</span>
+<span class="co">#&gt; # … with 38,687 more rows</span></code></pre></div>
 </div>
 </div>
   </div>

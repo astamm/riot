@@ -19,6 +19,9 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/read_fibers.html</loc>
+    <loc>/reference/read_fascicles.html</loc>
+  </url>
+  <url>
+    <loc>/reference/write_fascicles.html</loc>
   </url>
 </urlset>
