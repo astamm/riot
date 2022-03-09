@@ -57,7 +57,8 @@
     <h2>Arguments</h2>
     <dl><dt>file</dt>
 <dd><p>Path to the file containing the tractography data. Currently
-supported files are <code>.vtk</code> and <code>.vtp</code> files.</p></dd>
+supported files are <code>.vtk</code>, <code>.vtp</code> and <a href="https://med.inria.fr" class="external-link">medInria</a>
+<code>.fds</code> file formats.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -66,12 +67,10 @@ supported files are <code>.vtk</code> and <code>.vtp</code> files.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">uf_left</span>  <span class="op">&lt;-</span> <span class="fu">read_fascicles</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_left.vtp"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">uf_left</span> <span class="op">&lt;-</span> <span class="fu">read_fascicles</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_left.vtp"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of data points: 38697</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of streamlines: 2042</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The fascicles stored in <span style="color: #0000BB;">/home/runner/work/_temp/Library/riot/extdata/UF_left.vtp</span> have been successfully imported.</span>
-<span class="r-in"><span class="va">uf_right</span> <span class="op">&lt;-</span> <span class="fu">read_fascicles</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_right.vtp"</span>, package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> The extension  is not yet supported. Currently supported formats are <span style="color: #0000BB;">vtk</span>, <span style="color: #0000BB;">vtp</span>, and <span style="color: #0000BB;">fds</span>.</span>
 </code></pre></div>
     </div>
   </div>
