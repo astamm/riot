@@ -38,13 +38,7 @@ library(riot)
 uf_left  <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = "riot"))
 #> Number of data points: 38697
 #> Number of streamlines: 2042
-#> Rows: 38697 Columns: 5
-#> ── Column specification ────────────────────────────────────────────────────────
-#> Delimiter: ","
-#> dbl (5): X, Y, Z, PointId, StreamlineId
-#> 
-#> ℹ Use `spec()` to retrieve the full column specification for this data.
-#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+#> ✓ The fascicles stored in '/Users/stamm-a/Library/R/x86_64/4.1/library/riot/extdata/UF_left.vtp' have been successfully imported.
 uf_left
 #> # A tibble: 38,697 × 5
 #>        X     Y      Z PointId StreamlineId
