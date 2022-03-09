@@ -8,7 +8,8 @@ read_fascicles(file)
 }
 \arguments{
 \item{file}{Path to the file containing the tractography data. Currently
-supported files are \code{.vtk} and \code{.vtp} files.}
+supported files are \code{.vtk}, \code{.vtp} and \href{https://med.inria.fr}{medInria}
+\code{.fds} file formats.}
 }
 \value{
 A \code{\link[tibble]{tibble}} storing the set of fascicles.
@@ -17,6 +18,5 @@ A \code{\link[tibble]{tibble}} storing the set of fascicles.
 Import fascicles into R
 }
 \examples{
-uf_left  <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = "riot"))
-uf_right <- read_fascicles(system.file("extdata", "UF_right.vtp", package = "riot"))
+uf_left <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = "riot"))
 }

@@ -10,7 +10,8 @@ write_fascicles(x, file)
 \item{x}{An object of class \code{maf_df} storing tractography data.}
 
 \item{file}{Path to a file into which the tractography data should be saved.
-Currently supported files are \code{.vtk} and \code{.vtp} files.}
+Currently supported files are \code{.vtk}, \code{.vtp} and
+\href{https://med.inria.fr}{medInria} \code{.fds} file formats.}
 }
 \value{
 The input tractography data (invisibly) so that the function can be

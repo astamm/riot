@@ -1,6 +1,6 @@
 #' Import fascicles into R
 #'
-#' @param file Path to the file containing the tractography data. CCurrently
+#' @param file Path to the file containing the tractography data. Currently
 #'   supported files are `.vtk`, `.vtp` and [medInria](https://med.inria.fr)
 #'   `.fds` file formats.
 #'
