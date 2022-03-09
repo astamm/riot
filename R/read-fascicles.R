@@ -1,7 +1,8 @@
 #' Import fascicles into R
 #'
-#' @param file Path to the file containing the tractography data. Currently
-#'   supported files are `.vtk` and `.vtp` files.
+#' @param file Path to the file containing the tractography data. CCurrently
+#'   supported files are `.vtk`, `.vtp` and [medInria](https://med.inria.fr)
+#'   `.fds` file formats.
 #'
 #' @return A \code{\link[tibble]{tibble}} storing the set of fascicles.
 #' @export
@@ -22,8 +23,10 @@ read_fascicles <- function(file) {
     ReadVTK(input_file, output_file)
   else if (ext == "vtp")
     ReadVTP(input_file, output_file)
+  else if (ext == "fds")
+    ReadFDS(input_file, output_file)
 
-  df <- readr::read_csv(output_file)
+  df <- readr::read_csv(output_file, show_col_types = FALSE)
   fs::file_delete(output_file)
   cli::cli_alert_success("The fascicles stored in {.file {input_file}} have been successfully imported.")
   class(df) <- c("maf_df", class(df))

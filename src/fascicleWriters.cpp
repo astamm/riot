@@ -3,6 +3,7 @@
 #include <vtkDoubleArray.h>
 #include <vtkPolyDataWriter.h>
 #include <vtkXMLPolyDataWriter.h>
+#include <vtksys/SystemTools.hxx>
 
 void ReadCSV(const std::string &inputFile, vtkSmartPointer <vtkPolyData> &inputData)
 {
@@ -192,4 +193,53 @@ void WriteVTP(const std::string &inputTracts, std::string &outputFile)
   vtkWriter->EncodeAppendedDataOff();
   vtkWriter->SetCompressorTypeToZLib();
   vtkWriter->Update();
+}
+
+void WriteFDS(const std::string &inputTracts, std::string &outputFile)
+{
+  vtkSmartPointer<vtkPolyData> inputData = vtkSmartPointer<vtkPolyData>::New();
+  ReadCSV(inputTracts, inputData);
+
+  std::replace(outputFile.begin(), outputFile.end(), '\\', '/');
+
+  std::string baseName;
+  std::size_t lastDotPos = outputFile.find_last_of('.');
+  baseName.append(outputFile.begin(), outputFile.begin() + lastDotPos);
+
+  std::string noPathName = baseName;
+  std::size_t lastSlashPos = baseName.find_last_of("/");
+
+  if (lastSlashPos != std::string::npos)
+  {
+    noPathName.clear();
+    noPathName.append(baseName.begin() + lastSlashPos + 1,baseName.end());
+  }
+
+  vtksys::SystemTools::MakeDirectory(baseName.c_str());
+
+  std::string vtkFileName = noPathName + "/";
+  vtkFileName += noPathName;
+  vtkFileName += "_0.vtp";
+
+  std::string vtkWriteFileName = baseName + "/";
+  vtkWriteFileName += noPathName + "_0.vtp";
+
+  vtkSmartPointer <vtkXMLPolyDataWriter> vtkWriter = vtkXMLPolyDataWriter::New();
+  vtkWriter->SetInputData(inputData);
+  vtkWriter->SetFileName(vtkWriteFileName.c_str());
+  vtkWriter->SetDataModeToBinary();
+  vtkWriter->EncodeAppendedDataOff();
+  vtkWriter->SetCompressorTypeToZLib();
+  vtkWriter->Update();
+
+  std::ofstream outputHeaderFile(outputFile.c_str());
+  outputHeaderFile << "<?xml version=\"1.0\"?>" << std::endl;
+  outputHeaderFile << "<VTKFile type=\"vtkFiberDataSet\" version=\"1.0\" byte_order=\"LittleEndian\" compressor=\"vtkZLibDataCompressor\">" << std::endl;
+  outputHeaderFile << "<vtkFiberDataSet>" << std::endl;
+  outputHeaderFile << "\t<Fibers index=\"0\" file=\"" << vtkFileName << "\">" << std::endl;
+  outputHeaderFile << "\t</Fibers>" << std::endl;
+  outputHeaderFile << "</vtkFiberDataSet>" << std::endl;
+  outputHeaderFile << "</VTKFile>" << std::endl;
+
+  outputHeaderFile.close();
 }

@@ -1,8 +1,9 @@
 #' Export fascicles from R
 #'
-#' @param x An object of class \code{maf_df} storing tractography data.
+#' @param x An object of class `maf_df` storing tractography data.
 #' @param file Path to a file into which the tractography data should be saved.
-#'   Currently supported files are `.vtk` and `.vtp` files.
+#'   Currently supported files are `.vtk`, `.vtp` and
+#'   [medInria](https://med.inria.fr) `.fds` file formats.
 #'
 #' @return The input tractography data (invisibly) so that the function can be
 #'   used in pipes.
@@ -34,6 +35,8 @@ write_fascicles <- function(x, file) {
     WriteVTK(input_file, output_file)
   else if (ext == "vtp")
     WriteVTP(input_file, output_file)
+  else if (ext == "fds")
+    WriteFDS(input_file, output_file)
   fs::file_delete(input_file)
   cli::cli_alert_success("The fascicles stored in {.code {rlang::as_name(xq)}} have been successfully exported to {.file {output_file}}.")
   invisible(x)

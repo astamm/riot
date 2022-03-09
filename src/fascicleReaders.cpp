@@ -1,4 +1,5 @@
 #include "fascicleReaders.h"
+#include "tinyxml2.h"
 #include <vtkPointData.h>
 #include <vtkPolyDataReader.h>
 #include <vtkXMLPolyDataReader.h>
@@ -111,4 +112,48 @@ void ReadVTP(const std::string &inputTracts, std::string &outputFile)
   vtpReader->SetFileName(inputTracts.c_str());
   vtpReader->Update();
   WriteCSV(vtpReader->GetOutput(), outputFile);
+}
+
+void ReadFDS(const std::string &inputTracts, std::string &outputFile)
+{
+  std::string baseName;
+  std::size_t lastSlashPos = inputTracts.find_last_of('/');
+  if (lastSlashPos != std::string::npos)
+    baseName.append(inputTracts.begin(), inputTracts.begin() + lastSlashPos + 1);
+
+  tinyxml2::XMLDocument doc;
+  tinyxml2::XMLError loadOk = doc.LoadFile(inputTracts.c_str());
+
+  if (loadOk != tinyxml2::XML_SUCCESS)
+    Rcpp::stop("Error reading XML FDS file header");
+
+  tinyxml2::XMLElement *vtkFileNode = doc.FirstChildElement("VTKFile");
+  if (!vtkFileNode)
+    Rcpp::stop("Malformed FDS file");
+
+  tinyxml2::XMLElement *datasetNode = vtkFileNode->FirstChildElement("vtkFiberDataSet");
+  if (!datasetNode)
+    Rcpp::stop("Malformed FDS file");
+
+  tinyxml2::XMLElement *fibersNode = datasetNode->FirstChildElement("Fibers");
+  std::string vtkFileName = baseName + fibersNode->Attribute("file");
+
+  std::string extensionName = vtkFileName.substr(vtkFileName.find_last_of('.') + 1);
+
+  if (extensionName == "vtk")
+  {
+    vtkSmartPointer <vtkPolyDataReader> vtkReader = vtkPolyDataReader::New();
+    vtkReader->SetFileName(vtkFileName.c_str());
+    vtkReader->Update();
+    WriteCSV(vtkReader->GetOutput(), outputFile);
+  }
+  else if (extensionName == "vtp")
+  {
+    vtkSmartPointer <vtkXMLPolyDataReader> vtpReader = vtkXMLPolyDataReader::New();
+    vtpReader->SetFileName(vtkFileName.c_str());
+    vtpReader->Update();
+    WriteCSV(vtpReader->GetOutput(), outputFile);
+  }
+  else
+    Rcpp::stop("Unsupported fibers extension inside FDS files.");
 }

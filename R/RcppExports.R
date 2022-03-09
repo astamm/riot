@@ -9,11 +9,19 @@ ReadVTP <- function(inputTracts, outputFile) {
     invisible(.Call(`_riot_ReadVTP`, inputTracts, outputFile))
 }
 
+ReadFDS <- function(inputTracts, outputFile) {
+    invisible(.Call(`_riot_ReadFDS`, inputTracts, outputFile))
+}
+
 WriteVTK <- function(inputTracts, outputFile) {
     invisible(.Call(`_riot_WriteVTK`, inputTracts, outputFile))
 }
 
 WriteVTP <- function(inputTracts, outputFile) {
     invisible(.Call(`_riot_WriteVTP`, inputTracts, outputFile))
+}
+
+WriteFDS <- function(inputTracts, outputFile) {
+    invisible(.Call(`_riot_WriteFDS`, inputTracts, outputFile))
 }
 

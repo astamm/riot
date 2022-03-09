@@ -32,6 +32,17 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// ReadFDS
+void ReadFDS(const std::string& inputTracts, std::string& outputFile);
+RcppExport SEXP _riot_ReadFDS(SEXP inputTractsSEXP, SEXP outputFileSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type inputTracts(inputTractsSEXP);
+    Rcpp::traits::input_parameter< std::string& >::type outputFile(outputFileSEXP);
+    ReadFDS(inputTracts, outputFile);
+    return R_NilValue;
+END_RCPP
+}
 // WriteVTK
 void WriteVTK(const std::string& inputTracts, std::string& outputFile);
 RcppExport SEXP _riot_WriteVTK(SEXP inputTractsSEXP, SEXP outputFileSEXP) {
@@ -54,12 +65,25 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// WriteFDS
+void WriteFDS(const std::string& inputTracts, std::string& outputFile);
+RcppExport SEXP _riot_WriteFDS(SEXP inputTractsSEXP, SEXP outputFileSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type inputTracts(inputTractsSEXP);
+    Rcpp::traits::input_parameter< std::string& >::type outputFile(outputFileSEXP);
+    WriteFDS(inputTracts, outputFile);
+    return R_NilValue;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_riot_ReadVTK", (DL_FUNC) &_riot_ReadVTK, 2},
     {"_riot_ReadVTP", (DL_FUNC) &_riot_ReadVTP, 2},
+    {"_riot_ReadFDS", (DL_FUNC) &_riot_ReadFDS, 2},
     {"_riot_WriteVTK", (DL_FUNC) &_riot_WriteVTK, 2},
     {"_riot_WriteVTP", (DL_FUNC) &_riot_WriteVTP, 2},
+    {"_riot_WriteFDS", (DL_FUNC) &_riot_WriteFDS, 2},
     {NULL, NULL, 0}
 };
 

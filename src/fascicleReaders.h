@@ -11,5 +11,7 @@ void WriteCSV(const vtkSmartPointer <vtkPolyData> &inputData, std::string &outpu
 void ReadVTK(const std::string &inputTracts, std::string &outputFile);
 // [[Rcpp::export]]
 void ReadVTP(const std::string &inputTracts, std::string &outputFile);
+// [[Rcpp::export]]
+void ReadFDS(const std::string &inputTracts, std::string &outputFile);
 
 #endif /* _FIBERREADERS_H */
