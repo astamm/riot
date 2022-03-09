@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<VTKFile type="vtkFiberDataSet" version="1.0" byte_order="LittleEndian" compressor="vtkZLibDataCompressor">
+<vtkFiberDataSet>
+	<Fibers index="0" file="UF_left/UF_left_0.vtp">
+	</Fibers>
+</vtkFiberDataSet>
+</VTKFile>

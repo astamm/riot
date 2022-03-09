@@ -8,8 +8,7 @@
 #' @export
 #'
 #' @examples
-#' uf_left  <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = "riot"))
-#' uf_right <- read_fascicles(system.file("extdata", "UF_right.vtp", package = "riot"))
+#' uf_left <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = "riot"))
 read_fascicles <- function(file) {
   input_file <- fs::path_norm(file)
   ext <- fs::path_ext(input_file)
