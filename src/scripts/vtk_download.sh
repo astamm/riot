@@ -19,3 +19,4 @@ echo 'typedef int make_iso_compilers_happy;' | cat - vtk-src/ThirdParty/expat/vt
 # Fix missing include <limits>
 echo '#include <limits>' | cat - vtk-src/Common/Core/vtkGenericDataArrayLookupHelper.h > temp && mv temp vtk-src/Common/Core/vtkGenericDataArrayLookupHelper.h
 echo '#include <limits>' | cat - vtk-src/Common/Core/vtkDataArrayPrivate.txx > temp && mv temp vtk-src/Common/Core/vtkDataArrayPrivate.txx
+echo '#include <limits>' | cat - vtk-src/Common/DataModel/vtkPiecewiseFunction.cxx > temp && mv temp vtk-src/Common/DataModel/vtkPiecewiseFunction.cxx

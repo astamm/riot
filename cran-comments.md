@@ -1,3 +1,8 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Tweaked some VTK source files in which `#include <limits>` was missing but required on some platforms.
+
 ## Test environments
 * local macOS R installation, R 4.1.2
 * continuous integration via GH actions:

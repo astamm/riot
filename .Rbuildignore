@@ -10,3 +10,4 @@
 ^codecov\.yml$
 ^windows$
 ^cran-comments\.md$
+^CRAN-SUBMISSION$
