@@ -55,3 +55,15 @@ uf_left
 #> 10  12.8 -16.6 -12.8       10            1
 #> # … with 38,687 more rows
 ```
+
+## Dependencies
+
+The [`riot`](https://astamm.github.io/riot/) package has two
+dependencies: [VTK](https://vtk.org/) and
+[TinyXML-2](https://github.com/leethomason/tinyxml2). They both have
+been slightly altered with respect to the original softwares.
+Specifically, `vtk/include/utf8.h` header file has been modified to
+ensure LF line endings. Also, `tinyxml2.cpp` has been modified to avoid
+the use of `stdout` and `printf` as per *Writing R Extensions* manual
+recommendations because `R` has its own input/output mechanism for
+writing to the console.
