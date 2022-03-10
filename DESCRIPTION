@@ -28,7 +28,6 @@ LinkingTo:
     Rcpp
 Imports: 
     Rcpp,
-    tibble,
     readr,
     fs,
     cli,
@@ -38,7 +37,8 @@ BugReports: https://github.com/astamm/riot/issues
 Suggests: 
     covr,
     testthat (>= 3.0.0),
-    withr
+    withr,
+    tibble
 SystemRequirements: cmake (>= 3.15.0) used only but systematically on macOS and 
     Linux platforms to build VTK from source.
 Config/testthat/edition: 3
