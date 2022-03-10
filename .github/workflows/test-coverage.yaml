@@ -31,5 +31,8 @@ jobs:
           needs: coverage
 
       - name: Test coverage
-        run: covr::codecov(c("src/tinyxml2.h", "src/tinyxml2.cpp", list.files("src/vtk/include/vtk", full.names = TRUE)))
+        run: covr::codecov(line_exclusions = c(
+          "src/tinyxml2.h", "src/tinyxml2.cpp",
+          list.files("src/vtk/include/vtk", full.names = TRUE))
+        )
         shell: Rscript {0}
