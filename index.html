@@ -46,6 +46,9 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -105,6 +108,11 @@
 <span class="co">#&gt;  9  11.1 -20.0 -10.7        9            1</span>
 <span class="co">#&gt; 10  12.8 -16.6 -12.8       10            1</span>
 <span class="co">#&gt; # … with 38,687 more rows</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>
+</h2>
+<p>The <a href="https://astamm.github.io/riot/" class="external-link"><code>riot</code></a> package has two dependencies: <a href="https://vtk.org/" class="external-link">VTK</a> and <a href="https://github.com/leethomason/tinyxml2" class="external-link">TinyXML-2</a>. They both have been slightly altered with respect to the original softwares. Specifically, <code>vtk/include/utf8.h</code> header file has been modified to ensure LF line endings. Also, <code>tinyxml2.cpp</code> has been modified to avoid the use of <code>stdout</code> and <code>printf</code> as per <em>Writing R Extensions</em> manual recommendations because <code>R</code> has its own input/output mechanism for writing to the console.</p>
 </div>
 </div>
   </div>
