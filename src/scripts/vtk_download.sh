@@ -15,3 +15,7 @@ rm -f vtk-src.tar.gz
 # Make ISO compilers happy
 echo 'typedef int make_iso_compilers_happy;' | cat - vtk-src/ThirdParty/expat/vtkexpat/lib/xmltok_impl.c > temp && mv temp vtk-src/ThirdParty/expat/vtkexpat/lib/xmltok_impl.c
 echo 'typedef int make_iso_compilers_happy;' | cat - vtk-src/ThirdParty/expat/vtkexpat/lib/xmltok_ns.c > temp && mv temp vtk-src/ThirdParty/expat/vtkexpat/lib/xmltok_ns.c
+
+# Fix missing include <limits>
+echo '#include <limits>' | cat - vtk-src/Common/Core/vtkGenericDataArrayLookupHelper.h > temp && mv temp vtk-src/Common/Core/vtkGenericDataArrayLookupHelper.h
+echo '#include <limits>' | cat - vtk-src/Common/Core/vtkDataArrayPrivate.txx > temp && mv temp vtk-src/Common/Core/vtkDataArrayPrivate.txx
