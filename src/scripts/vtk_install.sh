@@ -12,3 +12,6 @@ if [ $LIB_FOLDER != "vtk/lib" ]; then
 fi
 
 rm -fr vtk-build
+
+# Handle line endings
+"${R_HOME}/bin/Rscript" "../tools/lineendings.R" "vtk/include/vtk/vtkutf8/utf8.h"
