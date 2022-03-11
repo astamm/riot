@@ -21,5 +21,9 @@ echo '#include <limits>' | cat - vtk-src/Common/Core/vtkGenericDataArrayLookupHe
 echo '#include <limits>' | cat - vtk-src/Common/Core/vtkDataArrayPrivate.txx > temp && mv temp vtk-src/Common/Core/vtkDataArrayPrivate.txx
 echo '#include <limits>' | cat - vtk-src/Common/DataModel/vtkPiecewiseFunction.cxx > temp && mv temp vtk-src/Common/DataModel/vtkPiecewiseFunction.cxx
 
-# Do not check for array bounds for two files in DataModel module
-echo 'set_source_files_properties(vtkHyperTreeGrid.cxx vtkPolyhedron.cxx PROPERTIES COMPILE_FLAGS "-Wno-array-bounds -Wno-stringop-overread")' | cat - vtk-src/Common/DataModel/CMakeLists.txt > temp && mv temp vtk-src/Common/DataModel/CMakeLists.txt
+# Do not check for array bounds for two files in DataModel module if GNU gcc is used
+echo '
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  set_source_files_properties(vtkHyperTreeGrid.cxx vtkPolyhedron.cxx PROPERTIES COMPILE_FLAGS "-Wno-array-bounds -Wno-stringop-overread")
+endif()
+' | cat - vtk-src/Common/DataModel/CMakeLists.txt > temp && mv temp vtk-src/Common/DataModel/CMakeLists.txt
