@@ -22,4 +22,4 @@ echo '#include <limits>' | cat - vtk-src/Common/Core/vtkDataArrayPrivate.txx > t
 echo '#include <limits>' | cat - vtk-src/Common/DataModel/vtkPiecewiseFunction.cxx > temp && mv temp vtk-src/Common/DataModel/vtkPiecewiseFunction.cxx
 
 # Do not check for array bounds for two files in DataModel module
-echo 'set_source_files_properties(vtkHyperTreeGrid.cxx vtkPolyhedron.cxx PROPERTIES COMPILE_FLAGS -Wno-array-bounds)' | cat - vtk-src/Common/DataModel/CMakeLists.txt > temp && mv temp vtk-src/Common/DataModel/CMakeLists.txt
+echo 'set_source_files_properties(vtkHyperTreeGrid.cxx vtkPolyhedron.cxx PROPERTIES COMPILE_FLAGS "-Wno-array-bounds -Wno-stringop-overread")' | cat - vtk-src/Common/DataModel/CMakeLists.txt > temp && mv temp vtk-src/Common/DataModel/CMakeLists.txt
