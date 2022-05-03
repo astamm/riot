@@ -13,6 +13,12 @@ Authors@R: c(
         given = "Jeroen",
         family = "Ooms",
         role = "ctb"
+    ),
+    person(
+        given = "Lee", 
+        family = "Thomason", 
+        role = "ctb", 
+        comment = "Author of the TinyXML2 C++ XML parser"
     ))
 Description: An input-output interface for reading in and writing out common 
     VTK formats that store tractography data. This data comes in the form of 3D 
