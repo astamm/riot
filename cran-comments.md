@@ -1,4 +1,10 @@
-## Resubmission
+## Resubmission 2
+This is a resubmission. In this version I have:
+
+Tweaked some VTK source files in which #include <limits> was missing but required on some platforms.
+Tweaked some VTK source files to avoid array bounds checks.
+
+## Resubmission 1
 This is a resubmission. As per CRAN policies
 
 > [...] Where code is copied (or derived) from the work of others (including from R itself), care must be taken that any copyright/license statements are preserved and authorship is not misrepresented.
