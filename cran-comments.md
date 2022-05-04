@@ -12,7 +12,7 @@ Preferably, an ‘Authors@R’ would be used with ‘ctb’ roles for the author
 
 * I added Lee Thomason as a contributor as the author of the TinyXML2 C++ XML parser.
 * I checked that the file `LICENSE.md` properly preserve copyright/license statements from both VTK and TinyXML2 softwares, which was already the case in the original submission.
-* I did not add the three original authors of the VTK library Ken Martin, Will Schroeder, Bill Lorensen as per their recommandations in their license
+* I did not add the three original authors of the VTK library Ken Martin, Will Schroeder, Bill Lorensen as per their recommendations in their license
 
 > Neither name of Ken Martin, Will Schroeder, or Bill Lorensen nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
