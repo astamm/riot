@@ -2,7 +2,7 @@
 This is a resubmission. In this version I have:
 
 Tweaked some VTK source files in which #include <limits> was missing but required on some platforms.
-Tweaked some VTK source files to avoid array bounds checks.
+Tweaked some VTK source files to avoid array bounds checks in `CommonDataModel` and `CommonCore` modules.
 
 ## Resubmission 1
 This is a resubmission. As per CRAN policies
