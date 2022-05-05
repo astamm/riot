@@ -18,15 +18,13 @@
 write_fascicles <- function(x, file) {
   xq <- rlang::enquo(x)
   if (!("maf_df" %in% class(x))) {
-    cli::cli_alert_danger("The input object {.code {rlang::as_name(xq)}} is not of class {.cls maf_df} but has class {.cls {class(x)}}.")
-    return()
+    cli::cli_abort("The input object {.code {rlang::as_name(xq)}} is not of class {.cls maf_df} but has class {.cls {class(x)}}.")
   }
 
   output_file <- fs::path_norm(file)
   ext <- fs::path_ext(output_file)
-  if (!(ext %in% supported_formats())) {
-    cli::cli_alert_danger("The extension {.file {ext}} is not yet supported. Currently supported formats are {.file {supported_formats()}}.")
-    return(invisible(x))
+  if (!(ext %in% write_formats())) {
+    cli::cli_abort("The extension {.file {ext}} is not yet supported. Currently supported formats for exporting are {.file {write_formats()}}.")
   }
 
   input_file <- fs::file_temp(ext = ".csv")
