@@ -1,14 +1,21 @@
 #' Import fascicles into R
 #'
 #' @param file Path to the file containing the tractography data. Currently
-#'   supported files are `.vtk`, `.vtp` and [medInria](https://med.inria.fr)
-#'   `.fds` file formats.
+#'   supported files are `.vtk`, `.vtp`, [medInria](https://med.inria.fr)
+#'   `.fds`, `.tck/.tsf`
+#'   [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html),
+#'   `.trk` [TrackVis](http://trackvis.org/docs/?subsect=fileformat) file
+#'   formats.
 #'
 #' @return A \code{\link[tibble]{tibble}} storing the set of fascicles.
 #' @export
 #'
 #' @examples
-#' uf_left <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = "riot"))
+#' uf_left_vtk <- read_fascicles(system.file("extdata", "UF_left.vtk",  package = "riot"))
+#' uf_left_vtp <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = "riot"))
+#' uf_left_fds <- read_fascicles(system.file("extdata", "UF_left.fds",  package = "riot"))
+#' af_left_tck <- read_fascicles(system.file("extdata", "AF_left.tck",  package = "riot"))
+#' cc_mid_trk  <- read_fascicles(system.file("extdata", "CCMid.trk",    package = "riot"))
 read_fascicles <- function(file) {
   input_file <- fs::path_norm(file)
   ext <- fs::path_ext(input_file)
