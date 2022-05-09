@@ -19,6 +19,12 @@ Authors@R: c(
         family = "Thomason", 
         role = "ctb", 
         comment = "Author of the TinyXML2 C++ XML parser"
+    ),
+    person(
+        given = "Tim", 
+        family = "Schäfer", 
+        role = "ctb", 
+        comment = "Author of the freesurferformats R package"
     ))
 Description: An input-output interface for reading in and writing out common 
     VTK formats that store tractography data. This data comes in the form of 3D 
@@ -37,14 +43,14 @@ Imports:
     readr,
     fs,
     cli,
-    rlang
+    rlang,
+    tibble
 URL: https://github.com/astamm/riot
 BugReports: https://github.com/astamm/riot/issues
 Suggests: 
     covr,
     testthat (>= 3.0.0),
-    withr,
-    tibble
+    withr
 SystemRequirements: cmake (>= 3.15.0) used only but systematically on macOS and 
     Linux platforms to build VTK from source.
 Config/testthat/edition: 3
