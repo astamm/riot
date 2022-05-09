@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# riot
+# riot <img src="man/figures/logo.png" align="right" height="139" />
 
 <!-- badges: start -->
 
@@ -38,7 +38,7 @@ library(riot)
 uf_left  <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = "riot"))
 #> Number of data points: 38697
 #> Number of streamlines: 2042
-#> ✓ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/UF_left.vtp' have been successfully imported.
+#> ✔ The fascicles stored in '/Users/stamm-a/Library/R/x86_64/4.1/library/riot/extdata/UF_left.vtp' have been successfully imported.
 uf_left
 #> # A tibble: 38,697 × 5
 #>        X     Y      Z PointId StreamlineId
