@@ -22,6 +22,22 @@ test_that("riot correctly reads FDS format", {
   expect_false(anyNA(tr))
 })
 
+test_that("riot correctly reads MRtrix format", {
+  tr <- read_fascicles(system.file("extdata", "AF_left.tck", package = "riot"))
+  expect_true(tibble::is_tibble(tr))
+  expect_true(nrow(tr) == 140301)
+  expect_equal(ncol(tr), 5)
+  expect_false(anyNA(tr))
+})
+
+test_that("riot correctly reads TrackVis format", {
+  tr <- read_fascicles(system.file("extdata", "CCMid.trk", package = "riot"))
+  expect_true(tibble::is_tibble(tr))
+  expect_true(nrow(tr) == 112675)
+  expect_equal(ncol(tr), 5)
+  expect_false(anyNA(tr))
+})
+
 test_that("riot correctly writes VTK format", {
   tr1 <- read_fascicles(system.file("extdata", "UF_left.vtk", package = "riot"))
   withr::with_tempfile("tf", {
