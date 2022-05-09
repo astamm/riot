@@ -23,8 +23,25 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/riot)](https://CRAN.R-project.org/package=riot)
 <!-- badges: end -->
 
-The goal of `riot` is to provide readers and writers from and to standard file
-formats (`.vtk`, `.vtp` and `.fds`) that store diffusion MRI tractography data.
+## Overview
+
+The [`riot`](https://astamm.github.io/riot/index.html) (R Input/Output for Tractography) package provides an R interface for importing and exporting tractography data to and from `R`. Currently supported importing formats are:
+
+- native [VTK](https://vtk.org) `.vtk` and `.vtp` files;
+- [medInria](https://med.inria.fr) `.fds' files;
+- [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html) `.tck/.tsf` files; and,
+- [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk` files.
+
+The package reads tractography data into a [tibble](https://tibble.tidyverse.org) in which each row is a point characterized by at least the following five variables:
+
+- `X`, `Y`, `Z`: 3D coordinates of the current point;
+- `PointId`: Identification number of the current point among all points of the streamline it belongs to;
+- `StreamlineId`: Identification number of the streamline which the current point belongs to.
+
+The points might also have attributes or a color assigned to them, in which case, additional variables will be properly created to import them as well. The user can perform statistical analysis on the point cloud and store any new variable that (s)he would deem to be useful as additional column of the [tibble](https://tibble.tidyverse.org). The packages also allow to write back the [tibble](https://tibble.tidyverse.org), including all newly created attributes, into the following exporting formats:
+
+- native [VTK](https://vtk.org) `.vtk` and `.vtp` files; or,
+- [medInria](https://med.inria.fr) `.fds` files.
 
 ## Installation
 
@@ -39,15 +56,45 @@ devtools::install_github("astamm/riot")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
+```{r riot-import}
 library(riot)
-uf_left  <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = "riot"))
-uf_left
+```
+
+### Native [VTK](https://vtk.org) `.vtk` and `.vtp` files
+
+```{r vtk}
+uf_left_vtk  <- read_fascicles(system.file("extdata", "UF_left.vtk",  package = "riot"))
+uf_left_vtk
+```
+
+```{r vtp}
+uf_left_vtp  <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = "riot"))
+uf_left_vtp
+```
+
+### [medInria](https://med.inria.fr) `.fds' files
+
+```{r fds}
+uf_left_fds  <- read_fascicles(system.file("extdata", "UF_left.fds",  package = "riot"))
+uf_left_fds
+```
+
+### [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html) `.tck/.tsf` files
+
+```{r tck}
+af_left_tck  <- read_fascicles(system.file("extdata", "AF_left.tck",  package = "riot"))
+af_left_tck
+```
+
+### [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk` files
+
+```{r trk}
+cc_mid_trk  <- read_fascicles(system.file("extdata", "CCMid.trk",  package = "riot"))
+cc_mid_trk
 ```
 
 ## Dependencies
 
-The [`riot`](https://astamm.github.io/riot/) package has two dependencies: [VTK](https://vtk.org/) and [TinyXML-2](https://github.com/leethomason/tinyxml2). They both have been slightly altered with respect to the original softwares.
-Specifically, `vtk/include/utf8.h` header file has been modified to ensure LF line endings. Also, `tinyxml2.cpp` has been modified to avoid the use of `stdout` and `printf` as per *Writing R Extensions* manual recommendations because `R` has its own input/output mechanism for writing to the console.
+The [`riot`](https://astamm.github.io/riot/) package has two dependencies: [VTK](https://vtk.org/) and [TinyXML-2](https://github.com/leethomason/tinyxml2). They both have been slightly altered with respect to the original softwares to comply CRAN policy. Specifically, `vtk/include/utf8.h` header file has been modified to ensure LF line endings. Also, `tinyxml2.cpp` has been modified to avoid the use of `stdout` and `printf` as per *Writing R Extensions* manual recommendations because `R` has its own input/output mechanism for writing to the console.
+
+The authors would like to thank Tim Schäfer, the author of the [**freesurferformats**](https://cran.r-project.org/web/packages/freesurferformats/index.html) package, for his helpful code to read [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html) and [TrackVis](http://trackvis.org/docs/?subsect=fileformat) tractography file formats.

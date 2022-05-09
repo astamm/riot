@@ -19,6 +19,12 @@ Authors@R: c(
         family = "Thomason", 
         role = "ctb", 
         comment = "Author of the TinyXML2 C++ XML parser"
+    ),
+    person(
+        given = "Tim", 
+        family = "Schäfer", 
+        role = "ctb", 
+        comment = "Author of the freesurferformats R package"
     ))
 Description: An input-output interface for reading in and writing out common 
     VTK formats that store tractography data. This data comes in the form of 3D 
