@@ -17,7 +17,8 @@
 #' af_left_tck <- read_fascicles(system.file("extdata", "AF_left.tck",  package = "riot"))
 #' cc_mid_trk  <- read_fascicles(system.file("extdata", "CCMid.trk",    package = "riot"))
 read_fascicles <- function(file) {
-  input_file <- fs::path_norm(file)
+  input_file <- fs::path_expand(file)
+  input_file <- fs::path_norm(input_file)
   ext <- fs::path_ext(input_file)
   if (!(ext %in% read_formats())) {
     cli::cli_abort("The extension {.file {ext}} is not yet supported. Currently supported formats for import are {.file {read_formats()}}.")
