@@ -8,6 +8,7 @@ In this first major release, we:
 `.trk` file formats (#5).
 * Use only one core to compile VTK for compliance with CRAN policy (thanks to
 Prof. B. Ripley).
+* Added tilde expansion on file paths.
 
 We make it the first major release as we consider that the most popular
 tractography formats are now supported by **riot**. We chose by design to
