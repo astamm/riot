@@ -16,8 +16,8 @@ status](https://www.r-pkg.org/badges/version/riot)](https://CRAN.R-project.org/p
 
 ## Overview
 
-The [`riot`](https://astamm.github.io/riot/index.html) (R Input/Output
-for Tractography) package provides an R interface for importing and
+The [**riot**](https://astamm.github.io/riot/) (R Input/Output for
+Tractography) package provides an R interface for importing and
 exporting tractography data to and from `R`. Currently supported
 importing formats are:
 
@@ -43,7 +43,7 @@ which case, additional variables will be properly created to import them
 as well. The user can perform statistical analysis on the point cloud
 and store any new variable that (s)he would deem to be useful as
 additional column of the [tibble](https://tibble.tidyverse.org). The
-packages also allow to write back the
+package also allows to write back the
 [tibble](https://tibble.tidyverse.org), including all newly created
 attributes, into the following exporting formats:
 
@@ -52,13 +52,21 @@ attributes, into the following exporting formats:
 
 ## Installation
 
-You can install the development version of
-[`riot`](https://astamm.github.io/riot/) from
+You can install the released version of
+[**riot**](https://astamm.github.io/riot/) from
+[CRAN](https://cran.r-project.org) with:
+
+``` r
+install.packages("riot")
+```
+
+Alternatively you can install the development version of
+[**riot**](https://astamm.github.io/riot/) from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("astamm/riot")
+# install.packages("remotes")
+remotes::install_github("astamm/riot")
 ```
 
 ## Example
@@ -183,15 +191,16 @@ cc_mid_trk
 
 ## Dependencies
 
-The [`riot`](https://astamm.github.io/riot/) package has two
+The [**riot**](https://astamm.github.io/riot/) package has two
 dependencies: [VTK](https://vtk.org/) and
 [TinyXML-2](https://github.com/leethomason/tinyxml2). They both have
-been slightly altered with respect to the original softwares to comply
-CRAN policy. Specifically, `vtk/include/utf8.h` header file has been
-modified to ensure LF line endings. Also, `tinyxml2.cpp` has been
-modified to avoid the use of `stdout` and `printf` as per *Writing R
-Extensions* manual recommendations because `R` has its own input/output
-mechanism for writing to the console.
+been slightly altered with respect to the original softwares for
+compliance with [CRAN](https://cran.r-project.org) policy. Specifically,
+`vtk/include/utf8.h` header file has been modified to ensure LF line
+endings. Also, `tinyxml2.cpp` has been modified to avoid the use of
+`stdout` and `printf` as per *Writing R Extensions* manual
+recommendations because `R` has its own input/output mechanism for
+writing to the console.
 
 The authors would like to thank Tim Schäfer, the author of the
 [**freesurferformats**](https://cran.r-project.org/web/packages/freesurferformats/index.html)

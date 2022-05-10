@@ -25,33 +25,54 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-The [`riot`](https://astamm.github.io/riot/index.html) (R Input/Output for Tractography) package provides an R interface for importing and exporting tractography data to and from `R`. Currently supported importing formats are:
+The [**riot**](https://astamm.github.io/riot/) (R Input/Output for
+Tractography) package provides an R interface for importing and exporting
+tractography data to and from `R`. Currently supported importing formats are:
 
-- native [VTK](https://vtk.org) `.vtk` and `.vtp` files;
-- [medInria](https://med.inria.fr) `.fds' files;
-- [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html) `.tck/.tsf` files; and,
+- native [VTK](https://vtk.org) `.vtk` and `.vtp` files; 
+- [medInria](https://med.inria.fr) `.fds' files; 
+- [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html)
+`.tck/.tsf` files; and, 
 - [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk` files.
 
-The package reads tractography data into a [tibble](https://tibble.tidyverse.org) in which each row is a point characterized by at least the following five variables:
+The package reads tractography data into a
+[tibble](https://tibble.tidyverse.org) in which each row is a point
+characterized by at least the following five variables:
 
-- `X`, `Y`, `Z`: 3D coordinates of the current point;
-- `PointId`: Identification number of the current point among all points of the streamline it belongs to;
-- `StreamlineId`: Identification number of the streamline which the current point belongs to.
+- `X`, `Y`, `Z`: 3D coordinates of the current point; 
+- `PointId`: Identification number of the current point among all points of the
+streamline it belongs to;
+- `StreamlineId`: Identification number of the streamline which the current
+point belongs to.
 
-The points might also have attributes or a color assigned to them, in which case, additional variables will be properly created to import them as well. The user can perform statistical analysis on the point cloud and store any new variable that (s)he would deem to be useful as additional column of the [tibble](https://tibble.tidyverse.org). The packages also allow to write back the [tibble](https://tibble.tidyverse.org), including all newly created attributes, into the following exporting formats:
+The points might also have attributes or a color assigned to them, in which
+case, additional variables will be properly created to import them as well. The
+user can perform statistical analysis on the point cloud and store any new
+variable that (s)he would deem to be useful as additional column of the
+[tibble](https://tibble.tidyverse.org). The package also allows to write back
+the [tibble](https://tibble.tidyverse.org), including all newly created
+attributes, into the following exporting formats:
 
 - native [VTK](https://vtk.org) `.vtk` and `.vtp` files; or,
 - [medInria](https://med.inria.fr) `.fds` files.
 
 ## Installation
 
-You can install the development version of
-[`riot`](https://astamm.github.io/riot/) from [GitHub](https://github.com/)
+You can install the released version of
+[**riot**](https://astamm.github.io/riot/) from
+[CRAN](https://cran.r-project.org) with:
+
+```r
+install.packages("riot")
+```
+
+Alternatively you can install the development version of
+[**riot**](https://astamm.github.io/riot/) from [GitHub](https://github.com/)
 with:
 
-``` r
-# install.packages("devtools")
-devtools::install_github("astamm/riot")
+```r
+# install.packages("remotes")
+remotes::install_github("astamm/riot")
 ```
 
 ## Example
@@ -95,6 +116,19 @@ cc_mid_trk
 
 ## Dependencies
 
-The [`riot`](https://astamm.github.io/riot/) package has two dependencies: [VTK](https://vtk.org/) and [TinyXML-2](https://github.com/leethomason/tinyxml2). They both have been slightly altered with respect to the original softwares to comply CRAN policy. Specifically, `vtk/include/utf8.h` header file has been modified to ensure LF line endings. Also, `tinyxml2.cpp` has been modified to avoid the use of `stdout` and `printf` as per *Writing R Extensions* manual recommendations because `R` has its own input/output mechanism for writing to the console.
+The [**riot**](https://astamm.github.io/riot/) package has two dependencies:
+[VTK](https://vtk.org/) and
+[TinyXML-2](https://github.com/leethomason/tinyxml2). They both have been
+slightly altered with respect to the original softwares for compliance with
+[CRAN](https://cran.r-project.org) policy. Specifically, `vtk/include/utf8.h`
+header file has been modified to ensure LF line endings. Also, `tinyxml2.cpp`
+has been modified to avoid the use of `stdout` and `printf` as per *Writing R
+Extensions* manual recommendations because `R` has its own input/output
+mechanism for writing to the console.
 
-The authors would like to thank Tim Schäfer, the author of the [**freesurferformats**](https://cran.r-project.org/web/packages/freesurferformats/index.html) package, for his helpful code to read [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html) and [TrackVis](http://trackvis.org/docs/?subsect=fileformat) tractography file formats.
+The authors would like to thank Tim Schäfer, the author of the
+[**freesurferformats**](https://cran.r-project.org/web/packages/freesurferformats/index.html)
+package, for his helpful code to read
+[MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html)
+and [TrackVis](http://trackvis.org/docs/?subsect=fileformat) tractography file
+formats.
