@@ -203,7 +203,7 @@ recommendations because `R` has its own input/output mechanism for
 writing to the console.
 
 The authors would like to thank Tim Schäfer, the author of the
-[**freesurferformats**](https://cran.r-project.org/web/packages/freesurferformats/index.html)
+[**freesurferformats**](https://CRAN.R-project.org/package=freesurferformats)
 package, for his helpful code to read
 [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html)
 and [TrackVis](http://trackvis.org/docs/?subsect=fileformat)
