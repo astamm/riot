@@ -1,3 +1,18 @@
+## Resubmission 2
+
+In this version, I have:
+
+* Updated the link to freesurferformats R package CRAN page to use canonical form.
+* Reduced considerably the execution time of examples.
+
+## Resubmission 1
+
+In this version, I have:
+
+* Added support for MRtrix and TrackVis file formats;
+* Removed the use of multiple cores for compiling VTK for compliance with CRAN
+policy.
+
 ## Test environments
 * local macOS R installation, R 4.1.2
 * continuous integration via GH actions:
