@@ -12,10 +12,6 @@
 #'
 #' @examples
 #' uf_left_vtk <- read_fascicles(system.file("extdata", "UF_left.vtk",  package = "riot"))
-#' uf_left_vtp <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = "riot"))
-#' uf_left_fds <- read_fascicles(system.file("extdata", "UF_left.fds",  package = "riot"))
-#' af_left_tck <- read_fascicles(system.file("extdata", "AF_left.tck",  package = "riot"))
-#' cc_mid_trk  <- read_fascicles(system.file("extdata", "CCMid.trk",    package = "riot"))
 read_fascicles <- function(file) {
   input_file <- fs::path_expand(file)
   input_file <- fs::path_norm(input_file)
