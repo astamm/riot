@@ -1,7 +1,7 @@
 #! /bin/sh
 
 RSCRIPT_BIN=${R_HOME}/bin/Rscript
-NCORES=`${RSCRIPT_BIN} -e "cat(min(2, parallel::detectCores(logical = FALSE)))"`
+NCORES=1
 
 cd src
 
