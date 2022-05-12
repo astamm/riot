@@ -68,7 +68,7 @@ read_trk <- function(input_file) {
       X = rep(0, num_points),
       Y = rep(0, num_points),
       Z = rep(0, num_points),
-      PointId = 1:num_points,
+      PointId = seq_len(num_points),
       StreamlineId = str_id
     )
 
