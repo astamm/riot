@@ -92,6 +92,5 @@ read_trk <- function(input_file) {
     current_track
   })
   tracks <- Reduce(rbind, tracks)
-  class(tracks) <- c("maf_df", class(tracks))
   tracks
 }
