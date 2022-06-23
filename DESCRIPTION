@@ -44,7 +44,9 @@ Imports:
     fs,
     cli,
     rlang,
-    tibble
+    tibble,
+    purrr,
+    dplyr
 URL: https://github.com/astamm/riot
 BugReports: https://github.com/astamm/riot/issues
 Suggests: 

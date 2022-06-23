@@ -62,14 +62,14 @@ read_trk <- function(input_file) {
   if (header$hdr_size != 1000L)
     cli::cli_alert_warning("TRK file {.file {input_file}} header field hdr_size is
                            {header$hdr_size}, must be 1000.")
-  tracks <- lapply(seq_len(header$n_count), function(str_id) {
+  tracks <- purrr::map(seq_len(header$n_count), ~ {
     num_points <- readBin(fh, integer(), n = 1, size = 4, endian = endian)
     current_track <- tibble::tibble(
       X = rep(0, num_points),
       Y = rep(0, num_points),
       Z = rep(0, num_points),
       PointId = seq_len(num_points),
-      StreamlineId = str_id
+      StreamlineId = .x
     )
 
     tmp <- matrix(readBin(
@@ -91,6 +91,19 @@ read_trk <- function(input_file) {
 
     current_track
   })
-  tracks <- Reduce(rbind, tracks)
+  tracks <- dplyr::bind_rows(tracks)
+
+  A <- header$vox2ras[1:3, 1:3]
+  b <- header$vox2ras[1:3, 4]
+  if (sum((A - diag(rep(1, 3)))^2) != 0 || sum((b - rep(0, 3))^2) != 0) {
+    cli::cli_alert_info("Transforming voxel to real coordinates using rotation matrix {A} and translation vector {b}...")
+    new_coords <- list(tracks$X, tracks$Y, tracks$Z)
+    new_coords <- purrr::pmap(new_coords, c)
+    new_coords <- purrr::map(new_coords, ~ A %*% .x + b)
+    tracks$X <- purrr::map_dbl(new_coords, 1)
+    tracks$Y <- purrr::map_dbl(new_coords, 2)
+    tracks$Z <- purrr::map_dbl(new_coords, 3)
+  }
+
   tracks
 }
