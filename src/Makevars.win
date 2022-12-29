@@ -8,8 +8,8 @@ PKG_LIBS= \
 	-lvtkIOXML -lvtkIOXMLParser -lvtkIOCore -lvtkIOLegacy \
 	-lvtkCommonExecutionModel -lvtkCommonDataModel -lvtkCommonTransforms \
 	-lvtkCommonMath -lvtkCommonMisc -lvtkCommonSystem -lvtkCommonCore \
-	-lvtkdoubleconversion -lvtkexpat -lvtklz4 -lvtklzma -lvtksys -lvtkzlib \
-	-lgdi32
+	-lvtkdoubleconversion -lvtkexpat -lvtklz4 -lvtklzma \
+	-lvtkpugixml -lvtksys -lvtkzlib -lgdi32
 
 all: clean winlibs
 
