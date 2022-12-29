@@ -80,6 +80,7 @@
 <div class="page-header"><h1 id="riot-">riot <img src="reference/figures/logo.png" align="right" height="139"><a class="anchor" aria-label="anchor" href="#riot-"></a>
 </h1></div>
 <!-- badges: start -->
+
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -114,131 +115,131 @@
 </h2>
 <p>You can install the released version of <a href="https://astamm.github.io/riot/" class="external-link"><strong>riot</strong></a> from <a href="https://cran.r-project.org" class="external-link">CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"riot"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"riot"</span><span class="op">)</span></span></code></pre></div>
 <p>Alternatively you can install the development version of <a href="https://astamm.github.io/riot/" class="external-link"><strong>riot</strong></a> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"astamm/riot"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"astamm/riot"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/astamm/riot" class="external-link">riot</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/astamm/riot" class="external-link">riot</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="native-vtk-vtk-and-vtp-files">Native <a href="https://vtk.org" class="external-link">VTK</a> <code>.vtk</code> and <code>.vtp</code> files<a class="anchor" aria-label="anchor" href="#native-vtk-vtk-and-vtp-files"></a>
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">uf_left_vtk</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_left.vtk"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Number of data points: 38697</span>
-<span class="co">#&gt; Number of streamlines: 2042</span>
-<span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/UF_left.vtk' have been successfully imported.</span>
-<span class="va">uf_left_vtk</span>
-<span class="co">#&gt; # A tibble: 38,697 × 5</span>
-<span class="co">#&gt;        X     Y      Z PointId StreamlineId</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt;</span>
-<span class="co">#&gt;  1  13.7 -41.8 -13.1        1            1</span>
-<span class="co">#&gt;  2  13.0 -40.4 -13.9        2            1</span>
-<span class="co">#&gt;  3  13.9 -37.5 -13.8        3            1</span>
-<span class="co">#&gt;  4  14.3 -34.7 -12.8        4            1</span>
-<span class="co">#&gt;  5  15.2 -32.7 -11.8        5            1</span>
-<span class="co">#&gt;  6  14.3 -29.2 -11.3        6            1</span>
-<span class="co">#&gt;  7  12.8 -25.5  -9.73       7            1</span>
-<span class="co">#&gt;  8  12.4 -22.6  -9.89       8            1</span>
-<span class="co">#&gt;  9  11.1 -20.0 -10.7        9            1</span>
-<span class="co">#&gt; 10  12.8 -16.6 -12.8       10            1</span>
-<span class="co">#&gt; # … with 38,687 more rows</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">uf_left_vtk</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_left.vtk"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Number of data points: 38697</span></span>
+<span><span class="co">#&gt; Number of streamlines: 2042</span></span>
+<span><span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/UF_left.vtk' have been successfully imported.</span></span>
+<span><span class="va">uf_left_vtk</span></span>
+<span><span class="co">#&gt; # A tibble: 38,697 × 5</span></span>
+<span><span class="co">#&gt;        X     Y      Z PointId StreamlineId</span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1  13.7 -41.8 -13.1        1            1</span></span>
+<span><span class="co">#&gt;  2  13.0 -40.4 -13.9        2            1</span></span>
+<span><span class="co">#&gt;  3  13.9 -37.5 -13.8        3            1</span></span>
+<span><span class="co">#&gt;  4  14.3 -34.7 -12.8        4            1</span></span>
+<span><span class="co">#&gt;  5  15.2 -32.7 -11.8        5            1</span></span>
+<span><span class="co">#&gt;  6  14.3 -29.2 -11.3        6            1</span></span>
+<span><span class="co">#&gt;  7  12.8 -25.5  -9.73       7            1</span></span>
+<span><span class="co">#&gt;  8  12.4 -22.6  -9.89       8            1</span></span>
+<span><span class="co">#&gt;  9  11.1 -20.0 -10.7        9            1</span></span>
+<span><span class="co">#&gt; 10  12.8 -16.6 -12.8       10            1</span></span>
+<span><span class="co">#&gt; # … with 38,687 more rows</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">uf_left_vtp</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_left.vtp"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Number of data points: 38697</span>
-<span class="co">#&gt; Number of streamlines: 2042</span>
-<span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/UF_left.vtp' have been successfully imported.</span>
-<span class="va">uf_left_vtp</span>
-<span class="co">#&gt; # A tibble: 38,697 × 5</span>
-<span class="co">#&gt;        X     Y      Z PointId StreamlineId</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt;</span>
-<span class="co">#&gt;  1  13.7 -41.8 -13.1        1            1</span>
-<span class="co">#&gt;  2  13.0 -40.4 -13.9        2            1</span>
-<span class="co">#&gt;  3  13.9 -37.5 -13.8        3            1</span>
-<span class="co">#&gt;  4  14.3 -34.7 -12.8        4            1</span>
-<span class="co">#&gt;  5  15.2 -32.7 -11.8        5            1</span>
-<span class="co">#&gt;  6  14.3 -29.2 -11.3        6            1</span>
-<span class="co">#&gt;  7  12.8 -25.5  -9.73       7            1</span>
-<span class="co">#&gt;  8  12.4 -22.6  -9.89       8            1</span>
-<span class="co">#&gt;  9  11.1 -20.0 -10.7        9            1</span>
-<span class="co">#&gt; 10  12.8 -16.6 -12.8       10            1</span>
-<span class="co">#&gt; # … with 38,687 more rows</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">uf_left_vtp</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_left.vtp"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Number of data points: 38697</span></span>
+<span><span class="co">#&gt; Number of streamlines: 2042</span></span>
+<span><span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/UF_left.vtp' have been successfully imported.</span></span>
+<span><span class="va">uf_left_vtp</span></span>
+<span><span class="co">#&gt; # A tibble: 38,697 × 5</span></span>
+<span><span class="co">#&gt;        X     Y      Z PointId StreamlineId</span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1  13.7 -41.8 -13.1        1            1</span></span>
+<span><span class="co">#&gt;  2  13.0 -40.4 -13.9        2            1</span></span>
+<span><span class="co">#&gt;  3  13.9 -37.5 -13.8        3            1</span></span>
+<span><span class="co">#&gt;  4  14.3 -34.7 -12.8        4            1</span></span>
+<span><span class="co">#&gt;  5  15.2 -32.7 -11.8        5            1</span></span>
+<span><span class="co">#&gt;  6  14.3 -29.2 -11.3        6            1</span></span>
+<span><span class="co">#&gt;  7  12.8 -25.5  -9.73       7            1</span></span>
+<span><span class="co">#&gt;  8  12.4 -22.6  -9.89       8            1</span></span>
+<span><span class="co">#&gt;  9  11.1 -20.0 -10.7        9            1</span></span>
+<span><span class="co">#&gt; 10  12.8 -16.6 -12.8       10            1</span></span>
+<span><span class="co">#&gt; # … with 38,687 more rows</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="medinria-fds-files">
 <a href="https://med.inria.fr" class="external-link">medInria</a> `.fds’ files<a class="anchor" aria-label="anchor" href="#medinria-fds-files"></a>
 </h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">uf_left_fds</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_left.fds"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Number of data points: 38697</span>
-<span class="co">#&gt; Number of streamlines: 2042</span>
-<span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/UF_left.fds' have been successfully imported.</span>
-<span class="va">uf_left_fds</span>
-<span class="co">#&gt; # A tibble: 38,697 × 5</span>
-<span class="co">#&gt;        X     Y      Z PointId StreamlineId</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt;</span>
-<span class="co">#&gt;  1  13.7 -41.8 -13.1        1            1</span>
-<span class="co">#&gt;  2  13.0 -40.4 -13.9        2            1</span>
-<span class="co">#&gt;  3  13.9 -37.5 -13.8        3            1</span>
-<span class="co">#&gt;  4  14.3 -34.7 -12.8        4            1</span>
-<span class="co">#&gt;  5  15.2 -32.7 -11.8        5            1</span>
-<span class="co">#&gt;  6  14.3 -29.2 -11.3        6            1</span>
-<span class="co">#&gt;  7  12.8 -25.5  -9.73       7            1</span>
-<span class="co">#&gt;  8  12.4 -22.6  -9.89       8            1</span>
-<span class="co">#&gt;  9  11.1 -20.0 -10.7        9            1</span>
-<span class="co">#&gt; 10  12.8 -16.6 -12.8       10            1</span>
-<span class="co">#&gt; # … with 38,687 more rows</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">uf_left_fds</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_left.fds"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Number of data points: 38697</span></span>
+<span><span class="co">#&gt; Number of streamlines: 2042</span></span>
+<span><span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/UF_left.fds' have been successfully imported.</span></span>
+<span><span class="va">uf_left_fds</span></span>
+<span><span class="co">#&gt; # A tibble: 38,697 × 5</span></span>
+<span><span class="co">#&gt;        X     Y      Z PointId StreamlineId</span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1  13.7 -41.8 -13.1        1            1</span></span>
+<span><span class="co">#&gt;  2  13.0 -40.4 -13.9        2            1</span></span>
+<span><span class="co">#&gt;  3  13.9 -37.5 -13.8        3            1</span></span>
+<span><span class="co">#&gt;  4  14.3 -34.7 -12.8        4            1</span></span>
+<span><span class="co">#&gt;  5  15.2 -32.7 -11.8        5            1</span></span>
+<span><span class="co">#&gt;  6  14.3 -29.2 -11.3        6            1</span></span>
+<span><span class="co">#&gt;  7  12.8 -25.5  -9.73       7            1</span></span>
+<span><span class="co">#&gt;  8  12.4 -22.6  -9.89       8            1</span></span>
+<span><span class="co">#&gt;  9  11.1 -20.0 -10.7        9            1</span></span>
+<span><span class="co">#&gt; 10  12.8 -16.6 -12.8       10            1</span></span>
+<span><span class="co">#&gt; # … with 38,687 more rows</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="mrtrix-tcktsf-files">
 <a href="https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html" class="external-link">MRtrix</a> <code>.tck/.tsf</code> files<a class="anchor" aria-label="anchor" href="#mrtrix-tcktsf-files"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">af_left_tck</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"AF_left.tck"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/AF_left.tck' have been successfully imported.</span>
-<span class="va">af_left_tck</span>
-<span class="co">#&gt; # A tibble: 140,301 × 5</span>
-<span class="co">#&gt;        X     Y     Z PointId StreamlineId</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;int&gt;        &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 -56.1 -24.6  9.55       1            1</span>
-<span class="co">#&gt;  2 -51.4 -25.0  6.49       2            1</span>
-<span class="co">#&gt;  3 -49.2 -25.3  5.80       3            1</span>
-<span class="co">#&gt;  4 -46.4 -25.2  5.68       4            1</span>
-<span class="co">#&gt;  5 -44.5 -24.7  5.19       5            1</span>
-<span class="co">#&gt;  6 -42.2 -24.3  4.06       6            1</span>
-<span class="co">#&gt;  7 -40.4 -24.7  3.09       7            1</span>
-<span class="co">#&gt;  8 -39.2 -25.5  2.57       8            1</span>
-<span class="co">#&gt;  9 -38.4 -26.5  2.70       9            1</span>
-<span class="co">#&gt; 10 -37.1 -28.6  3.84      10            1</span>
-<span class="co">#&gt; # … with 140,291 more rows</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">af_left_tck</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"AF_left.tck"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/AF_left.tck' have been successfully imported.</span></span>
+<span><span class="va">af_left_tck</span></span>
+<span><span class="co">#&gt; # A tibble: 140,301 × 5</span></span>
+<span><span class="co">#&gt;        X     Y     Z PointId StreamlineId</span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;int&gt;        &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 -56.1 -24.6  9.55       1            1</span></span>
+<span><span class="co">#&gt;  2 -51.4 -25.0  6.49       2            1</span></span>
+<span><span class="co">#&gt;  3 -49.2 -25.3  5.80       3            1</span></span>
+<span><span class="co">#&gt;  4 -46.4 -25.2  5.68       4            1</span></span>
+<span><span class="co">#&gt;  5 -44.5 -24.7  5.19       5            1</span></span>
+<span><span class="co">#&gt;  6 -42.2 -24.3  4.06       6            1</span></span>
+<span><span class="co">#&gt;  7 -40.4 -24.7  3.09       7            1</span></span>
+<span><span class="co">#&gt;  8 -39.2 -25.5  2.57       8            1</span></span>
+<span><span class="co">#&gt;  9 -38.4 -26.5  2.70       9            1</span></span>
+<span><span class="co">#&gt; 10 -37.1 -28.6  3.84      10            1</span></span>
+<span><span class="co">#&gt; # … with 140,291 more rows</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="trackvis-trk-files">
 <a href="http://trackvis.org/docs/?subsect=fileformat" class="external-link">TrackVis</a> <code>.trk</code> files<a class="anchor" aria-label="anchor" href="#trackvis-trk-files"></a>
 </h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cc_mid_trk</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"CCMid.trk"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/CCMid.trk' have been successfully imported.</span>
-<span class="va">cc_mid_trk</span>
-<span class="co">#&gt; # A tibble: 112,675 × 5</span>
-<span class="co">#&gt;        X     Y     Z PointId StreamlineId</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;int&gt;        &lt;int&gt;</span>
-<span class="co">#&gt;  1  8.66 -31.4  68.6       1            1</span>
-<span class="co">#&gt;  2  8.89 -31.3  68.1       2            1</span>
-<span class="co">#&gt;  3  9.11 -31.2  67.7       3            1</span>
-<span class="co">#&gt;  4  9.34 -31.2  67.2       4            1</span>
-<span class="co">#&gt;  5  9.56 -31.1  66.8       5            1</span>
-<span class="co">#&gt;  6  9.79 -31.0  66.4       6            1</span>
-<span class="co">#&gt;  7 10.0  -31.0  65.9       7            1</span>
-<span class="co">#&gt;  8 10.2  -30.9  65.5       8            1</span>
-<span class="co">#&gt;  9 10.5  -30.8  65.0       9            1</span>
-<span class="co">#&gt; 10 10.7  -30.8  64.6      10            1</span>
-<span class="co">#&gt; # … with 112,665 more rows</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cc_mid_trk</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"CCMid.trk"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/CCMid.trk' have been successfully imported.</span></span>
+<span><span class="va">cc_mid_trk</span></span>
+<span><span class="co">#&gt; # A tibble: 112,675 × 5</span></span>
+<span><span class="co">#&gt;        X     Y     Z PointId StreamlineId</span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;int&gt;        &lt;int&gt;</span></span>
+<span><span class="co">#&gt;  1  8.66 -31.4  68.6       1            1</span></span>
+<span><span class="co">#&gt;  2  8.89 -31.3  68.1       2            1</span></span>
+<span><span class="co">#&gt;  3  9.11 -31.2  67.7       3            1</span></span>
+<span><span class="co">#&gt;  4  9.34 -31.2  67.2       4            1</span></span>
+<span><span class="co">#&gt;  5  9.56 -31.1  66.8       5            1</span></span>
+<span><span class="co">#&gt;  6  9.79 -31.0  66.4       6            1</span></span>
+<span><span class="co">#&gt;  7 10.0  -31.0  65.9       7            1</span></span>
+<span><span class="co">#&gt;  8 10.2  -30.9  65.5       8            1</span></span>
+<span><span class="co">#&gt;  9 10.5  -30.8  65.0       9            1</span></span>
+<span><span class="co">#&gt; 10 10.7  -30.8  64.6      10            1</span></span>
+<span><span class="co">#&gt; # … with 112,665 more rows</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -306,7 +307,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
