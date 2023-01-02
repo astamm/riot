@@ -1,20 +1,5 @@
-## Resubmission 2
-
-In this version, I have:
-
-* Updated the link to freesurferformats R package CRAN page to use canonical form.
-* Reduced considerably the execution time of examples.
-
-## Resubmission 1
-
-In this version, I have:
-
-* Added support for MRtrix and TrackVis file formats;
-* Removed the use of multiple cores for compiling VTK for compliance with CRAN
-policy.
-
 ## Test environments
-* local macOS R installation, R 4.1.2
+* local macOS R installation, R 4.2.2
 * continuous integration via GH actions:
   * macOS latest release
   * windows latest release
@@ -33,9 +18,9 @@ There was no ERROR and no WARNING.
 There was 1 NOTE:
 
     * checking installed package size ... NOTE
-        installed size is 12.9Mb
-        sub-directories of 1Mb or more:
-          extdata   2.4Mb
-          libs     10.4Mb
+      installed size is 201.9Mb
+      sub-directories of 1Mb or more:
+        extdata    5.4Mb
+        libs     196.3Mb
 
 The size varies according to the system on which the package is installed.

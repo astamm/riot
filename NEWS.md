@@ -1,7 +1,6 @@
 # riot 1.1.0
 
-* Update VTK to `v9.2.2`;
-* Auto-detect already existing VTK builds to avoid building one from source.
+* Update VTK to `v9.2.2`.
 
 # riot 1.0.0
 
