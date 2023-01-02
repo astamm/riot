@@ -1,7 +1,6 @@
 #! /bin/sh
 
 RSCRIPT_BIN=${R_HOME}/bin/Rscript
-NCORES=1
 
 cd src
 
@@ -40,5 +39,5 @@ ${CMAKE_BIN} \
   -D VTK_VERSIONED_INSTALL=OFF \
   -S vtk-src \
   -B vtk-build
-sh ./scripts/vtk_install.sh "${CMAKE_BIN}" ${NCORES}
+sh ./scripts/vtk_install.sh "${CMAKE_BIN}"
 sh ./scripts/vtk_cleanup.sh
