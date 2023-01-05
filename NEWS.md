@@ -1,6 +1,6 @@
 # riot 1.1.0
 
-* Update VTK to `v9.2.2`.
+* Update VTK to `v9.2.4`.
 
 # riot 1.0.0
 
