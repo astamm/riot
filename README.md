@@ -21,22 +21,21 @@ Tractography) package provides an R interface for importing and
 exporting tractography data to and from `R`. Currently supported
 importing formats are:
 
--   native [VTK](https://vtk.org) `.vtk` and `.vtp` files;
--   [medInria](https://med.inria.fr) \`.fds’ files;
--   [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html)
-    `.tck/.tsf` files; and,
--   [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk`
-    files.
+- native [VTK](https://vtk.org) `.vtk` and `.vtp` files;
+- [medInria](https://med.inria.fr) `.fds` files;
+- [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html)
+  `.tck/.tsf` files; and,
+- [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk` files.
 
 The package reads tractography data into a
 [tibble](https://tibble.tidyverse.org) in which each row is a point
 characterized by at least the following five variables:
 
--   `X`, `Y`, `Z`: 3D coordinates of the current point;
--   `PointId`: Identification number of the current point among all
-    points of the streamline it belongs to;
--   `StreamlineId`: Identification number of the streamline which the
-    current point belongs to.
+- `X`, `Y`, `Z`: 3D coordinates of the current point;
+- `PointId`: Identification number of the current point among all points
+  of the streamline it belongs to;
+- `StreamlineId`: Identification number of the streamline which the
+  current point belongs to.
 
 The points might also have attributes or a color assigned to them, in
 which case, additional variables will be properly created to import them
@@ -47,8 +46,8 @@ package also allows to write back the
 [tibble](https://tibble.tidyverse.org), including all newly created
 attributes, into the following exporting formats:
 
--   native [VTK](https://vtk.org) `.vtk` and `.vtp` files; or,
--   [medInria](https://med.inria.fr) `.fds` files.
+- native [VTK](https://vtk.org) `.vtk` and `.vtp` files; or,
+- [medInria](https://med.inria.fr) `.fds` files.
 
 ## Installation
 
@@ -81,7 +80,7 @@ library(riot)
 uf_left_vtk  <- read_fascicles(system.file("extdata", "UF_left.vtk",  package = "riot"))
 #> Number of data points: 38697
 #> Number of streamlines: 2042
-#> ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/UF_left.vtk' have been successfully imported.
+#> ✔ The fascicles stored in ']8;;file:///Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/UF_left.vtk/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/UF_left.vtk]8;;' have been successfully imported.
 uf_left_vtk
 #> # A tibble: 38,697 × 5
 #>        X     Y      Z PointId StreamlineId
@@ -103,7 +102,7 @@ uf_left_vtk
 uf_left_vtp  <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = "riot"))
 #> Number of data points: 38697
 #> Number of streamlines: 2042
-#> ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/UF_left.vtp' have been successfully imported.
+#> ✔ The fascicles stored in ']8;;file:///Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/UF_left.vtp/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/UF_left.vtp]8;;' have been successfully imported.
 uf_left_vtp
 #> # A tibble: 38,697 × 5
 #>        X     Y      Z PointId StreamlineId
@@ -121,13 +120,13 @@ uf_left_vtp
 #> # … with 38,687 more rows
 ```
 
-### [medInria](https://med.inria.fr) \`.fds’ files
+### [medInria](https://med.inria.fr) `.fds` files
 
 ``` r
 uf_left_fds  <- read_fascicles(system.file("extdata", "UF_left.fds",  package = "riot"))
 #> Number of data points: 38697
 #> Number of streamlines: 2042
-#> ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/UF_left.fds' have been successfully imported.
+#> ✔ The fascicles stored in ']8;;file:///Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/UF_left.fds/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/UF_left.fds]8;;' have been successfully imported.
 uf_left_fds
 #> # A tibble: 38,697 × 5
 #>        X     Y      Z PointId StreamlineId
@@ -149,7 +148,7 @@ uf_left_fds
 
 ``` r
 af_left_tck  <- read_fascicles(system.file("extdata", "AF_left.tck",  package = "riot"))
-#> ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/AF_left.tck' have been successfully imported.
+#> ✔ The fascicles stored in ']8;;file:///Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/AF_left.tck/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/AF_left.tck]8;;' have been successfully imported.
 af_left_tck
 #> # A tibble: 140,301 × 5
 #>        X     Y     Z PointId StreamlineId
@@ -171,7 +170,7 @@ af_left_tck
 
 ``` r
 cc_mid_trk  <- read_fascicles(system.file("extdata", "CCMid.trk",  package = "riot"))
-#> ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/CCMid.trk' have been successfully imported.
+#> ✔ The fascicles stored in ']8;;file:///Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/CCMid.trk/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/CCMid.trk]8;;' have been successfully imported.
 cc_mid_trk
 #> # A tibble: 112,675 × 5
 #>        X     Y     Z PointId StreamlineId
@@ -197,10 +196,11 @@ dependencies: [VTK](https://vtk.org/) and
 been slightly altered with respect to the original softwares for
 compliance with [CRAN](https://cran.r-project.org) policy. Specifically,
 `vtk/include/utf8.h` header file has been modified to ensure LF line
-endings. Also, `tinyxml2.cpp` has been modified to avoid the use of
-`stdout` and `printf` as per *Writing R Extensions* manual
-recommendations because `R` has its own input/output mechanism for
-writing to the console.
+endings and `vtkzlib` source files have been compiled without checking
+for protoype warnings when using LLVM clang compiler. Also,
+`tinyxml2.cpp` has been modified to avoid the use of `stdout` and
+`printf` as per *Writing R Extensions* manual recommendations because
+`R` has its own input/output mechanism for writing to the console.
 
 The authors would like to thank Tim Schäfer, the author of the
 [**freesurferformats**](https://CRAN.R-project.org/package=freesurferformats)

@@ -1,6 +1,7 @@
 # riot 1.1.0
 
-* Update VTK to `v9.2.4`.
+* Update VTK to `v9.2.4`;
+* Avoid some prototype checks for `vtkzlib` when using LLVM Clang compiler.
 
 # riot 1.0.0
 

@@ -30,7 +30,7 @@ Tractography) package provides an R interface for importing and exporting
 tractography data to and from `R`. Currently supported importing formats are:
 
 - native [VTK](https://vtk.org) `.vtk` and `.vtp` files; 
-- [medInria](https://med.inria.fr) `.fds' files; 
+- [medInria](https://med.inria.fr) `.fds` files; 
 - [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html)
 `.tck/.tsf` files; and, 
 - [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk` files.
@@ -93,7 +93,7 @@ uf_left_vtp  <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = 
 uf_left_vtp
 ```
 
-### [medInria](https://med.inria.fr) `.fds' files
+### [medInria](https://med.inria.fr) `.fds` files
 
 ```{r fds}
 uf_left_fds  <- read_fascicles(system.file("extdata", "UF_left.fds",  package = "riot"))
@@ -121,10 +121,11 @@ The [**riot**](https://astamm.github.io/riot/) package has two dependencies:
 [TinyXML-2](https://github.com/leethomason/tinyxml2). They both have been
 slightly altered with respect to the original softwares for compliance with
 [CRAN](https://cran.r-project.org) policy. Specifically, `vtk/include/utf8.h`
-header file has been modified to ensure LF line endings. Also, `tinyxml2.cpp`
-has been modified to avoid the use of `stdout` and `printf` as per *Writing R
-Extensions* manual recommendations because `R` has its own input/output
-mechanism for writing to the console.
+header file has been modified to ensure LF line endings and `vtkzlib` source
+files have been compiled without checking for protoype warnings when using LLVM
+clang compiler. Also, `tinyxml2.cpp` has been modified to avoid the use of
+`stdout` and `printf` as per *Writing R Extensions* manual recommendations
+because `R` has its own input/output mechanism for writing to the console.
 
 The authors would like to thank Tim Schäfer, the author of the
 [**freesurferformats**](https://CRAN.R-project.org/package=freesurferformats)
