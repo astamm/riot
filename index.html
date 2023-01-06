@@ -88,7 +88,7 @@
 <ul>
 <li>native <a href="https://vtk.org" class="external-link">VTK</a> <code>.vtk</code> and <code>.vtp</code> files;</li>
 <li>
-<a href="https://med.inria.fr" class="external-link">medInria</a> `.fds’ files;</li>
+<a href="https://med.inria.fr" class="external-link">medInria</a> <code>.fds</code> files;</li>
 <li>
 <a href="https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html" class="external-link">MRtrix</a> <code>.tck/.tsf</code> files; and,</li>
 <li>
@@ -133,7 +133,7 @@
 <code class="sourceCode R"><span><span class="va">uf_left_vtk</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_left.vtk"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Number of data points: 38697</span></span>
 <span><span class="co">#&gt; Number of streamlines: 2042</span></span>
-<span><span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/UF_left.vtk' have been successfully imported.</span></span>
+<span><span class="co">#&gt; ✔ The fascicles stored in ']8;;file:///Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/UF_left.vtk/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/UF_left.vtk]8;;' have been successfully imported.</span></span>
 <span><span class="va">uf_left_vtk</span></span>
 <span><span class="co">#&gt; # A tibble: 38,697 × 5</span></span>
 <span><span class="co">#&gt;        X     Y      Z PointId StreamlineId</span></span>
@@ -153,7 +153,7 @@
 <code class="sourceCode R"><span><span class="va">uf_left_vtp</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_left.vtp"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Number of data points: 38697</span></span>
 <span><span class="co">#&gt; Number of streamlines: 2042</span></span>
-<span><span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/UF_left.vtp' have been successfully imported.</span></span>
+<span><span class="co">#&gt; ✔ The fascicles stored in ']8;;file:///Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/UF_left.vtp/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/UF_left.vtp]8;;' have been successfully imported.</span></span>
 <span><span class="va">uf_left_vtp</span></span>
 <span><span class="co">#&gt; # A tibble: 38,697 × 5</span></span>
 <span><span class="co">#&gt;        X     Y      Z PointId StreamlineId</span></span>
@@ -172,13 +172,13 @@
 </div>
 <div class="section level3">
 <h3 id="medinria-fds-files">
-<a href="https://med.inria.fr" class="external-link">medInria</a> `.fds’ files<a class="anchor" aria-label="anchor" href="#medinria-fds-files"></a>
+<a href="https://med.inria.fr" class="external-link">medInria</a> <code>.fds</code> files<a class="anchor" aria-label="anchor" href="#medinria-fds-files"></a>
 </h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">uf_left_fds</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_left.fds"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Number of data points: 38697</span></span>
 <span><span class="co">#&gt; Number of streamlines: 2042</span></span>
-<span><span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/UF_left.fds' have been successfully imported.</span></span>
+<span><span class="co">#&gt; ✔ The fascicles stored in ']8;;file:///Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/UF_left.fds/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/UF_left.fds]8;;' have been successfully imported.</span></span>
 <span><span class="va">uf_left_fds</span></span>
 <span><span class="co">#&gt; # A tibble: 38,697 × 5</span></span>
 <span><span class="co">#&gt;        X     Y      Z PointId StreamlineId</span></span>
@@ -201,7 +201,7 @@
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">af_left_tck</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"AF_left.tck"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/AF_left.tck' have been successfully imported.</span></span>
+<span><span class="co">#&gt; ✔ The fascicles stored in ']8;;file:///Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/AF_left.tck/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/AF_left.tck]8;;' have been successfully imported.</span></span>
 <span><span class="va">af_left_tck</span></span>
 <span><span class="co">#&gt; # A tibble: 140,301 × 5</span></span>
 <span><span class="co">#&gt;        X     Y     Z PointId StreamlineId</span></span>
@@ -224,7 +224,7 @@
 </h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cc_mid_trk</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_fascicles.html">read_fascicles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"CCMid.trk"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ The fascicles stored in '/Users/stamm-a/Library/R/arm64/4.1/library/riot/extdata/CCMid.trk' have been successfully imported.</span></span>
+<span><span class="co">#&gt; ✔ The fascicles stored in ']8;;file:///Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/CCMid.trk/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/riot/extdata/CCMid.trk]8;;' have been successfully imported.</span></span>
 <span><span class="va">cc_mid_trk</span></span>
 <span><span class="co">#&gt; # A tibble: 112,675 × 5</span></span>
 <span><span class="co">#&gt;        X     Y     Z PointId StreamlineId</span></span>
@@ -245,7 +245,7 @@
 <div class="section level2">
 <h2 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>
 </h2>
-<p>The <a href="https://astamm.github.io/riot/" class="external-link"><strong>riot</strong></a> package has two dependencies: <a href="https://vtk.org/" class="external-link">VTK</a> and <a href="https://github.com/leethomason/tinyxml2" class="external-link">TinyXML-2</a>. They both have been slightly altered with respect to the original softwares for compliance with <a href="https://cran.r-project.org" class="external-link">CRAN</a> policy. Specifically, <code>vtk/include/utf8.h</code> header file has been modified to ensure LF line endings. Also, <code>tinyxml2.cpp</code> has been modified to avoid the use of <code>stdout</code> and <code>printf</code> as per <em>Writing R Extensions</em> manual recommendations because <code>R</code> has its own input/output mechanism for writing to the console.</p>
+<p>The <a href="https://astamm.github.io/riot/" class="external-link"><strong>riot</strong></a> package has two dependencies: <a href="https://vtk.org/" class="external-link">VTK</a> and <a href="https://github.com/leethomason/tinyxml2" class="external-link">TinyXML-2</a>. They both have been slightly altered with respect to the original softwares for compliance with <a href="https://cran.r-project.org" class="external-link">CRAN</a> policy. Specifically, <code>vtk/include/utf8.h</code> header file has been modified to ensure LF line endings and <code>vtkzlib</code> source files have been compiled without checking for protoype warnings when using LLVM clang compiler. Also, <code>tinyxml2.cpp</code> has been modified to avoid the use of <code>stdout</code> and <code>printf</code> as per <em>Writing R Extensions</em> manual recommendations because <code>R</code> has its own input/output mechanism for writing to the console.</p>
 <p>The authors would like to thank Tim Schäfer, the author of the <a href="https://CRAN.R-project.org/package=freesurferformats" class="external-link"><strong>freesurferformats</strong></a> package, for his helpful code to read <a href="https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html" class="external-link">MRtrix</a> and <a href="http://trackvis.org/docs/?subsect=fileformat" class="external-link">TrackVis</a> tractography file formats.</p>
 </div>
 </div>
