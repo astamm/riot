@@ -39,7 +39,6 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - name: Setup cmake
       - uses: jwlawson/actions-setup-cmake@v1.13
         if: runner.os != 'windows'
         with:
