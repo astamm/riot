@@ -1,6 +1,6 @@
 Package: riot
 Title: R Inputs/Outputs for Tractography
-Version: 1.1.0
+Version: 1.1.0.9000
 Authors@R: c(
     person(
         given = "Aymeric",
@@ -47,6 +47,7 @@ Imports:
     purrr,
     dplyr
 URL: https://github.com/astamm/riot
+  https://astamm.github.io/riot/
 BugReports: https://github.com/astamm/riot/issues
 Suggests: 
     covr,
