@@ -1,4 +1,6 @@
-# riot 1.1.0.9000
+# riot 1.1.1
+
+* Fix various compilation warnings.
 
 # riot 1.1.0
 
