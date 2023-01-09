@@ -1,18 +1,9 @@
 #! /bin/sh
 
 RSCRIPT_BIN=$1
-VERSION=9.2
-PATCH=4
-
-# Download VTK source
-${RSCRIPT_BIN} -e "utils::download.file(
-    url = 'https://www.vtk.org/files/release/${VERSION}/VTK-${VERSION}.${PATCH}.tar.gz',
-    destfile = 'vtk-src.tar.gz')"
 
 # Uncompress VTK source
-${RSCRIPT_BIN} -e "utils::untar(tarfile = 'vtk-src.tar.gz')"
-mv VTK-${VERSION}.${PATCH} vtk-src
-rm -f vtk-src.tar.gz
+${RSCRIPT_BIN} -e "utils::untar(tarfile = 'vtk-src.tar.gz', exdir = 'vtk-src')"
 
 # Disabling compilation warnings in vtkzlib if LLVM clang is used
 echo '

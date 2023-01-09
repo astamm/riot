@@ -6,6 +6,6 @@ inst/include
 autom4te.cache/
 config.log
 config.status
-src/vtk-src*
+src/vtk-src/*
 windows
 docs

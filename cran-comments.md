@@ -4,6 +4,8 @@ In this patch version, I have:
 
 * Modified VTK source files to avoid compilation warnings arising when using 
 LLVM or Apple clang or GNU gcc compilers.
+* Shipped a shrunk version of VTK source files to avoid unsuccessful downloads 
+from VTK website.
 
 ## Test environments
 * local macOS R installation, R 4.2.2

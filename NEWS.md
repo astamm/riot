@@ -2,6 +2,8 @@
 
 * Modified VTK source files to avoid compilation warnings arising when using 
 LLVM or Apple clang or GNU gcc compilers.
+* Now ships a shrunk version of VTK source files to avoid unsuccessful downloads 
+from VTK website.
 
 # riot 1.1.0
 
