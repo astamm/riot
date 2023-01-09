@@ -205,6 +205,9 @@ compliance with [CRAN](https://cran.r-project.org) policy. Specifically:
   `printf` as per *Writing R Extensions* manual recommendations because
   `R` has its own input/output mechanism for writing to the console.
 
+Moreover, **riot** now ships a shrunk version of VTK source files to
+avoid unsuccessful downloads from VTK website.
+
 ## Acknowledgements
 
 The authors would like to thank Tim Schäfer, the author of the

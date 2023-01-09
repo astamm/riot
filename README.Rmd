@@ -123,8 +123,15 @@ slightly altered with respect to the original softwares for compliance with
 [CRAN](https://cran.r-project.org) policy. Specifically: 
 
 - `vtk/include/utf8.h` header file has been modified to ensure LF line endings;
-- some source files of the `CommonDataModel` and `vtkzlib` modules have been modified to avoid compilation warnings arising when using LLVM or Apple clang or GNU gcc compilers;
-- `tinyxml2.cpp` has been modified to avoid the use of `stdout` and `printf` as per *Writing R Extensions* manual recommendations because `R` has its own input/output mechanism for writing to the console.
+- some source files of the `CommonDataModel` and `vtkzlib` modules have been 
+modified to avoid compilation warnings arising when using LLVM or Apple clang or 
+GNU gcc compilers;
+- `tinyxml2.cpp` has been modified to avoid the use of `stdout` and `printf` as 
+per *Writing R Extensions* manual recommendations because `R` has its own 
+input/output mechanism for writing to the console.
+
+Moreover, **riot** now ships a shrunk version of VTK source files to avoid 
+unsuccessful downloads from VTK website.
 
 ## Acknowledgements
 
