@@ -1,6 +1,7 @@
 # riot 1.1.1
 
-* Fix various compilation warnings.
+* Modified VTK source files to avoid compilation warnings arising when using 
+LLVM or Apple clang or GNU gcc compilers.
 
 # riot 1.1.0
 
@@ -10,6 +11,7 @@
 # riot 1.0.0
 
 In this first major release, we:
+
 * Added support to read
 [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html)
 `.tck/.tsf` file formats (#5).
