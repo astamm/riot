@@ -12,3 +12,6 @@
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
 ^\.covrignore$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

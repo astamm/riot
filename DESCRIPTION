@@ -46,8 +46,8 @@ Imports:
     tibble,
     purrr,
     dplyr
-URL: https://github.com/astamm/riot
-  https://astamm.github.io/riot/
+URL: https://github.com/astamm/riot,
+    https://astamm.github.io/riot/
 BugReports: https://github.com/astamm/riot/issues
 Suggests: 
     covr,
