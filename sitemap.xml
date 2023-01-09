@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://astamm.github.io/riot/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>https://astamm.github.io/riot/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://astamm.github.io/riot/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://astamm.github.io/riot/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://astamm.github.io/riot/index.html</loc>
   </url>
   <url>
-    <loc>/news/index.html</loc>
+    <loc>https://astamm.github.io/riot/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://astamm.github.io/riot/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/read_fascicles.html</loc>
+    <loc>https://astamm.github.io/riot/reference/read_fascicles.html</loc>
   </url>
   <url>
-    <loc>/reference/write_fascicles.html</loc>
+    <loc>https://astamm.github.io/riot/reference/write_fascicles.html</loc>
   </url>
 </urlset>
