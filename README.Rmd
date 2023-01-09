@@ -120,12 +120,13 @@ The [**riot**](https://astamm.github.io/riot/) package has two dependencies:
 [VTK](https://vtk.org/) and
 [TinyXML-2](https://github.com/leethomason/tinyxml2). They both have been
 slightly altered with respect to the original softwares for compliance with
-[CRAN](https://cran.r-project.org) policy. Specifically, `vtk/include/utf8.h`
-header file has been modified to ensure LF line endings and `vtkzlib` source
-files have been compiled without checking for protoype warnings when using LLVM
-clang compiler. Also, `tinyxml2.cpp` has been modified to avoid the use of
-`stdout` and `printf` as per *Writing R Extensions* manual recommendations
-because `R` has its own input/output mechanism for writing to the console.
+[CRAN](https://cran.r-project.org) policy. Specifically: 
+
+- `vtk/include/utf8.h` header file has been modified to ensure LF line endings;
+- some source files of the `CommonDataModel` and `vtkzlib` modules have been modified to avoid compilation warnings arising when using LLVM or Apple clang or GNU gcc compilers;
+- `tinyxml2.cpp` has been modified to avoid the use of `stdout` and `printf` as per *Writing R Extensions* manual recommendations because `R` has its own input/output mechanism for writing to the console.
+
+## Acknowledgements
 
 The authors would like to thank Tim Schäfer, the author of the
 [**freesurferformats**](https://CRAN.R-project.org/package=freesurferformats)
