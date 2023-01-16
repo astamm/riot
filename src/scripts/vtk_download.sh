@@ -26,6 +26,13 @@ if (CMAKE_C_COMPILER_ID STREQUAL "GNU")
 endif()
 ' | cat - vtk-src/ThirdParty/zlib/vtkzlib/CMakeLists.txt > temp && mv temp vtk-src/ThirdParty/zlib/vtkzlib/CMakeLists.txt
 
+# Disabling compilation warnings in CommonDataModel if Clang is used
+echo '
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  set_source_files_properties(vtkBiQuadraticQuadraticWedge.cxx vtkBoundingBox.cxx vtkStructuredExtent.h vtkPath.cxx vtkPentagonalPrism.cxx vtkPolygon.cxx vtkQuadraticLinearWedge.cxx vtkQuadraticTetra.cxx PROPERTIES COMPILE_FLAGS "-Wno-array-parameter")
+endif()
+' | cat - vtk-src/Common/DataModel/CMakeLists.txt > temp && mv temp vtk-src/Common/DataModel/CMakeLists.txt
+
 # Disabling compilation warnings in CommonDataModel if Apple clang is used
 echo '
 if (CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
