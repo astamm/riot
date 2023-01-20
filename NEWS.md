@@ -4,6 +4,7 @@
 LLVM or Apple clang or GNU gcc compilers.
 * Now ships a shrunk version of VTK source files to avoid unsuccessful downloads 
 from VTK website.
+* Fix compilation errors in `vtkzlib` raised by `clang16`.
 
 # riot 1.1.0
 
