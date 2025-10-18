@@ -26,15 +26,15 @@ Authors@R: c(
         role = "ctb", 
         comment = "Author of the freesurferformats R package"
     ))
-Description: An input-output interface for reading in and writing out common 
-    VTK formats that store tractography data. This data comes in the form of 3D 
-    polygons with possibly attributes at each point. These are obtained via 
-    tracking algorithms from diffusion MRI and are a non-invasive way of 
-    studying brain structural connectivity.
+Description: An input-output interface for reading in and writing out tractogram
+    in different common formats. This data comes in the form of 3D polygons with
+    possibly attributes at each point. These are obtained via tracking algorithms
+    from diffusion MRI and are a non-invasive way of studying brain structural
+    connectivity.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3
 LinkingTo: 
     Rcpp
 Imports: 
@@ -44,8 +44,7 @@ Imports:
     cli,
     rlang,
     tibble,
-    purrr,
-    dplyr
+    reticulate
 URL: https://github.com/astamm/riot,
     https://astamm.github.io/riot/
 BugReports: https://github.com/astamm/riot/issues

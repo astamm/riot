@@ -3,7 +3,7 @@
 RSCRIPT_BIN=$1
 
 # Uncompress VTK source
-${RSCRIPT_BIN} -e "utils::untar(tarfile = 'vtk-src.tar.gz', exdir = 'vtk-src')"
+${RSCRIPT_BIN} -e "utils::untar(tarfile = 'vtk-src.tar.gz', exdir = '.')"
 
 # Disabling compilation warnings in vtkzlib if LLVM clang is used
 echo '
