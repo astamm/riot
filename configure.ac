@@ -27,55 +27,66 @@ AC_LANG(C++)
 AC_REQUIRE_CPP
 AC_PROG_CXX
 
-## 1. Can we use pkg-config?
-AC_PATH_PROG(have_pkg_config, pkg-config, no)
-## If yes, also check for whether pkg-config knows vtk
-if test x"${have_pkg_config}" != x"no"; then
-    AC_MSG_CHECKING([if pkg-config knows VTK])
-    if pkg-config --exists vtk; then
+AC_MSG_CHECKING([if a custom VTK installation is specified via VTK_DIR])
+if test -n "${VTK_DIR}"; then
+    # 1. If VTK_DIR is set (most probably in .Renviron), try to use it
+    AC_MSG_RESULT([found VTK_DIR at ${VTK_DIR}])
+    AC_MSG_CHECKING([if minimal version requirement is met (>= 9.5.0)])
+    if test -d "${VTK_DIR}/include/vtk-9.5"; then
         AC_MSG_RESULT([yes])
-        ## Since vtk has been found, test for minimal version requirement
-        AC_MSG_CHECKING([for pkg-config checking VTK version])
-        if pkg-config --atleast-version=9.5.0 vtk; then
-            AC_MSG_RESULT([>= 9.5.0])
-            vtk_include=$(pkg-config --cflags vtk)
-            vtk_libs=$(pkg-config --libs vtk)
-        else
-            AC_MSG_RESULT([insufficient: VTK 9.5.0 or later is preferred.])
-        fi
+        vtk_include="-I${VTK_DIR}/include/vtk-9.5"
+        vtk_libs="-L${brew_prefix}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
     else
         AC_MSG_RESULT([no])
     fi
-fi
-
-## 2. Can we use brew?
-AC_PATH_PROG(have_brew, brew, no)
-if test x"${have_brew}" != x"no"; then
-    AC_MSG_CHECKING([if brew knows VTK])
-    if brew --prefix vtk > /dev/null 2>&1; then
-        AC_MSG_RESULT([yes])
-        vtk_include="-I$(brew --prefix vtk)/include/vtk-9.5"
-        vtk_libs="-L$(brew --prefix vtk)/lib -lvtkIOCellGrid-9.5 -lvtkIOCore-9.5 -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkIOXMLParser-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtkCommonExecutionModel-9.5 -lvtkCommonMath-9.5 -lvtkCommonMisc-9.5 -lvtkCommonSystem-9.5 -lvtkCommonTransforms-9.5 -lvtkFiltersCellGrid-9.5 -lvtkFiltersCore-9.5 -lvtkFiltersReduction-9.5 -lvtkdoubleconversion-9.5 -lvtkexpat-9.5 -lvtkkissfft-9.5 -lvtklz4-9.5 -lvtklzma-9.5 -lvtkpugixml-9.5 -lvtksys-9.5 -lvtktoken-9.5 -lvtkzlib-9.5"
-    else
-        AC_MSG_RESULT([no])
-    fi
-fi
-
 else
-    AC_MSG_RESULT([pkg-config not found])
-    AC_MSG_RESULT([will try to find VTK manually through environment variable VTK_DIR])
-    # 2. Try to use VTK_DIR
-    if test -n "${VTK_DIR}"; then
-        AC_MSG_CHECKING([for VTK_DIR at ${VTK_DIR}])
-        if test -d "${VTK_DIR}/include/vtk-9.5"; then
-            AC_MSG_RESULT([found])
-            vtk_include="-I${VTK_DIR}/include/vtk-9.5"
-            vtk_libs="-L${VTK_DIR}/lib -lvtkIOCellGrid-9.5 -lvtkIOCore-9.5 -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkIOXMLParser-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtkCommonExecutionModel-9.5 -lvtkCommonMath-9.5 -lvtkCommonMisc-9.5 -lvtkCommonSystem-9.5 -lvtkCommonTransforms-9.5 -lvtkFiltersCellGrid-9.5 -lvtkFiltersCore-9.5 -lvtkFiltersReduction-9.5 -lvtkdoubleconversion-9.5 -lvtkexpat-9.5 -lvtkkissfft-9.5 -lvtklz4-9.5 -lvtklzma-9.5 -lvtkpugixml-9.5 -lvtksys-9.5 -lvtktoken-9.5 -lvtkzlib-9.5"
+    AC_MSG_RESULT([not found])
+    # Try Homebrew if available
+    AC_PATH_PROG(have_brew, brew, no)
+    vtk_brew_failed="yes"
+    if test x"${have_brew}" != x"no"; then
+        AC_MSG_CHECKING([if brew knows VTK])
+        if brew --prefix vtk > /dev/null 2>&1; then
+            AC_MSG_RESULT([yes])
+            AC_MSG_CHECKING([if minimal version requirement is met (>= 9.5.0)])
+            brew_prefix="$(brew --prefix vtk)"
+            # checking for an include dir named vtk-9.5
+            if test -d "${brew_prefix}/include/vtk-9.5"; then
+                AC_MSG_RESULT([yes])
+                vtk_include="-I${brew_prefix}/include/vtk-9.5"
+                vtk_libs="-L${brew_prefix}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
+                vtk_brew_failed="no"
+            else
+                AC_MSG_RESULT([no])
+            fi
         else
-            AC_MSG_RESULT([not found])
+            AC_MSG_RESULT([no])
         fi
-    else
-        AC_MSG_ERROR([VTK_DIR not set])
+    fi
+
+    # If brew failed, try pkg-config
+    if test x"${vtk_brew_failed}" = x"yes"; then
+        AC_PATH_PROG(have_pkg_config, pkg-config, no)
+        if test x"${have_pkg_config}" != x"no"; then
+            AC_MSG_CHECKING([if pkg-config knows VTK])
+            if pkg-config --exists vtk; then
+                AC_MSG_RESULT([found via pkg-config])
+                AC_MSG_CHECKING([if minimal version requirement is met])
+                if pkg-config --atleast-version=9.5.0 vtk; then
+                    AC_MSG_RESULT([>= 9.5.0])
+                    vtk_include=$(pkg-config --cflags vtk)
+                    vtk_libs=$(pkg-config --libs vtk)
+                else
+                    AC_MSG_RESULT([no])
+                    AC_MSG_ERROR([VTK 9.5.0 or later is required])
+                fi
+            else
+                AC_MSG_RESULT([no])
+                AC_MSG_ERROR([Cannot find suitable VTK installation, aborting. Please set VTK_DIR environment variable to point to your VTK installation.])
+            fi
+        else
+            AC_MSG_ERROR([Cannot find suitable VTK installation, aborting. Please set VTK_DIR environment variable to point to your VTK installation.])
+        fi
     fi
 fi
 
