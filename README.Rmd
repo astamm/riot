@@ -21,6 +21,8 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/astamm/riot/branch/master/graph/badge.svg)](https://app.codecov.io/gh/astamm/riot?branch=master)
 [![pkgdown](https://github.com/astamm/riot/workflows/pkgdown/badge.svg)](https://github.com/astamm/riot/actions)
 [![CRAN status](https://www.r-pkg.org/badges/version/riot)](https://CRAN.R-project.org/package=riot)
+[![R-CMD-check](https://github.com/astamm/riot/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/astamm/riot/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/astamm/riot/graph/badge.svg)](https://app.codecov.io/gh/astamm/riot)
 <!-- badges: end -->
 
 ## Overview
@@ -84,33 +86,53 @@ library(riot)
 ### Native [VTK](https://vtk.org) `.vtk` and `.vtp` files
 
 ```{r vtk}
-uf_left_vtk  <- read_fascicles(system.file("extdata", "UF_left.vtk",  package = "riot"))
+uf_left_vtk <- read_tractogram(system.file(
+  "extdata",
+  "UF_left.vtk",
+  package = "riot"
+))
 uf_left_vtk
 ```
 
 ```{r vtp}
-uf_left_vtp  <- read_fascicles(system.file("extdata", "UF_left.vtp",  package = "riot"))
+uf_left_vtp <- read_tractogram(system.file(
+  "extdata",
+  "UF_left.vtp",
+  package = "riot"
+))
 uf_left_vtp
 ```
 
 ### [medInria](https://med.inria.fr) `.fds` files
 
 ```{r fds}
-uf_left_fds  <- read_fascicles(system.file("extdata", "UF_left.fds",  package = "riot"))
+uf_left_fds <- read_tractogram(system.file(
+  "extdata",
+  "UF_left.fds",
+  package = "riot"
+))
 uf_left_fds
 ```
 
 ### [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html) `.tck/.tsf` files
 
 ```{r tck}
-af_left_tck  <- read_fascicles(system.file("extdata", "AF_left.tck",  package = "riot"))
+af_left_tck <- read_tractogram(system.file(
+  "extdata",
+  "AF_left.tck",
+  package = "riot"
+))
 af_left_tck
 ```
 
 ### [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk` files
 
 ```{r trk}
-cc_mid_trk  <- read_fascicles(system.file("extdata", "CCMid.trk",  package = "riot"))
+cc_mid_trk <- read_tractogram(system.file(
+  "extdata",
+  "CCMid.trk",
+  package = "riot"
+))
 cc_mid_trk
 ```
 
