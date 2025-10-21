@@ -9,8 +9,8 @@ write_tractogram(x, file, reference_file = NULL)
 \arguments{
 \item{x}{An object of class \code{maf_df} storing a tractogram.}
 
-\item{file}{A path to a file into which the tractogram should be saved.
-Currently supported files are:
+\item{file}{A string specifying the path to the file containing the tractography data. Currently
+supported files are:
 \itemize{
 \item standard \href{https://vtk.org}{VTK} formats \code{.vtk} and \code{.vtp},
 \item \href{https://med.inria.fr}{medInria} \code{.fds} format,
@@ -18,18 +18,29 @@ Currently supported files are:
 \item \href{http://trackvis.org/docs/?subsect=fileformat}{TrackVis} \code{.trk} and \code{.trx} formats,
 \item \href{https://docs.dipy.org/1.11.0/}{DIPY} \code{.dpy} format,
 \item \code{.fib} format.
-}
+}}
 
-Warning: we rely on DIPY to provide support to save tractograms in \code{.trk}, \code{.trx}, \code{.tck}, \code{.dpy} and
-\code{.fib} formats. Among these formats, only \code{.trk} and \code{.trx} formats are able to keep track of additional
-attributes assigned to either streamlines or points.}
+\item{reference_file}{A string specifying the path to a reference image file. This is only required
+when importing \code{.trx}, \code{.fib}, or \code{.dpy} files, as these formats do not contain spatial
+information about the image space. The reference image is used to correctly position the
+tractogram in the appropriate space. Default is \code{NULL}.}
 }
 \value{
 The input tractogram (invisibly) so that the function can be
 used in pipes.
 }
 \description{
-Export tractograms from R
+This function exports a tractogram stored as a \code{maf_df} object to a
+file in one of the supported formats. Supported formats include VTK (\code{.vtk}),
+VTP (\code{.vtp}), FDS (\code{.fds}), TRK (\code{.trk}), TCK (\code{.tck}), TRX (\code{.trx}),
+FIB (\code{.fib}), and DPY (\code{.dpy}). For formats that require a reference image
+(such as TRX, FIB, and DPY), the user must provide the path to a reference
+image file.
+}
+\details{
+Warning: we rely on DIPY to provide support to save tractograms in \code{.trk}, \code{.trx}, \code{.tck}, \code{.dpy}
+and \code{.fib} formats. Among these formats, only \code{.trk} and \code{.trx} formats are able to keep track of
+additional attributes assigned to either streamlines or points.
 }
 \examples{
 uf_left  <- read_tractogram(system.file("extdata", "UF_left.vtp",  package = "riot"))

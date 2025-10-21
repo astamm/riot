@@ -3,7 +3,7 @@
 #' This is the go-to function to import tractograms into R. Based on both VTK and DIPY, we currently
 #' support eight different formats detailed in the documentation of input argument `file`.
 #'
-#' @param file Path to the file containing the tractography data. Currently
+#' @param file A string specifying the path to the file containing the tractography data. Currently
 #'   supported files are:
 #'   - standard [VTK](https://vtk.org) formats `.vtk` and `.vtp`,
 #'   - [medInria](https://med.inria.fr) `.fds` format,
@@ -11,6 +11,10 @@
 #'   - [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk` and `.trx` formats,
 #'   - [DIPY](https://docs.dipy.org/1.11.0/) `.dpy` format,
 #'   - `.fib` format.
+#' @param reference_file A string specifying the path to a reference image file. This is only required
+#' when importing `.trx`, `.fib`, or `.dpy` files, as these formats do not contain spatial
+#' information about the image space. The reference image is used to correctly position the
+#' tractogram in the appropriate space. Default is `NULL`.
 #'
 #' @return A special [tibble][tibble::tibble] (of class `maf_df`) containing the
 #' tractogram data with the following columns:

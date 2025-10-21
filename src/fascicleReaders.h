@@ -6,7 +6,8 @@
 #include <vtkPolyData.h>
 #include <vtkSmartPointer.h>
 
-void WriteCSV(const vtkSmartPointer <vtkPolyData> &inputData, std::string &outputFile);
+void WriteCSV(const vtkSmartPointer<vtkPolyData> &inputData,
+              std::string &outputFile);
 // [[Rcpp::export]]
 void ReadVTK(const std::string &inputTracts, std::string &outputFile);
 // [[Rcpp::export]]

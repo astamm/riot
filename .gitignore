@@ -6,7 +6,6 @@
 autom4te.cache/
 config.log
 config.status
-configure
 configure~
 src/*.o
 src/*.so

@@ -35,7 +35,9 @@ if test -n "${VTK_DIR}"; then
     if test -d "${VTK_DIR}/include/vtk-9.5"; then
         AC_MSG_RESULT([yes])
         vtk_include="-I${VTK_DIR}/include/vtk-9.5"
-        vtk_libs="-L${brew_prefix}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
+        vtk_libs="-L${VTK_DIR}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
+        # fix rpath
+        vtk_libs="${vtk_libs} -Wl,-rpath,${VTK_DIR}/lib"
     else
         AC_MSG_RESULT([no])
     fi

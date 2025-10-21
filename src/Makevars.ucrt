@@ -1,0 +1,4 @@
+PKG_CPPFLAGS = -I$(R_TOOLS_SOFT)/include/vtk
+#PKG_CPPFLAGS = $(shell pkg-config --cflags vtk)
+PKG_LIBS = -L${R_TOOLS_SOFT}/lib -lvtkIOLegacy-8.2 -lvtkIOXML-8.2 -lvtkCommonCore-8.2 -lvtkCommonDataModel-8.2 -lvtksys-8.2
+#PKG_LIBS = $(shell pkg-config --libs vtk)
