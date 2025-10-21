@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.12)
 
+find_program(CMAKE_CXX_COMPILER ${R_CXX})
+
 project(riot)
+
+set(CMAKE_AUTOMOC ON)
 
 message(STATUS "CMake version: ${CMAKE_VERSION}")
 message(STATUS "Project name: ${PROJECT_NAME}")
@@ -54,6 +58,8 @@ set(RIOT_LIB_SOURCES
   fascicleWriters.cpp fascicleReaders.cpp RcppExports.cpp tinyxml2.cpp
 )
 add_library(riot SHARED ${RIOT_LIB_SOURCES})
+
+set_target_properties(riot PROPERTIES COMPILE_FLAGS "-std=c++11")
 
 message (STATUS "R_LIBRARIES: ${R_LIBRARIES}")
 target_link_libraries(riot vtk ${LIBR_LIBRARIES} ${R_LIBRARIES})

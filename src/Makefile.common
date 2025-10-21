@@ -24,7 +24,7 @@ CMAKE_ARGS += -DR_INCLUDES=${R_INCLUDE_DIR} \
 
 all:
 	@echo "Configuring build with RPATH settings..."
-	cmake -S . -B build \
+	cmake -S . -B build ${CMAKE_ARGS} \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DBUILD_SHARED_LIBS=ON \
 		-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=TRUE
