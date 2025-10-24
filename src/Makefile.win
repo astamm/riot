@@ -3,6 +3,6 @@ CMAKE_ARGS = -G "Unix Makefiles" \
              -DCMAKE_RC_COMPILER="$(subst \,/,$(RC_COMPILER))" \
              -DR_LIBRARIES=${LIBR}
 
-CMAKE := "/cygdrive/$(subst :,,$(subst \,/,$(CMAKE)))"
+CMAKE_BIN := "/cygdrive/$(subst :,,$(subst \,/,$(CMAKE)))"
 
 include Makefile.common

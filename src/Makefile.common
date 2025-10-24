@@ -1,3 +1,4 @@
+
 RBIN := "${R_HOME}/bin/R"
 
 CXX := $(shell ${RBIN} CMD config CXX)
@@ -11,27 +12,68 @@ SHLIB_CXXLD_ARGS := $(filter-out $(SHLIB_CXXLD_BIN), $(SHLIB_CXXLD))
 LDFLAGS := $(shell ${RBIN} CMD config LDFLAGS)
 SHLIB_CXXLDFLAGS := $(shell ${RBIN} CMD config SHLIB_CXXLDFLAGS)
 
+VTK_DIR = "${R_PACKAGE_DIR}/libs/vtk"
 SHARED_LINKER_FLAGS = ${SHLIB_CXXLD_ARGS} ${LDFLAGS} ${SHLIB_CXXLDFLAGS}
 EXE_LINKER_FLAGS = ${SHLIB_CXXLD_ARGS} ${LDFLAGS}
 MODULE_LINKER_FLAGS = ${SHLIB_CXXLD_ARGS} ${LDFLAGS}
 
+# Detect platform and set appropriate rpath origin
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+    RPATH_ORIGIN := @loader_path
+else
+    RPATH_ORIGIN := $$ORIGIN
+endif
+
 CMAKE_ARGS += -DR_INCLUDES=${R_INCLUDE_DIR} \
-              -DR_CXX="${CXX_BIN}" \
-	      -DCMAKE_CXX_FLAGS="${CXX_ARGS}" \
-	      -DCMAKE_SHARED_LINKER_FLAGS="${SHARED_LINKER_FLAGS}" \
-	      -DCMAKE_EXE_LINKER_FLAGS="${EXE_LINKER_FLAGS}" \
-	      -DCMAKE_MODULE_LINKER_FLAGS="${MODULE_LINKER_FLAGS}"
+	-DR_CXX="${CXX_BIN}" \
+	-DR_BIN="${RBIN}" \
+	-DCMAKE_CXX_FLAGS="${CXX_ARGS}" \
+	-DCMAKE_SHARED_LINKER_FLAGS="${SHARED_LINKER_FLAGS}" \
+	-DCMAKE_EXE_LINKER_FLAGS="${EXE_LINKER_FLAGS}" \
+	-DCMAKE_MODULE_LINKER_FLAGS="${MODULE_LINKER_FLAGS}" \
+	-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE \
+	-DCMAKE_BUILD_WITH_INSTALL_RPATH=FALSE \
+	-DCMAKE_SKIP_BUILD_RPATH=FALSE \
+	-DCMAKE_INSTALL_RPATH='${RPATH_ORIGIN}/vtk/lib'
+
+CMAKE_BIN := "$(shell sh ../tools/find_cmake.sh)"
 
 all:
-	@echo "Configuring build with RPATH settings..."
-	cmake -S . -B build ${CMAKE_ARGS} \
-		-DCMAKE_BUILD_TYPE=Release \
-		-DBUILD_SHARED_LIBS=ON \
-		-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=TRUE
-	@echo "Build riot target..."
-	@NPROC=$$(nproc 2>/dev/null || echo 1); \
-	cmake --build build --config Release -- -j$$NPROC || { echo "Build failed"; exit 1; }
-	cmake --install build --prefix . || { echo "Install failed"; exit 1; }
+	@echo "Configuring riot project..."; \
+	${CMAKE_BIN} -S . -B build ${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release > configure.log 2>&1; \
+
+	@if cat configure.log | grep -q "Skipping riot"; then \
+		rm configure.log; \
+		echo "Extracting vtk-src.tar.gz..."; \
+		tar -xzf ./vtk-src.tar.gz -C .; \
+		echo "Configuring VTK..."; \
+		${CMAKE_BIN} ${CMAKE_ARGS} \
+			-DBUILD_SHARED_LIBS=ON \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DVTK_ENABLE_LOGGING=OFF \
+			-DVTK_ENABLE_REMOTE_MODULES=OFF \
+			-DVTK_ENABLE_WRAPPING=OFF \
+			-DVTK_GROUP_ENABLE_StandAlone=WANT \
+			-DVTK_INSTALL_SDK=ON \
+			-DVTK_PYTHON_FULL_THREADSAFE=OFF \
+			-DVTK_USE_COCOA=OFF \
+			-S ./vtk-src \
+			-B ./vtk-build || { echo "VTK configuration failed"; exit 1; }; \
+		echo "Building VTK..."; \
+		NPROC=$$(nproc 2>/dev/null || echo 1); \
+		${CMAKE_BIN} --build ./vtk-build --config Release -- -j$$NPROC || { echo "VTK build failed"; exit 1; }; \
+		echo "Installing VTK..."; \
+		${CMAKE_BIN} --install ./vtk-build --prefix ${VTK_DIR} || { echo "VTK install failed"; exit 1; }; \
+		rm -rf ./vtk-src ./vtk-build; \
+		echo "Re-configuring riot target with custom-installed VTK from included sources..."; \
+		${CMAKE_BIN} -S . -B build ${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release -DVTK_ROOT=${VTK_DIR}; \
+	fi; \
+
+	echo "Build riot target..."; \
+	NPROC=$$(nproc 2>/dev/null || echo 1); \
+	${CMAKE_BIN} --build build --config Release -- -j$$NPROC || { echo "Build failed"; exit 1; }; \
+	${CMAKE_BIN} --install build --prefix . || { echo "Install failed"; exit 1; }; \
 	rm -rf build
 
 clean:

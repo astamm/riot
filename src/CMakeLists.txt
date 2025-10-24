@@ -4,8 +4,6 @@ find_program(CMAKE_CXX_COMPILER ${R_CXX})
 
 project(riot)
 
-set(CMAKE_AUTOMOC ON)
-
 message(STATUS "CMake version: ${CMAKE_VERSION}")
 message(STATUS "Project name: ${PROJECT_NAME}")
 message(STATUS "Project source dir: ${CMAKE_SOURCE_DIR}")
@@ -17,23 +15,15 @@ set(CMAKE_MODULE_PATH
 )
 message(STATUS "CMake module path: ${CMAKE_MODULE_PATH}")
 
-find_package(LibR)
-if(${LIBR_FOUND})
-else()
-  message(FATAL_ERROR "No R...")
-endif()
-message(STATUS "LIBR_VERSION: ${LIBR_VERSION}")
-message(STATUS "LIBR_INCLUDE_DIRS: ${LIBR_INCLUDE_DIRS}")
-message(STATUS "LIBR_LIBRARIES: ${LIBR_LIBRARIES}")
-message(STATUS "LIBR_EXECUTABLE: ${LIBR_EXECUTABLE}")
-include_directories(BEFORE ${LIBR_INCLUDE_DIRS})
+message (STATUS "R_INCLUDE_DIRS: ${R_INCLUDES}")
+include_directories(BEFORE ${R_INCLUDES})
 
 execute_process(
-  COMMAND ${LIBR_EXECUTABLE} "--slave" "-e" "stopifnot(require('Rcpp'));cat(Rcpp:::Rcpp.system.file('include'))"
-   OUTPUT_VARIABLE LIBRCPP_INCLUDE_DIRS
+  COMMAND ${R_BIN} "--slave" "-e" "stopifnot(require('Rcpp'));cat(Rcpp:::Rcpp.system.file('include'))"
+   OUTPUT_VARIABLE RCPP_INCLUDE_DIRS
 )
-message(STATUS "LIBRCPP_INCLUDE_DIRS: ${LIBRCPP_INCLUDE_DIRS}")
-include_directories(BEFORE ${LIBRCPP_INCLUDE_DIRS})
+message(STATUS "RCPP_INCLUDE_DIRS: ${RCPP_INCLUDE_DIRS}")
+include_directories(BEFORE ${RCPP_INCLUDE_DIRS})
 
 find_package(VTK COMPONENTS
   CommonCore
@@ -45,7 +35,7 @@ find_package(VTK COMPONENTS
 )
 
 if (NOT VTK_FOUND)
-  message("Skipping ${PROJECT_NAME}: ${VTK_NOT_FOUND_MESSAGE}")
+  message("Skipping ${PROJECT_NAME}: VTK not found.")
   return ()
 endif()
 message (STATUS "VTK_VERSION: ${VTK_VERSION}")
@@ -54,15 +44,14 @@ add_library(vtk INTERFACE)
 target_link_libraries(vtk INTERFACE ${VTK_LIBRARIES})
 
 # List source files
-set(RIOT_LIB_SOURCES 
+set(RIOT_SOURCES 
   fascicleWriters.cpp fascicleReaders.cpp RcppExports.cpp tinyxml2.cpp
 )
-add_library(riot SHARED ${RIOT_LIB_SOURCES})
+add_library(riot SHARED ${RIOT_SOURCES})
 
 set_target_properties(riot PROPERTIES COMPILE_FLAGS "-std=c++11")
 
-message (STATUS "R_LIBRARIES: ${R_LIBRARIES}")
-target_link_libraries(riot vtk ${LIBR_LIBRARIES} ${R_LIBRARIES})
+target_link_libraries(riot vtk ${R_LIBRARIES})
 
 set_target_properties(riot PROPERTIES PREFIX "")
 if(NOT WIN32) # Need to force .so on Mac, but Windows needs to be .dll
