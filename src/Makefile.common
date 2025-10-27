@@ -25,23 +25,21 @@ else
     RPATH_ORIGIN := $$ORIGIN
 endif
 
-CMAKE_ARGS += -DR_INCLUDES=${R_INCLUDE_DIR} \
-	-DR_CXX="${CXX_BIN}" \
-	-DR_BIN="${RBIN}" \
+CMAKE_ARGS += -DBUILD_SHARED_LIBS=ON \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DR_INCLUDES="${R_INCLUDE_DIR}" \
 	-DCMAKE_CXX_FLAGS="${CXX_ARGS}" \
 	-DCMAKE_SHARED_LINKER_FLAGS="${SHARED_LINKER_FLAGS}" \
 	-DCMAKE_EXE_LINKER_FLAGS="${EXE_LINKER_FLAGS}" \
-	-DCMAKE_MODULE_LINKER_FLAGS="${MODULE_LINKER_FLAGS}" \
-	-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE \
-	-DCMAKE_BUILD_WITH_INSTALL_RPATH=FALSE \
-	-DCMAKE_SKIP_BUILD_RPATH=FALSE \
-	-DCMAKE_INSTALL_RPATH='${RPATH_ORIGIN}/vtk/lib'
+	-DCMAKE_MODULE_LINKER_FLAGS="${MODULE_LINKER_FLAGS}"
+
+RIOT_CMAKE_ARGS = ${CMAKE_ARGS} -DR_CXX="${CXX_BIN}" -DR_BIN="${RBIN}"
 
 CMAKE_BIN := "$(shell sh ../tools/find_cmake.sh)"
 
 all:
 	@echo "Configuring riot project..."; \
-	${CMAKE_BIN} -S . -B build ${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release > configure.log 2>&1; \
+	${CMAKE_BIN} -S . -B build ${RIOT_CMAKE_ARGS} > configure.log 2>&1; \
 
 	@if cat configure.log | grep -q "Skipping riot"; then \
 		rm configure.log; \
@@ -49,8 +47,6 @@ all:
 		tar -xzf ./vtk-src.tar.gz -C .; \
 		echo "Configuring VTK..."; \
 		${CMAKE_BIN} ${CMAKE_ARGS} \
-			-DBUILD_SHARED_LIBS=ON \
-			-DCMAKE_BUILD_TYPE=Release \
 			-DVTK_ENABLE_LOGGING=OFF \
 			-DVTK_ENABLE_REMOTE_MODULES=OFF \
 			-DVTK_ENABLE_WRAPPING=OFF \
@@ -67,7 +63,12 @@ all:
 		${CMAKE_BIN} --install ./vtk-build --prefix ${VTK_DIR} || { echo "VTK install failed"; exit 1; }; \
 		rm -rf ./vtk-src ./vtk-build; \
 		echo "Re-configuring riot target with custom-installed VTK from included sources..."; \
-		${CMAKE_BIN} -S . -B build ${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release -DVTK_ROOT=${VTK_DIR}; \
+		${CMAKE_BIN} -S . -B build ${RIOT_CMAKE_ARGS} \
+			-DVTK_ROOT=${VTK_DIR} \
+			-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE \
+			-DCMAKE_BUILD_WITH_INSTALL_RPATH=FALSE \
+			-DCMAKE_SKIP_BUILD_RPATH=FALSE \
+			-DCMAKE_INSTALL_RPATH='${RPATH_ORIGIN}/vtk/lib'; \
 	fi; \
 
 	echo "Build riot target..."; \
