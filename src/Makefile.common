@@ -61,8 +61,7 @@ all:
 			-S ./vtk-src \
 			-B ./vtk-build || { echo "VTK configuration failed"; exit 1; }; \
 		echo "Building VTK..."; \
-		NPROC=$$(nproc 2>/dev/null || echo 1); \
-		${CMAKE_BIN} --build ./vtk-build --config Release -- -j$$NPROC || { echo "VTK build failed"; exit 1; }; \
+		${CMAKE_BIN} --build ./vtk-build --config Release || { echo "VTK build failed"; exit 1; }; \
 		echo "Installing VTK..."; \
 		${CMAKE_BIN} --install ./vtk-build --prefix ${VTK_DIR} || { echo "VTK install failed"; exit 1; }; \
 		rm -rf ./vtk-src ./vtk-build; \
