@@ -2,6 +2,20 @@
 RBIN := "${R_HOME}/bin/R"
 R_INCLUDE_DIR := "$(shell ${R_HOME}/bin/R CMD config --cppflags | sed 's/-I//')"
 
+CC := $(shell ${RBIN} CMD config CC)
+CC_NAME := $(firstword ${CC})
+CC_BIN := $(shell command -v ${CC_NAME} || echo ${CC_NAME})
+CC_ARGS := $(filter-out ${CC_NAME}, $(CC))
+
+CFLAGS := $(shell ${RBIN} CMD config CFLAGS)
+CC_ARGS += ${CFLAGS}
+
+CPICFLAGS := $(shell ${RBIN} CMD config CPICFLAGS)
+CC_ARGS += ${CPICFLAGS}
+
+SHLIB_CFLAGS := $(shell ${RBIN} CMD config SHLIB_CFLAGS)
+CC_ARGS += ${SHLIB_CFLAGS}
+
 CXX := $(shell ${RBIN} CMD config CXX)
 CXX_NAME := $(firstword ${CXX})
 CXX_BIN := $(shell command -v ${CXX_NAME} || echo ${CXX_NAME})
@@ -14,7 +28,7 @@ LDFLAGS := $(shell ${RBIN} CMD config LDFLAGS)
 SHLIB_CXXLDFLAGS := $(shell ${RBIN} CMD config SHLIB_CXXLDFLAGS)
 
 CXXFLAGS := $(shell ${RBIN} CMD config CXXFLAGS)
-CXX_ARGS += ${CXXFLAGS} -fPIC
+CXX_ARGS += ${CXXFLAGS}
 
 CXXPICFLAGS := $(shell ${RBIN} CMD config CXXPICFLAGS)
 CXX_ARGS += ${CXXPICFLAGS}
@@ -37,8 +51,10 @@ endif
 
 CMAKE_ARGS += -DBUILD_SHARED_LIBS=ON \
 	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_C_COMPILER="${CC_BIN}" \
+	-DCMAKE_C_FLAGS="${CC_ARGS}" \
 	-DCMAKE_CXX_COMPILER="${CXX_BIN}" \
-	-DCMAKE_CXX_FLAGS="${CXX_ARGS} -fPIC" \
+	-DCMAKE_CXX_FLAGS="${CXX_ARGS}" \
 	-DCMAKE_SHARED_LINKER_FLAGS="${SHARED_LINKER_FLAGS}" \
 	-DCMAKE_EXE_LINKER_FLAGS="${EXE_LINKER_FLAGS}" \
 	-DCMAKE_MODULE_LINKER_FLAGS="${MODULE_LINKER_FLAGS}" \
