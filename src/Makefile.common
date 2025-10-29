@@ -75,6 +75,8 @@ all:
 		${CMAKE_BIN} --build ./vtk-build --config Release || { echo "VTK build failed"; exit 1; }; \
 		echo "Installing VTK..."; \
 		${CMAKE_BIN} --install ./vtk-build --prefix ${VTK_DIR} || { echo "VTK install failed"; exit 1; }; \
+		rm -rf ./vtk-src ./vtk-build; \
+		echo "Re-configuring riot project with VTK..."; \
 		${CMAKE_BIN} -S . -B build ${RIOT_CMAKE_ARGS} \
 			-DVTK_ROOT=${VTK_DIR} \
 			-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE \
