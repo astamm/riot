@@ -17,3 +17,7 @@
 ^pkgdown$
 ^[.]?air[.]toml$
 ^\.vscode$
+^config\.log$
+^config\.status$
+^autom4te\.cache$
+^src/Makevars$

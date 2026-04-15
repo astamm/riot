@@ -1,0 +1,3 @@
+#! /bin/sh
+
+rm -fr src/*.o src/*.so src/Makevars autom4te.cache config.log config.status
