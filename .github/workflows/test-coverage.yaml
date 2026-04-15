@@ -32,16 +32,16 @@ jobs:
         id: cache-vtk
         with:
           path: ~/vtk-install
-          key: vtk-9.5.0-linux-${{ runner.arch }}
+          key: vtk-9.5.2-linux-${{ runner.arch }}
 
       - name: Build and install VTK (Linux)
         if: steps.cache-vtk.outputs.cache-hit != 'true'
         run: |
           sudo apt-get install -y libgl1-mesa-dev libxt-dev
-          wget -q https://www.vtk.org/files/release/9.5/VTK-9.5.0.tar.gz
-          tar xzf VTK-9.5.0.tar.gz
+          wget -q https://www.vtk.org/files/release/9.5/VTK-9.5.2.tar.gz
+          tar xzf VTK-9.5.2.tar.gz
           mkdir VTK-build && cd VTK-build
-          cmake ../VTK-9.5.0 \
+          cmake ../VTK-9.5.2 \
             -DCMAKE_INSTALL_PREFIX=$HOME/vtk-install \
             -DCMAKE_BUILD_TYPE=Release \
             -DBUILD_SHARED_LIBS=ON \
