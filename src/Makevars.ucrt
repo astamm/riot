@@ -1,2 +1,2 @@
-PKG_CPPFLAGS = -I$(R_TOOLS_SOFT)/include/vtk-8.2
-PKG_LIBS = -L${R_TOOLS_SOFT}/lib -lvtkIOLegacy-8.2 -lvtkIOXML-8.2 -lvtkCommonCore-8.2 -lvtkCommonDataModel-8.2 -lvtksys-8.2
+PKG_CPPFLAGS = -I$(R_TOOLS_SOFT)/../ucrt64/include/vtk
+PKG_LIBS = -L${R_TOOLS_SOFT}/../ucrt64/lib -lvtkIOLegacy -lvtkIOXML -lvtkCommonCore -lvtkCommonDataModel -lvtksys
