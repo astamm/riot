@@ -1,0 +1,93 @@
+#!/bin/bash
+# configure.win -- Windows (UCRT / Rtools45) configuration script for riot
+# Installs VTK via pacman if needed, detects the versioned include/lib dirs,
+# and generates src/Makevars from src/Makevars.in.
+
+set -e
+
+VTK_SYSROOT="/ucrt64"
+
+# ---------------------------------------------------------------------------
+# 1. Install VTK via pacman if not already present
+# ---------------------------------------------------------------------------
+if ! pacman -Q mingw-w64-ucrt-x86_64-vtk > /dev/null 2>&1; then
+    echo "VTK not found in Rtools45 sysroot -- installing via pacman..."
+    pacman -S --noconfirm mingw-w64-ucrt-x86_64-vtk
+else
+    echo "VTK already installed in Rtools45 sysroot."
+fi
+
+# ---------------------------------------------------------------------------
+# 2. Locate the versioned VTK include directory (e.g. /ucrt64/include/vtk-9.3)
+# ---------------------------------------------------------------------------
+VTK_INCLUDE_DIR=$(find "${VTK_SYSROOT}/include" -maxdepth 1 -name "vtk-*" -type d 2>/dev/null \
+    | sort -V | tail -1)
+
+if test -z "${VTK_INCLUDE_DIR}"; then
+    echo "ERROR: Could not find a VTK include directory under ${VTK_SYSROOT}/include"
+    exit 1
+fi
+
+VTK_VERSION=$(basename "${VTK_INCLUDE_DIR}" | sed 's/vtk-//')
+echo "Found VTK ${VTK_VERSION} at ${VTK_INCLUDE_DIR}"
+
+# ---------------------------------------------------------------------------
+# 3. Build compiler / linker flags
+# ---------------------------------------------------------------------------
+VTK_CPPFLAGS="-I${VTK_INCLUDE_DIR}"
+VTK_LIBS="-L${VTK_SYSROOT}/lib"
+VTK_LIBS="${VTK_LIBS} -lvtkIOLegacy-${VTK_VERSION}"
+VTK_LIBS="${VTK_LIBS} -lvtkIOXML-${VTK_VERSION}"
+VTK_LIBS="${VTK_LIBS} -lvtkIOCore-${VTK_VERSION}"
+VTK_LIBS="${VTK_LIBS} -lvtkCommonCore-${VTK_VERSION}"
+VTK_LIBS="${VTK_LIBS} -lvtkCommonDataModel-${VTK_VERSION}"
+VTK_LIBS="${VTK_LIBS} -lvtksys-${VTK_VERSION}"
+
+echo "VTK_CPPFLAGS: ${VTK_CPPFLAGS}"
+echo "VTK_LIBS: ${VTK_LIBS}"
+
+# ---------------------------------------------------------------------------
+# 4. Generate src/Makevars from src/Makevars.in
+# ---------------------------------------------------------------------------
+sed \
+    -e "s|@VTK_CPPFLAGS@|${VTK_CPPFLAGS}|g" \
+    -e "s|@VTK_LIBS@|${VTK_LIBS}|g" \
+    src/Makevars.in > src/Makevars
+
+echo "src/Makevars written successfully."
+
+# ---------------------------------------------------------------------------
+# 5. Bundle VTK DLLs so they are found at runtime (Windows DLL search path)
+#    R places files from inst/libs/x64/ alongside the package DLL after install.
+# ---------------------------------------------------------------------------
+VTK_BIN_DIR="${VTK_SYSROOT}/bin"
+INST_LIBS_DIR="inst/libs/x64"
+mkdir -p "${INST_LIBS_DIR}"
+
+echo "Copying VTK DLLs from ${VTK_BIN_DIR} to ${INST_LIBS_DIR}..."
+for lib in \
+    "libvtkIOLegacy-${VTK_VERSION}.dll" \
+    "libvtkIOXML-${VTK_VERSION}.dll" \
+    "libvtkIOCore-${VTK_VERSION}.dll" \
+    "libvtkCommonCore-${VTK_VERSION}.dll" \
+    "libvtkCommonDataModel-${VTK_VERSION}.dll" \
+    "libvtkCommonMath-${VTK_VERSION}.dll" \
+    "libvtkCommonMisc-${VTK_VERSION}.dll" \
+    "libvtkCommonSystem-${VTK_VERSION}.dll" \
+    "libvtkCommonTransforms-${VTK_VERSION}.dll" \
+    "libvtkIOXMLParser-${VTK_VERSION}.dll" \
+    "libvtksys-${VTK_VERSION}.dll" \
+    "libvtkexpat-${VTK_VERSION}.dll" \
+    "libvtklz4-${VTK_VERSION}.dll" \
+    "libvtklzma-${VTK_VERSION}.dll" \
+    "libvtkzlib-${VTK_VERSION}.dll"; do
+    src_path="${VTK_BIN_DIR}/${lib}"
+    if test -f "${src_path}"; then
+        cp "${src_path}" "${INST_LIBS_DIR}/"
+        echo "  Copied: ${lib}"
+    else
+        echo "  Skipped (not found): ${lib}"
+    fi
+done
+
+echo "DLL bundling complete."

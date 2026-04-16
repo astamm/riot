@@ -11,6 +11,8 @@ src/*.o
 src/*.so
 src/*.exe
 src/Makevars
+src/Makevars.ucrt
 src/*.dll
+inst/libs/
 
 /.quarto/
