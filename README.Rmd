@@ -138,22 +138,29 @@ cc_mid_trk
 
 ## Dependencies
 
-The [**riot**](https://astamm.github.io/riot/) package has two dependencies:
-[VTK](https://vtk.org/) and
-[TinyXML-2](https://github.com/leethomason/tinyxml2). They both have been
-slightly altered with respect to the original softwares for compliance with
-[CRAN](https://cran.r-project.org) policy. Specifically: 
+### VTK
 
-- `vtk/include/utf8.h` header file has been modified to ensure LF line endings;
-- some source files of the `CommonDataModel` and `vtkzlib` modules have been 
-modified to avoid compilation warnings arising when using LLVM or Apple clang or 
-GNU gcc compilers;
-- `tinyxml2.cpp` has been modified to avoid the use of `stdout` and `printf` as 
-per *Writing R Extensions* manual recommendations because `R` has its own 
+Since version 1.2.0, **riot** no longer bundles VTK source files. Instead it
+links against an **externally installed** [VTK](https://vtk.org/) (>= 9.1.0)
+with shared libraries enabled. VTK must be present on the host before
+installing the package.
+
+At install time, `configure` (Unix-like) / `configure.win` (Windows) search
+for VTK in the following order:
+
+1. `VTK_DIR` environment variable (highest priority).
+2. [Homebrew](https://brew.sh) — macOS only (`brew install vtk`).
+3. `pkg-config` — macOS and Linux.
+4. Well-known system prefix paths (`/usr`, `/usr/local`) — Linux.
+5. Rtools45 / UCRT64 pacman package
+   `mingw-w64-ucrt-x86_64-vtk` — Windows.
+
+### TinyXML-2
+
+**riot** bundles [TinyXML-2](https://github.com/leethomason/tinyxml2).
+`tinyxml2.cpp` has been modified to avoid the use of `stdout` and `printf` as
+per *Writing R Extensions* manual recommendations because `R` has its own
 input/output mechanism for writing to the console.
-
-Moreover, **riot** now ships a shrunk version of VTK source files to avoid 
-unsuccessful downloads from VTK website.
 
 ## Acknowledgements
 

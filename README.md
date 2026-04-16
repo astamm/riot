@@ -87,11 +87,14 @@ uf_left_vtk <- read_tractogram(system.file(
 ))
 #> Number of data points: 38697
 #> Number of streamlines: 2042
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/RtmpWDrUDz/temp_libpath81137943942/riot/extdata/UF_left.vtk' has been successfully imported.
+#> Registered S3 method overwritten by 'bit64':
+#>   method          from 
+#>   print.bitstring tools
+#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b64765ed15/riot/extdata/UF_left.vtk' has been successfully imported.
 uf_left_vtk
 #> ℹ Tractogram with 2042 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
-#> cli-33595-8
+#> cli-22469-8
 ```
 
 ``` r
@@ -102,11 +105,11 @@ uf_left_vtp <- read_tractogram(system.file(
 ))
 #> Number of data points: 38697
 #> Number of streamlines: 2042
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/RtmpWDrUDz/temp_libpath81137943942/riot/extdata/UF_left.vtp' has been successfully imported.
+#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b64765ed15/riot/extdata/UF_left.vtp' has been successfully imported.
 uf_left_vtp
 #> ℹ Tractogram with 2042 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
-#> cli-33595-14
+#> cli-22469-14
 ```
 
 ### [medInria](https://med.inria.fr) `.fds` files
@@ -119,11 +122,11 @@ uf_left_fds <- read_tractogram(system.file(
 ))
 #> Number of data points: 38697
 #> Number of streamlines: 2042
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/RtmpWDrUDz/temp_libpath81137943942/riot/extdata/UF_left.fds' has been successfully imported.
+#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b64765ed15/riot/extdata/UF_left.fds' has been successfully imported.
 uf_left_fds
 #> ℹ Tractogram with 2042 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
-#> cli-33595-20
+#> cli-22469-20
 ```
 
 ### [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html) `.tck/.tsf` files
@@ -134,11 +137,11 @@ af_left_tck <- read_tractogram(system.file(
   "AF_left.tck",
   package = "riot"
 ))
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/RtmpWDrUDz/temp_libpath81137943942/riot/extdata/AF_left.tck' has been successfully imported.
+#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b64765ed15/riot/extdata/AF_left.tck' has been successfully imported.
 af_left_tck
 #> ℹ Tractogram with 5000 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 8, 23, 28, 28.0602, 33, and 54.
-#> cli-33595-26
+#> cli-22469-26
 ```
 
 ### [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk` files
@@ -149,32 +152,38 @@ cc_mid_trk <- read_tractogram(system.file(
   "CCMid.trk",
   package = "riot"
 ))
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/RtmpWDrUDz/temp_libpath81137943942/riot/extdata/CCMid.trk' has been successfully imported.
+#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b64765ed15/riot/extdata/CCMid.trk' has been successfully imported.
 cc_mid_trk
 #> ℹ Tractogram with 525 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 29, 189, 224, 214.619047619048, 243, and 270.
-#> cli-33595-32
+#> cli-22469-32
 ```
 
 ## Dependencies
 
-The [**riot**](https://astamm.github.io/riot/) package has two
-dependencies: [VTK](https://vtk.org/) and
-[TinyXML-2](https://github.com/leethomason/tinyxml2). They both have
-been slightly altered with respect to the original softwares for
-compliance with [CRAN](https://cran.r-project.org) policy. Specifically:
+### VTK
 
-- `vtk/include/utf8.h` header file has been modified to ensure LF line
-  endings;
-- some source files of the `CommonDataModel` and `vtkzlib` modules have
-  been modified to avoid compilation warnings arising when using LLVM or
-  Apple clang or GNU gcc compilers;
-- `tinyxml2.cpp` has been modified to avoid the use of `stdout` and
-  `printf` as per *Writing R Extensions* manual recommendations because
-  `R` has its own input/output mechanism for writing to the console.
+Since version 1.2.0, **riot** no longer bundles VTK source files.
+Instead it links against an **externally installed**
+[VTK](https://vtk.org/) (\>= 9.1.0) with shared libraries enabled. VTK
+must be present on the host before installing the package.
 
-Moreover, **riot** now ships a shrunk version of VTK source files to
-avoid unsuccessful downloads from VTK website.
+At install time, `configure` (Unix-like) / `configure.win` (Windows)
+search for VTK in the following order:
+
+1.  `VTK_DIR` environment variable (highest priority).
+2.  [Homebrew](https://brew.sh) — macOS only (`brew install vtk`).
+3.  `pkg-config` — macOS and Linux.
+4.  Well-known system prefix paths (`/usr`, `/usr/local`) — Linux.
+5.  Rtools45 / UCRT64 pacman package `mingw-w64-ucrt-x86_64-vtk` —
+    Windows.
+
+### TinyXML-2
+
+**riot** bundles [TinyXML-2](https://github.com/leethomason/tinyxml2).
+`tinyxml2.cpp` has been modified to avoid the use of `stdout` and
+`printf` as per *Writing R Extensions* manual recommendations because
+`R` has its own input/output mechanism for writing to the console.
 
 ## Acknowledgements
 

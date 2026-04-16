@@ -52,6 +52,6 @@ Suggests:
     covr,
     testthat (>= 3.0.0),
     withr
-SystemRequirements: VTK (>= 9.5.0) compiled with shared libraries enabled for
+SystemRequirements: VTK (>= 9.1.0) compiled with shared libraries enabled for
     macOS and Linux platforms.
 Config/testthat/edition: 3
