@@ -82,7 +82,6 @@ vtk_build_flags() {
     VTK_LIBS="-L${VTK_SYSROOT}/lib"
     VTK_LIBS="${VTK_LIBS} -lvtkIOLegacy${_s}"
     VTK_LIBS="${VTK_LIBS} -lvtkIOXML${_s}"
-    VTK_LIBS="${VTK_LIBS} -lvtkIOCore${_s}"
     VTK_LIBS="${VTK_LIBS} -lvtkCommonCore${_s}"
     VTK_LIBS="${VTK_LIBS} -lvtkCommonDataModel${_s}"
     VTK_LIBS="${VTK_LIBS} -lvtksys${_s}"
