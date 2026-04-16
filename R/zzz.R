@@ -8,11 +8,11 @@ io_streamline <- NULL
   # the native library.
   if (.Platform$OS.type == "windows") {
     lib_dir <- file.path(libname, pkgname, "libs", .Platform$r_arch)
-    if (
-      dir.exists(lib_dir) &&
-        exists("addDLLDirectory", envir = asNamespace("base"), inherits = FALSE)
-    ) {
-      tryCatch(base::addDLLDirectory(lib_dir), error = function(e) NULL)
+    if (dir.exists(lib_dir)) {
+      add_dll_dir <- get0("addDLLDirectory", envir = asNamespace("base"))
+      if (!is.null(add_dll_dir)) {
+        tryCatch(add_dll_dir(lib_dir), error = function(e) NULL)
+      }
     }
   }
   reticulate::py_require("fury")
