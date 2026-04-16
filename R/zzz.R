@@ -11,7 +11,7 @@ io_streamline <- NULL
     cfg_file <- system.file("vtk_config", package = pkgname)
     if (nzchar(cfg_file)) {
       lines <- readLines(cfg_file, warn = FALSE)
-      cfg <- setNames(
+      cfg <- stats::setNames(
         sub("^[^=]+=", "", lines),
         sub("=.*$", "", lines)
       )
