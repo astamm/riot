@@ -32,7 +32,7 @@ void WriteCSV(const vtkSmartPointer<vtkPolyData> &inputData,
       continue;
     }
 
-    for (unsigned int j = 0; j < arraySize; ++j)
+    for (int j = 0; j < arraySize; ++j)
       outputData << "," << pointData->GetArrayName(i) << "#" << j;
   }
 
@@ -85,7 +85,7 @@ void WriteCSV(const vtkSmartPointer<vtkPolyData> &inputData,
 
     // 3. Write array values if any
     for (unsigned int k = 0; k < numArrays; ++k)
-      for (unsigned int j = 0; j < arraySizes[k]; ++j)
+      for (int j = 0; j < arraySizes[k]; ++j)
         outputData << "," << pointData->GetArray(k)->GetComponent(i, j);
   }
 

@@ -44,13 +44,14 @@ void ReadCSV(const std::string &inputFile,
   unsigned int pos = 5;
   while (pos < numberOfColumns) {
     // Dealing with arrays now
-    if (header[pos].find_last_of("#") == -1) // Array value is scalar
+    if (header[pos].find_last_of("#") ==
+        std::string::npos) // Array value is scalar
     {
       numberOfComponents.push_back(1);
       ++pos;
     } else {
       unsigned int count = 0;
-      while (header[pos + count].find_last_of("#") != -1)
+      while (header[pos + count].find_last_of("#") != std::string::npos)
         ++count;
       numberOfComponents.push_back(count);
       pos += count;
