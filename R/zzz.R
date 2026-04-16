@@ -2,9 +2,11 @@ io_stateful_tractogram <- NULL
 io_streamline <- NULL
 
 .onLoad <- function(libname, pkgname) {
-  # On Windows, register the VTK bin directory as a DLL search path so that
-  # riot.dll can resolve its VTK dependencies from the Rtools45/MSYS2
-  # installation without bundling those DLLs inside the package.
+  # On Windows, register the VTK bin directory as a DLL search path BEFORE
+  # loading riot.dll, so that its VTK dependencies can be resolved from the
+  # Rtools45/MSYS2 installation without bundling those DLLs inside the package.
+  # NOTE: useDynLib is intentionally absent from NAMESPACE so that R does not
+  # auto-load the DLL before this hook runs. We load it manually here instead.
   if (.Platform$OS.type == "windows") {
     cfg_file <- system.file("vtk_config", package = pkgname)
     if (nzchar(cfg_file)) {
@@ -26,6 +28,14 @@ io_streamline <- NULL
         }
       }
     }
+  }
+  # Load the native DLL now (after the VTK search path is registered on Windows).
+  # During devtools::load_all() / pkgload, libname points to the source tree
+  # parent rather than an installed library — library.dynam() would fail there.
+  # An installed package always has a libs/ subdirectory; a source tree does not.
+  pkg_libs_dir <- file.path(libname, pkgname, "libs")
+  if (dir.exists(pkg_libs_dir) && is.null(getLoadedDLLs()[["riot"]])) {
+    library.dynam("riot", pkgname, libname)
   }
   reticulate::py_require("fury")
   reticulate::py_require("dipy")
