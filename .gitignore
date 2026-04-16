@@ -13,6 +13,7 @@ src/*.exe
 src/Makevars
 src/Makevars.ucrt
 src/vtk_config
+inst/vtk_config
 src/*.dll
 
 /.quarto/

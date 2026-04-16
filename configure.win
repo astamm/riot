@@ -55,12 +55,14 @@ sed \
 echo "src/Makevars written successfully."
 
 # ---------------------------------------------------------------------------
-# 5. Write VTK config for use by src/install.libs.R at install time
+# 5. Write VTK config into inst/ so R installs it into the package root.
+#    .onLoad() reads it from there via system.file() to register the VTK
+#    bin directory as a DLL search path at runtime.
 # ---------------------------------------------------------------------------
-# Convert VTK_BIN_DIR to a Windows path so it is usable from R
+mkdir -p inst
 VTK_BIN_DIR_WIN=$(cygpath -w "${VTK_SYSROOT}/bin")
-cat > src/vtk_config <<EOF
+cat > inst/vtk_config <<EOF
 VTK_BIN_DIR=${VTK_BIN_DIR_WIN}
 EOF
 
-echo "src/vtk_config written successfully."
+echo "inst/vtk_config written successfully."

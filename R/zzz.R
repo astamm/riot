@@ -6,9 +6,8 @@ io_streamline <- NULL
   # riot.dll can resolve its VTK dependencies from the Rtools45/MSYS2
   # installation without bundling those DLLs inside the package.
   if (.Platform$OS.type == "windows") {
-    lib_dir <- file.path(libname, pkgname, "libs", .Platform$r_arch)
-    cfg_file <- file.path(lib_dir, "vtk_config")
-    if (file.exists(cfg_file)) {
+    cfg_file <- system.file("vtk_config", package = pkgname)
+    if (nzchar(cfg_file)) {
       lines <- readLines(cfg_file, warn = FALSE)
       cfg <- setNames(
         sub("^[^=]+=", "", lines),
