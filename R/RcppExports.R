@@ -2,26 +2,26 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 ReadVTK <- function(inputTracts, outputFile) {
-    invisible(.Call(`_riot_ReadVTK`, inputTracts, outputFile))
+    invisible(.Call('_riot_ReadVTK', PACKAGE = 'riot', inputTracts, outputFile))
 }
 
 ReadVTP <- function(inputTracts, outputFile) {
-    invisible(.Call(`_riot_ReadVTP`, inputTracts, outputFile))
+    invisible(.Call('_riot_ReadVTP', PACKAGE = 'riot', inputTracts, outputFile))
 }
 
 ReadFDS <- function(inputTracts, outputFile) {
-    invisible(.Call(`_riot_ReadFDS`, inputTracts, outputFile))
+    invisible(.Call('_riot_ReadFDS', PACKAGE = 'riot', inputTracts, outputFile))
 }
 
 WriteVTK <- function(inputTracts, outputFile) {
-    invisible(.Call(`_riot_WriteVTK`, inputTracts, outputFile))
+    invisible(.Call('_riot_WriteVTK', PACKAGE = 'riot', inputTracts, outputFile))
 }
 
 WriteVTP <- function(inputTracts, outputFile) {
-    invisible(.Call(`_riot_WriteVTP`, inputTracts, outputFile))
+    invisible(.Call('_riot_WriteVTP', PACKAGE = 'riot', inputTracts, outputFile))
 }
 
 WriteFDS <- function(inputTracts, outputFile) {
-    invisible(.Call(`_riot_WriteFDS`, inputTracts, outputFile))
+    invisible(.Call('_riot_WriteFDS', PACKAGE = 'riot', inputTracts, outputFile))
 }
 

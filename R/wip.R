@@ -1,7 +1,7 @@
 # library(rgl)
 # library(future)
 #
-# tck <- read_fascicles("~/Downloads/laf_m_sub.tck")
+# tck <- read_tractogram("~/Downloads/laf_m_sub.tck")
 # plan(multisession)
 # tckc <- tck %>%
 #   tidyr::nest(data = -StreamlineId) %>%
@@ -26,7 +26,7 @@
 #
 # # Approche reduc nb fibres ------------------------------------------------
 #
-# tck <- read_fascicles("~/Downloads/laf_m_sub.tck")
+# tck <- read_tractogram("~/Downloads/laf_m_sub.tck")
 # tckn <- tck %>%
 #   nest(StreamlineData = -StreamlineId)
 # n <- nrow(tckn)

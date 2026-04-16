@@ -7,16 +7,21 @@
 read_tractogram(file, reference_file = NULL)
 }
 \arguments{
-\item{file}{Path to the file containing the tractography data. Currently
+\item{file}{A string specifying the path to the file containing the tractography data. Currently
 supported files are:
 \itemize{
 \item standard \href{https://vtk.org}{VTK} formats \code{.vtk} and \code{.vtp},
 \item \href{https://med.inria.fr}{medInria} \code{.fds} format,
 \item \href{https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html}{MRtrix} \code{.tck/.tsf} format,
-\item \href{http://trackvis.org/docs/?subsect=fileformat}{TrackVis} \code{.trk} and \code{.trx} formats,
+\item \href{https://trackvis.org/docs/?subsect=fileformat}{TrackVis} \code{.trk} and \code{.trx} formats,
 \item \href{https://docs.dipy.org/1.11.0/}{DIPY} \code{.dpy} format,
 \item \code{.fib} format.
 }}
+
+\item{reference_file}{A string specifying the path to a reference image file. This is only required
+when importing \code{.trx}, \code{.fib}, or \code{.dpy} files, as these formats do not contain spatial
+information about the image space. The reference image is used to correctly position the
+tractogram in the appropriate space. Default is \code{NULL}.}
 }
 \value{
 A special \link[tibble:tibble]{tibble} (of class \code{maf_df}) containing the

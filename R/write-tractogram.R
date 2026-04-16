@@ -1,18 +1,18 @@
 #' Export tractograms from R
 #'
-#' @param x An object of class `maf_df` storing a tractogram.
-#' @param file A path to a file into which the tractogram should be saved.
-#'   Currently supported files are:
-#'   - standard [VTK](https://vtk.org) formats `.vtk` and `.vtp`,
-#'   - [medInria](https://med.inria.fr) `.fds` format,
-#'   - [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html) `.tck/.tsf` format,
-#'   - [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk` and `.trx` formats,
-#'   - [DIPY](https://docs.dipy.org/1.11.0/) `.dpy` format,
-#'   - `.fib` format.
+#' This function exports a tractogram stored as a `maf_df` object to a
+#' file in one of the supported formats. Supported formats include VTK (`.vtk`),
+#' VTP (`.vtp`), FDS (`.fds`), TRK (`.trk`), TCK (`.tck`), TRX (`.trx`),
+#' FIB (`.fib`), and DPY (`.dpy`). For formats that require a reference image
+#' (such as TRX, FIB, and DPY), the user must provide the path to a reference
+#' image file.
 #'
-#'   Warning: we rely on DIPY to provide support to save tractograms in `.trk`, `.trx`, `.tck`, `.dpy` and
-#'   `.fib` formats. Among these formats, only `.trk` and `.trx` formats are able to keep track of additional
-#'   attributes assigned to either streamlines or points.
+#' Warning: we rely on DIPY to provide support to save tractograms in `.trk`, `.trx`, `.tck`, `.dpy`
+#' and `.fib` formats. Among these formats, only `.trk` and `.trx` formats are able to keep track of
+#' additional attributes assigned to either streamlines or points.
+#'
+#' @param x An object of class `maf_df` storing a tractogram.
+#' @inheritParams read_tractogram
 #'
 #' @return The input tractogram (invisibly) so that the function can be
 #'   used in pipes.
@@ -66,8 +66,8 @@ write_tractogram <- function(x, file, reference_file = NULL) {
     streamlines <- lapply(1:n_streamlines, function(streamline_index) {
       as.matrix(subset(
         x,
-        StreamlineId == streamline_index,
-        select = c(X, Y, Z)
+        x$StreamlineId == streamline_index,
+        select = c(x$X, x$Y, x$Z)
       ))
     })
     # Extract additional data per point if any
@@ -78,7 +78,7 @@ write_tractogram <- function(x, file, reference_file = NULL) {
       lapply(1:n_streamlines, function(streamline_index) {
         subset(
           x,
-          StreamlineId == streamline_index,
+          x$StreamlineId == streamline_index,
           select = col
         )[[col]]
       })
