@@ -35,25 +35,24 @@ if (WINDOWS) {
 
   vtk_bin_dir <- cfg[["VTK_BIN_DIR"]]
 
-  vtk_dlls <- paste0(
-    c(
-      "libvtkIOLegacy",
-      "libvtkIOXML",
-      "libvtkIOCore",
-      "libvtkCommonCore",
-      "libvtkCommonDataModel",
-      "libvtkCommonMath",
-      "libvtkCommonMisc",
-      "libvtkCommonSystem",
-      "libvtkCommonTransforms",
-      "libvtkIOXMLParser",
-      "libvtksys",
-      "libvtkexpat",
-      "libvtklz4",
-      "libvtklzma",
-      "libvtkzlib"
-    ),
-    ".dll"
+  vtk_dlls <- c(
+    # VTK-bundled DLLs (unversioned in Rtools45)
+    "libvtkIOLegacy.dll",
+    "libvtkIOXML.dll",
+    "libvtkIOCore.dll",
+    "libvtkCommonCore.dll",
+    "libvtkCommonDataModel.dll",
+    "libvtkCommonMath.dll",
+    "libvtkCommonMisc.dll",
+    "libvtkCommonSystem.dll",
+    "libvtkCommonTransforms.dll",
+    "libvtkIOXMLParser.dll",
+    "libvtksys.dll",
+    # System-provided libs used by VTK in the Rtools45 ucrt64 sysroot
+    "libexpat-1.dll",
+    "liblz4.dll",
+    "liblzma-5.dll",
+    "zlib1.dll"
   )
 
   for (dll in vtk_dlls) {
