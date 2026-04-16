@@ -5,14 +5,41 @@
 
 set -e
 
-VTK_SYSROOT="/ucrt64"
+# ---------------------------------------------------------------------------
+# 0. Detect the active MSYS2/Rtools environment
+# ---------------------------------------------------------------------------
+case "${MSYSTEM:-UCRT64}" in
+    UCRT64)
+        VTK_SYSROOT="/ucrt64"
+        VTK_PKG="mingw-w64-ucrt-x86_64-vtk"
+        ;;
+    MINGW64)
+        VTK_SYSROOT="/mingw64"
+        VTK_PKG="mingw-w64-x86_64-vtk"
+        ;;
+    CLANG64)
+        VTK_SYSROOT="/clang64"
+        VTK_PKG="mingw-w64-clang-x86_64-vtk"
+        ;;
+    CLANGARM64)
+        VTK_SYSROOT="/clangarm64"
+        VTK_PKG="mingw-w64-clang-aarch64-vtk"
+        ;;
+    *)
+        echo "WARNING: Unknown MSYSTEM '${MSYSTEM}', falling back to UCRT64."
+        VTK_SYSROOT="/ucrt64"
+        VTK_PKG="mingw-w64-ucrt-x86_64-vtk"
+        ;;
+esac
+
+echo "Detected MSYSTEM: ${MSYSTEM:-UCRT64} -> sysroot=${VTK_SYSROOT}, package=${VTK_PKG}"
 
 # ---------------------------------------------------------------------------
 # 1. Install VTK via pacman if not already present
 # ---------------------------------------------------------------------------
-if ! pacman -Q mingw-w64-ucrt-x86_64-vtk > /dev/null 2>&1; then
+if ! pacman -Q "${VTK_PKG}" > /dev/null 2>&1; then
     echo "VTK not found in Rtools45 sysroot -- installing via pacman..."
-    pacman -S --noconfirm mingw-w64-ucrt-x86_64-vtk
+    pacman -S --noconfirm "${VTK_PKG}"
 else
     echo "VTK already installed in Rtools45 sysroot."
 fi

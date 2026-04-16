@@ -13,17 +13,18 @@ jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }}) - ${{ matrix.config.vtk }} preinstalled VTK
 
     strategy:
       fail-fast: false
       matrix:
         config:
-          - {os: macos-latest,   r: 'release'}
-          - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
-          - {os: ubuntu-latest,   r: 'release'}
-          - {os: ubuntu-latest,   r: 'oldrel-1'}
+          - {os: macos-latest,   r: 'release', vtk: 'with'}
+          - {os: windows-latest, r: 'release', vtk: 'with'}
+          - {os: ubuntu-latest,   r: 'devel',  vtk: 'with', http-user-agent: 'release'}
+          - {os: ubuntu-latest,   r: 'release', vtk: 'with'}
+          - {os: ubuntu-latest,   r: 'oldrel-1', vtk: 'with'}
+          - {os: ubuntu-latest,   r: 'release', vtk: 'without'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -49,17 +50,21 @@ jobs:
       - name: Install VTK (macOS)
         if: runner.os == 'macOS'
         run: brew install vtk
-
-      - name: Cache VTK build (Linux)
+      
+      - name: Install VTK (Ubuntu)
         if: runner.os == 'Linux'
+        run: sudo apt-get install -y libvtk9-dev
+
+      - name: Cache VTK build (Linux without VTK)
+        if: runner.os == 'Linux' && matrix.config.vtk == 'without'
         uses: actions/cache@v4
         id: cache-vtk
         with:
           path: ~/vtk-install
           key: vtk-9.5.2-linux-${{ runner.arch }}
 
-      - name: Build and install VTK (Linux)
-        if: runner.os == 'Linux' && steps.cache-vtk.outputs.cache-hit != 'true'
+      - name: Build and install VTK (Linux without VTK)
+        if: runner.os == 'Linux' && matrix.config.vtk == 'without' && steps.cache-vtk.outputs.cache-hit != 'true'
         run: |
           sudo apt-get install -y libgl1-mesa-dev libxt-dev
           cd /tmp
@@ -82,21 +87,9 @@ jobs:
           make -j$(nproc)
           make install
 
-      - name: Set VTK_DIR (Linux)
-        if: runner.os == 'Linux'
+      - name: Set VTK_DIR (Linux without VTK)
+        if: runner.os == 'Linux' && matrix.config.vtk == 'without'
         run: echo "VTK_DIR=$HOME/vtk-install" >> $GITHUB_ENV
-
-      - name: Install VTK (Windows)
-        if: runner.os == 'Windows'
-        run: pacman -S --noconfirm mingw-w64-ucrt-x86_64-vtk
-        shell: C:\rtools45\usr\bin\bash.exe --login -eo pipefail {0}
-
-      - name: Set VTK_DIR (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          vtk_cmake=$(find /ucrt64/lib/cmake -maxdepth 1 -name "vtk-*" -type d | head -1)
-          echo "VTK_DIR=$(cygpath -w $vtk_cmake)" >> $GITHUB_ENV
-        shell: C:\rtools45\usr\bin\bash.exe --login -eo pipefail {0}
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:

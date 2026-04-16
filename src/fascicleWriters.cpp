@@ -160,7 +160,7 @@ void ReadCSV(const std::string &inputFile,
 
     // Use direct memory access to avoid instantiating vtkGenericDataArray
     // template methods (SetValue / InsertNextValue) whose explicit
-    // specialisations are not exported by the MSYS2 ucrt64 VTK import libs.
+    // specialisations are not exported by the MSYS2 VTK import libs.
     double *ptr = static_cast<double *>(arrayData->GetVoidPointer(0));
     for (unsigned int i = 0; i < numberOfRows; ++i)
       for (unsigned int j = 0; j < nbComponents; ++j)
