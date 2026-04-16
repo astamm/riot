@@ -18,9 +18,9 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# 2. Locate the versioned VTK include directory (e.g. /ucrt64/include/vtk-9.3)
+# 2. Locate the versioned VTK include directory (e.g. /ucrt64/include/vtk)
 # ---------------------------------------------------------------------------
-VTK_INCLUDE_DIR=$(find "${VTK_SYSROOT}/include" -maxdepth 1 -name "vtk-*" -type d 2>/dev/null \
+VTK_INCLUDE_DIR=$(find "${VTK_SYSROOT}/include" -maxdepth 1 -name "vtk*" -type d 2>/dev/null \
     | sort -V | tail -1)
 
 if test -z "${VTK_INCLUDE_DIR}"; then
@@ -28,20 +28,17 @@ if test -z "${VTK_INCLUDE_DIR}"; then
     exit 1
 fi
 
-VTK_VERSION=$(basename "${VTK_INCLUDE_DIR}" | sed 's/vtk-//')
-echo "Found VTK ${VTK_VERSION} at ${VTK_INCLUDE_DIR}"
-
 # ---------------------------------------------------------------------------
 # 3. Build compiler / linker flags
 # ---------------------------------------------------------------------------
 VTK_CPPFLAGS="-I${VTK_INCLUDE_DIR}"
 VTK_LIBS="-L${VTK_SYSROOT}/lib"
-VTK_LIBS="${VTK_LIBS} -lvtkIOLegacy-${VTK_VERSION}"
-VTK_LIBS="${VTK_LIBS} -lvtkIOXML-${VTK_VERSION}"
-VTK_LIBS="${VTK_LIBS} -lvtkIOCore-${VTK_VERSION}"
-VTK_LIBS="${VTK_LIBS} -lvtkCommonCore-${VTK_VERSION}"
-VTK_LIBS="${VTK_LIBS} -lvtkCommonDataModel-${VTK_VERSION}"
-VTK_LIBS="${VTK_LIBS} -lvtksys-${VTK_VERSION}"
+VTK_LIBS="${VTK_LIBS} -lvtkIOLegacy"
+VTK_LIBS="${VTK_LIBS} -lvtkIOXML"
+#VTK_LIBS="${VTK_LIBS} -lvtkIOCore"
+VTK_LIBS="${VTK_LIBS} -lvtkCommonCore"
+VTK_LIBS="${VTK_LIBS} -lvtkCommonDataModel"
+VTK_LIBS="${VTK_LIBS} -lvtksys"
 
 echo "VTK_CPPFLAGS: ${VTK_CPPFLAGS}"
 echo "VTK_LIBS: ${VTK_LIBS}"
@@ -57,37 +54,12 @@ sed \
 echo "src/Makevars written successfully."
 
 # ---------------------------------------------------------------------------
-# 5. Bundle VTK DLLs so they are found at runtime (Windows DLL search path)
-#    R places files from inst/libs/x64/ alongside the package DLL after install.
+# 5. Write VTK config for use by src/install.libs.R at install time
 # ---------------------------------------------------------------------------
+# Convert VTK_BIN_DIR back to a Windows path so it is usable from R
 VTK_BIN_DIR="${VTK_SYSROOT}/bin"
-INST_LIBS_DIR="inst/libs/x64"
-mkdir -p "${INST_LIBS_DIR}"
+cat > src/vtk_config <<EOF
+VTK_BIN_DIR=${VTK_BIN_DIR}
+EOF
 
-echo "Copying VTK DLLs from ${VTK_BIN_DIR} to ${INST_LIBS_DIR}..."
-for lib in \
-    "libvtkIOLegacy-${VTK_VERSION}.dll" \
-    "libvtkIOXML-${VTK_VERSION}.dll" \
-    "libvtkIOCore-${VTK_VERSION}.dll" \
-    "libvtkCommonCore-${VTK_VERSION}.dll" \
-    "libvtkCommonDataModel-${VTK_VERSION}.dll" \
-    "libvtkCommonMath-${VTK_VERSION}.dll" \
-    "libvtkCommonMisc-${VTK_VERSION}.dll" \
-    "libvtkCommonSystem-${VTK_VERSION}.dll" \
-    "libvtkCommonTransforms-${VTK_VERSION}.dll" \
-    "libvtkIOXMLParser-${VTK_VERSION}.dll" \
-    "libvtksys-${VTK_VERSION}.dll" \
-    "libvtkexpat-${VTK_VERSION}.dll" \
-    "libvtklz4-${VTK_VERSION}.dll" \
-    "libvtklzma-${VTK_VERSION}.dll" \
-    "libvtkzlib-${VTK_VERSION}.dll"; do
-    src_path="${VTK_BIN_DIR}/${lib}"
-    if test -f "${src_path}"; then
-        cp "${src_path}" "${INST_LIBS_DIR}/"
-        echo "  Copied: ${lib}"
-    else
-        echo "  Skipped (not found): ${lib}"
-    fi
-done
-
-echo "DLL bundling complete."
+echo "src/vtk_config written successfully."
