@@ -27,20 +27,100 @@ AC_LANG(C++)
 AC_REQUIRE_CPP
 AC_PROG_CXX
 
-## Helper: set vtk_include/vtk_libs from a known VTK install prefix
-## Usage: call with prefix and version suffix, e.g. vtk_set_from_prefix /usr/local 9.5
+## ── Minimum required VTK version ─────────────────────────────────────────────
+## Change this single variable to raise or lower the requirement.
+VTK_MIN_VERSION="9.1.0"
+
+## Helper: given a prefix, find the VTK include dir and set:
+##   vtk_version_suffix  – e.g. "9.5" (versioned) or "" (unversioned)
+##   vtk_include_dir     – full path to the include directory
+## Returns 0 if a qualifying installation is found, 1 otherwise.
+vtk_detect_from_prefix() {
+    _prefix="$1"
+    _min_suffix="$(echo "${VTK_MIN_VERSION}" | sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\..*/\1.\2/')"
+
+    ## ── Try versioned directories first (vtk-X.Y) ────────────────────────────
+    _found_dir="$(find "${_prefix}/include" -maxdepth 1 -name "vtk-*" -type d 2>/dev/null \
+        | sort -V | tail -1)"
+    if test -n "${_found_dir}"; then
+        _suffix="$(basename "${_found_dir}" | sed 's/^vtk-//')"
+        if printf '%s\n%s\n' "${_min_suffix}" "${_suffix}" | sort -V | head -1 \
+                | grep -qx "${_min_suffix}"; then
+            vtk_version_suffix="${_suffix}"
+            vtk_include_dir="${_found_dir}"
+            return 0
+        fi
+        ## Found a versioned dir but it is too old — do not fall through to the
+        ## unversioned check, as that would risk using an even older install.
+        return 1
+    fi
+
+    ## ── Fall back to unversioned vtk/ directory ───────────────────────────────
+    if test -d "${_prefix}/include/vtk"; then
+        _ver_header="${_prefix}/include/vtk/vtkVersion.h"
+        if test -f "${_ver_header}"; then
+            _major="$(grep '#define VTK_MAJOR_VERSION' "${_ver_header}" | awk '{print $3}')"
+            _minor="$(grep '#define VTK_MINOR_VERSION' "${_ver_header}" | awk '{print $3}')"
+            if test -n "${_major}" && test -n "${_minor}"; then
+                _detected="${_major}.${_minor}"
+                if printf '%s\n%s\n' "${_min_suffix}" "${_detected}" | sort -V | head -1 \
+                        | grep -qx "${_min_suffix}"; then
+                    vtk_version_suffix=""
+                    vtk_include_dir="${_prefix}/include/vtk"
+                    return 0
+                fi
+                ## Unversioned install is too old
+                return 1
+            fi
+        fi
+        ## Cannot read version header — accept with a warning
+        AC_MSG_WARN([Could not determine VTK version from ${_ver_header}; proceeding anyway])
+        vtk_version_suffix=""
+        vtk_include_dir="${_prefix}/include/vtk"
+        return 0
+    fi
+
+    return 1
+}
+
+## Helper: given a base prefix, build vtk_include and vtk_libs using the
+## already-set vtk_version_suffix and vtk_include_dir variables.
+## Usage: vtk_build_flags <lib_prefix> [rpath]
+vtk_build_flags() {
+    _lib_prefix="$1"
+    _rpath="$2"
+    ## Libraries are named -lvtkFoo-X.Y when suffixed, -lvtkFoo otherwise.
+    if test -n "${vtk_version_suffix}"; then
+        _s="-${vtk_version_suffix}"
+    else
+        _s=""
+    fi
+    vtk_include="-isystem${vtk_include_dir}"
+    vtk_libs="-L${_lib_prefix}/lib"
+    vtk_libs="${vtk_libs} -lvtkIOLegacy${_s}"
+    vtk_libs="${vtk_libs} -lvtkIOXML${_s}"
+    vtk_libs="${vtk_libs} -lvtkCommonCore${_s}"
+    vtk_libs="${vtk_libs} -lvtkCommonDataModel${_s}"
+    vtk_libs="${vtk_libs} -lvtksys${_s}"
+    if test -n "${_rpath}"; then
+        vtk_libs="${vtk_libs} -Wl,-rpath,${_rpath}"
+    fi
+}
+
 vtk_found="no"
 
 ## ── 1. VTK_DIR (user-supplied, highest priority) ──────────────────────────────
 AC_MSG_CHECKING([if a custom VTK installation is specified via VTK_DIR])
 if test -n "${VTK_DIR}"; then
     AC_MSG_RESULT([found VTK_DIR at ${VTK_DIR}])
-    AC_MSG_CHECKING([if VTK_DIR satisfies the minimum version requirement (>= 9.5.0)])
-    if test -d "${VTK_DIR}/include/vtk-9.5"; then
-        AC_MSG_RESULT([yes])
-        vtk_include="-isystem${VTK_DIR}/include/vtk-9.5"
-        vtk_libs="-L${VTK_DIR}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
-        vtk_libs="${vtk_libs} -Wl,-rpath,${VTK_DIR}/lib"
+    AC_MSG_CHECKING([if VTK_DIR satisfies the minimum version requirement (>= ${VTK_MIN_VERSION})])
+    if vtk_detect_from_prefix "${VTK_DIR}"; then
+        if test -n "${vtk_version_suffix}"; then
+            AC_MSG_RESULT([yes (vtk-${vtk_version_suffix})])
+        else
+            AC_MSG_RESULT([yes (unversioned)])
+        fi
+        vtk_build_flags "${VTK_DIR}" "${VTK_DIR}/lib"
         vtk_found="yes"
     else
         AC_MSG_RESULT([no — falling back to automatic detection])
@@ -62,11 +142,14 @@ if test x"${vtk_found}" = x"no"; then
             if brew --prefix vtk > /dev/null 2>&1; then
                 brew_vtk_prefix="$(brew --prefix vtk)"
                 AC_MSG_RESULT([yes, at ${brew_vtk_prefix}])
-                AC_MSG_CHECKING([if Homebrew VTK satisfies the minimum version requirement (>= 9.5.0)])
-                if test -d "${brew_vtk_prefix}/include/vtk-9.5"; then
-                    AC_MSG_RESULT([yes])
-                    vtk_include="-isystem${brew_vtk_prefix}/include/vtk-9.5"
-                    vtk_libs="-L${brew_vtk_prefix}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
+                AC_MSG_CHECKING([if Homebrew VTK satisfies the minimum version requirement (>= ${VTK_MIN_VERSION})])
+                if vtk_detect_from_prefix "${brew_vtk_prefix}"; then
+                    if test -n "${vtk_version_suffix}"; then
+                        AC_MSG_RESULT([yes (vtk-${vtk_version_suffix})])
+                    else
+                        AC_MSG_RESULT([yes (unversioned)])
+                    fi
+                    vtk_build_flags "${brew_vtk_prefix}"
                     vtk_found="yes"
                 else
                     AC_MSG_RESULT([no])
@@ -92,8 +175,8 @@ if test x"${vtk_found}" = x"no"; then
             done
 
             if test -n "${vtk_pc_name}"; then
-                AC_MSG_CHECKING([if pkg-config VTK (${vtk_pc_name}) satisfies the minimum version requirement (>= 9.5.0)])
-                if pkg-config --atleast-version=9.5.0 "${vtk_pc_name}"; then
+                AC_MSG_CHECKING([if pkg-config VTK (${vtk_pc_name}) satisfies the minimum version requirement (>= ${VTK_MIN_VERSION})])
+                if pkg-config --atleast-version="${VTK_MIN_VERSION}" "${vtk_pc_name}"; then
                     AC_MSG_RESULT([yes])
                     vtk_include="$(pkg-config --cflags ${vtk_pc_name} | sed 's/-I/-isystem/g')"
                     vtk_libs="$(pkg-config --libs ${vtk_pc_name})"
@@ -111,19 +194,12 @@ if test x"${vtk_found}" = x"no"; then
 
     ## ── 2c. Linux: distro-specific fallback ──────────────────────────────────
     if test x"${vtk_found}" = x"no" && test x"${os_type}" = x"Linux"; then
-        ## Try well-known system include paths first (covers manually installed
-        ## or distro-packaged VTK that is not registered with pkg-config).
-        for _candidate in \
-                /usr/include/vtk-9.5 \
-                /usr/local/include/vtk-9.5 \
-                /usr/include/vtk \
-                /usr/local/include/vtk; do
-            if test -d "${_candidate}"; then
-                _vtk_base="$(echo "${_candidate}" | sed 's|/include/.*||')"
-                AC_MSG_NOTICE([found VTK headers at ${_candidate}])
-                vtk_include="-isystem${_candidate}"
-                vtk_libs="-L${_vtk_base}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
-                vtk_libs="${vtk_libs} -Wl,-rpath,${_vtk_base}/lib"
+        ## Try well-known system prefix paths (covers manually installed or
+        ## distro-packaged VTK that is not registered with pkg-config).
+        for _base in /usr /usr/local; do
+            if vtk_detect_from_prefix "${_base}"; then
+                AC_MSG_NOTICE([found VTK headers at ${vtk_include_dir}])
+                vtk_build_flags "${_base}" "${_base}/lib"
                 vtk_found="yes"
                 break
             fi
@@ -131,7 +207,7 @@ if test x"${vtk_found}" = x"no"; then
 
         ## If still not found, emit a distro-aware installation hint
         if test x"${vtk_found}" = x"no"; then
-            vtk_install_hint="Please install VTK >= 9.5.0 development libraries."
+            vtk_install_hint="Please install VTK >= ${VTK_MIN_VERSION} development libraries."
             if test -f /etc/debian_version || (command -v apt-get > /dev/null 2>&1); then
                 vtk_install_hint="${vtk_install_hint} On Debian/Ubuntu: sudo apt-get install libvtk9-dev"
             elif test -f /etc/fedora-release || (command -v dnf > /dev/null 2>&1); then
@@ -149,7 +225,7 @@ if test x"${vtk_found}" = x"no"; then
 
     ## ── 2d. Generic fallback error (non-Linux, non-macOS or macOS without brew/pkg-config) ──
     if test x"${vtk_found}" = x"no"; then
-        AC_MSG_ERROR([Cannot find a suitable VTK installation (>= 9.5.0). Please set the VTK_DIR environment variable to your VTK install prefix, or install VTK via your system package manager.])
+        AC_MSG_ERROR([Cannot find a suitable VTK installation (>= ${VTK_MIN_VERSION}). Please set the VTK_DIR environment variable to your VTK install prefix, or install VTK via your system package manager.])
     fi
 fi
 
