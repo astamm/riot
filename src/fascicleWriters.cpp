@@ -1,18 +1,9 @@
-// VTK headers trigger 'dllimport' redeclaration warnings on Windows (MinGW);
-// suppress them portably around the VTK includes.
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wattributes"
-#endif
 #include "fascicleWriters.h"
 #include <vtkDoubleArray.h>
 #include <vtkPointData.h>
 #include <vtkPolyDataWriter.h>
 #include <vtkXMLPolyDataWriter.h>
 #include <vtksys/SystemTools.hxx>
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
 
 void ReadCSV(const std::string &inputFile,
              vtkSmartPointer<vtkPolyData> &inputData) {

@@ -3241,7 +3241,7 @@ printf %s "checking if VTK_DIR satisfies the minimum version requirement (>= 9.5
     if test -d "${VTK_DIR}/include/vtk-9.5"; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
-        vtk_include="-I${VTK_DIR}/include/vtk-9.5"
+        vtk_include="-isystem${VTK_DIR}/include/vtk-9.5"
         vtk_libs="-L${VTK_DIR}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
         vtk_libs="${vtk_libs} -Wl,-rpath,${VTK_DIR}/lib"
         vtk_found="yes"
@@ -3320,7 +3320,7 @@ printf %s "checking if Homebrew VTK satisfies the minimum version requirement (>
                 if test -d "${brew_vtk_prefix}/include/vtk-9.5"; then
                     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
-                    vtk_include="-I${brew_vtk_prefix}/include/vtk-9.5"
+                    vtk_include="-isystem${brew_vtk_prefix}/include/vtk-9.5"
                     vtk_libs="-L${brew_vtk_prefix}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
                     vtk_found="yes"
                 else
@@ -3401,7 +3401,7 @@ printf %s "checking if pkg-config VTK (${vtk_pc_name}) satisfies the minimum ver
                 if pkg-config --atleast-version=9.5.0 "${vtk_pc_name}"; then
                     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
-                    vtk_include="$(pkg-config --cflags ${vtk_pc_name})"
+                    vtk_include="$(pkg-config --cflags ${vtk_pc_name} | sed 's/-I/-isystem/g')"
                     vtk_libs="$(pkg-config --libs ${vtk_pc_name})"
                     vtk_found="yes"
                 else
@@ -3431,7 +3431,7 @@ printf "%s\n" "$as_me: pkg-config not available" >&6;}
                 _vtk_base="$(echo "${_candidate}" | sed 's|/include/.*||')"
                 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: found VTK headers at ${_candidate}" >&5
 printf "%s\n" "$as_me: found VTK headers at ${_candidate}" >&6;}
-                vtk_include="-I${_candidate}"
+                vtk_include="-isystem${_candidate}"
                 vtk_libs="-L${_vtk_base}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
                 vtk_libs="${vtk_libs} -Wl,-rpath,${_vtk_base}/lib"
                 vtk_found="yes"

@@ -38,7 +38,7 @@ if test -n "${VTK_DIR}"; then
     AC_MSG_CHECKING([if VTK_DIR satisfies the minimum version requirement (>= 9.5.0)])
     if test -d "${VTK_DIR}/include/vtk-9.5"; then
         AC_MSG_RESULT([yes])
-        vtk_include="-I${VTK_DIR}/include/vtk-9.5"
+        vtk_include="-isystem${VTK_DIR}/include/vtk-9.5"
         vtk_libs="-L${VTK_DIR}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
         vtk_libs="${vtk_libs} -Wl,-rpath,${VTK_DIR}/lib"
         vtk_found="yes"
@@ -65,7 +65,7 @@ if test x"${vtk_found}" = x"no"; then
                 AC_MSG_CHECKING([if Homebrew VTK satisfies the minimum version requirement (>= 9.5.0)])
                 if test -d "${brew_vtk_prefix}/include/vtk-9.5"; then
                     AC_MSG_RESULT([yes])
-                    vtk_include="-I${brew_vtk_prefix}/include/vtk-9.5"
+                    vtk_include="-isystem${brew_vtk_prefix}/include/vtk-9.5"
                     vtk_libs="-L${brew_vtk_prefix}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
                     vtk_found="yes"
                 else
@@ -95,7 +95,7 @@ if test x"${vtk_found}" = x"no"; then
                 AC_MSG_CHECKING([if pkg-config VTK (${vtk_pc_name}) satisfies the minimum version requirement (>= 9.5.0)])
                 if pkg-config --atleast-version=9.5.0 "${vtk_pc_name}"; then
                     AC_MSG_RESULT([yes])
-                    vtk_include="$(pkg-config --cflags ${vtk_pc_name})"
+                    vtk_include="$(pkg-config --cflags ${vtk_pc_name} | sed 's/-I/-isystem/g')"
                     vtk_libs="$(pkg-config --libs ${vtk_pc_name})"
                     vtk_found="yes"
                 else
@@ -121,7 +121,7 @@ if test x"${vtk_found}" = x"no"; then
             if test -d "${_candidate}"; then
                 _vtk_base="$(echo "${_candidate}" | sed 's|/include/.*||')"
                 AC_MSG_NOTICE([found VTK headers at ${_candidate}])
-                vtk_include="-I${_candidate}"
+                vtk_include="-isystem${_candidate}"
                 vtk_libs="-L${_vtk_base}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
                 vtk_libs="${vtk_libs} -Wl,-rpath,${_vtk_base}/lib"
                 vtk_found="yes"

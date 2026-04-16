@@ -31,8 +31,8 @@ fi
 # ---------------------------------------------------------------------------
 # 3. Build compiler / linker flags
 # ---------------------------------------------------------------------------
-VTK_CPPFLAGS="-I${VTK_INCLUDE_DIR}"
-VTK_CPPFLAGS="${VTK_CPPFLAGS} -DVTK_BUILD_SHARED_LIBS"
+VTK_CPPFLAGS="-isystem${VTK_INCLUDE_DIR}"
+#VTK_CPPFLAGS="${VTK_CPPFLAGS} -DVTK_BUILD_SHARED_LIBS"
 VTK_LIBS="-L${VTK_SYSROOT}/lib"
 VTK_LIBS="${VTK_LIBS} -lvtkIOLegacy"
 VTK_LIBS="${VTK_LIBS} -lvtkIOXML"
