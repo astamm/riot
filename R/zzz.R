@@ -2,6 +2,16 @@ io_stateful_tractogram <- NULL
 io_streamline <- NULL
 
 .onLoad <- function(libname, pkgname) {
+  # On Windows, register the package libs directory as a DLL search path so
+  # that the bundled VTK DLLs (and their transitive runtime dependencies) are
+  # findable when this package and any subsequently loaded code call back into
+  # the native library.
+  if (.Platform$OS.type == "windows") {
+    lib_dir <- file.path(libname, pkgname, "libs", .Platform$r_arch)
+    if (dir.exists(lib_dir)) {
+      tryCatch(addDLLDirectory(lib_dir), error = function(e) NULL)
+    }
+  }
   reticulate::py_require("fury")
   reticulate::py_require("dipy")
   io_stateful_tractogram <<- reticulate::import(

@@ -1,6 +1,7 @@
 # src/install.libs.R -- called by R CMD INSTALL instead of the default
 # shared-object copy step.  It copies riot.dll and all required VTK DLLs
-# into the final installation directory.
+# (including transitive runtime dependencies) into the final installation
+# directory.
 #
 # Environment variables provided by R CMD INSTALL:
 #   R_PACKAGE_NAME   - "riot"
@@ -35,33 +36,102 @@ if (WINDOWS) {
 
   vtk_bin_dir <- cfg[["VTK_BIN_DIR"]]
 
-  vtk_dlls <- c(
-    # VTK-bundled DLLs (unversioned in Rtools45)
-    "libvtkIOLegacy.dll",
-    "libvtkIOXML.dll",
-    "libvtkIOCore.dll",
-    "libvtkCommonCore.dll",
-    "libvtkCommonDataModel.dll",
-    "libvtkCommonMath.dll",
-    "libvtkCommonMisc.dll",
-    "libvtkCommonSystem.dll",
-    "libvtkCommonTransforms.dll",
-    "libvtkIOXMLParser.dll",
-    "libvtksys.dll",
-    # System-provided libs used by VTK in the Rtools45 ucrt64 sysroot
-    "libexpat-1.dll",
-    "liblz4.dll",
-    "liblzma-5.dll",
-    "zlib1.dll"
-  )
+  # ---------------------------------------------------------------------------
+  # Helper: use objdump to get the direct DLL dependencies of a single DLL.
+  # Returns lowercase DLL names only (filters out Windows system DLLs).
+  # ---------------------------------------------------------------------------
+  dll_imports <- function(dll_path) {
+    objdump <- Sys.which("objdump")
+    if (nchar(objdump) == 0L) {
+      return(character(0))
+    }
+    out <- tryCatch(
+      system2(
+        objdump,
+        args = c("-p", shQuote(dll_path)),
+        stdout = TRUE,
+        stderr = FALSE
+      ),
+      error = function(e) character(0)
+    )
+    # Lines like:  "	DLL Name: libfoo.dll"
+    lines <- grep("DLL Name:", out, value = TRUE, ignore.case = TRUE)
+    tolower(trimws(sub(".*DLL Name:\\s*", "", lines, ignore.case = TRUE)))
+  }
 
-  for (dll in vtk_dlls) {
-    src <- file.path(vtk_bin_dir, dll)
-    if (file.exists(src)) {
-      file.copy(src, dest, overwrite = TRUE)
-      message("Installed VTK DLL: ", dll)
-    } else {
-      message("Skipped (not found): ", dll)
+  # Windows system DLLs that ship with every Windows installation and must
+  # NOT be bundled with the package.
+  system_dll_pattern <- paste0(
+    "^(kernel32|user32|gdi32|advapi32|shell32|ole32|oleaut32|ntdll|",
+    "msvcrt|ucrtbase|vcruntime|msvcp|api-ms-win|ext-ms-win|",
+    "winmm|winspool|comdlg32|comctl32|ws2_32|crypt32|secur32|",
+    "rpcrt4|shlwapi|version|dbghelp|psapi|setupapi|cfgmgr32|",
+    "imm32|netapi32|userenv|wtsapi32|iphlpapi|dnsapi|mswsock)\\.dll$"
+  )
+  is_system_dll <- function(name) {
+    grepl(system_dll_pattern, name, perl = TRUE, ignore.case = TRUE)
+  }
+
+  # ---------------------------------------------------------------------------
+  # Recursively collect all non-system DLLs needed by `start_dll`, searching
+  # `search_dirs` for each dependency.
+  # ---------------------------------------------------------------------------
+  collect_dlls <- function(start_dll, search_dirs) {
+    visited <- character(0) # DLL names already resolved
+    resolved <- character(0) # full paths of DLLs to copy
+    queue <- start_dll # full paths to inspect next
+
+    while (length(queue) > 0L) {
+      current <- queue[[1L]]
+      queue <- queue[-1L]
+      name <- tolower(basename(current))
+      if (name %in% visited) {
+        next
+      }
+      visited <- c(visited, name)
+
+      deps <- dll_imports(current)
+      for (dep in deps) {
+        if (dep %in% visited || is_system_dll(dep)) {
+          next
+        }
+        # Search for the dependency in the provided directories
+        found <- NA_character_
+        for (d in search_dirs) {
+          candidate <- file.path(d, dep)
+          if (file.exists(candidate)) {
+            found <- candidate
+            break
+          }
+          # Also try the exact-case name from the directory listing
+          entries <- list.files(d)
+          match <- entries[tolower(entries) == dep]
+          if (length(match) > 0L) {
+            found <- file.path(d, match[[1L]])
+            break
+          }
+        }
+        if (!is.na(found)) {
+          resolved <- c(resolved, found)
+          queue <- c(queue, found)
+        }
+      }
+    }
+    unique(resolved)
+  }
+
+  # Directories to search for dependency DLLs
+  search_dirs <- vtk_bin_dir
+
+  # Seed with the package DLL (compiled in the current working directory = src/)
+  # to collect all VTK + runtime transitive deps.
+  seed_dll <- normalizePath(dll, mustWork = FALSE)
+  all_deps <- collect_dlls(seed_dll, search_dirs)
+
+  for (dep_path in all_deps) {
+    dep_name <- basename(dep_path)
+    if (file.copy(dep_path, file.path(dest, dep_name), overwrite = TRUE)) {
+      message("Installed DLL: ", dep_name)
     }
   }
 }
