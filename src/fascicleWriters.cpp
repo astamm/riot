@@ -156,10 +156,15 @@ void ReadCSV(const std::string &inputFile,
 
     arrayData->SetName(tmpStr.c_str());
     arrayData->SetNumberOfComponents(nbComponents);
+    arrayData->SetNumberOfTuples(static_cast<vtkIdType>(numberOfRows));
 
+    // Use direct memory access to avoid instantiating vtkGenericDataArray
+    // template methods (SetValue / InsertNextValue) whose explicit
+    // specialisations are not exported by the MSYS2 ucrt64 VTK import libs.
+    double *ptr = static_cast<double *>(arrayData->GetVoidPointer(0));
     for (unsigned int i = 0; i < numberOfRows; ++i)
       for (unsigned int j = 0; j < nbComponents; ++j)
-        arrayData->InsertNextValue(data[i][pos + j]);
+        ptr[i * nbComponents + j] = data[i][pos + j];
 
     inputData->GetPointData()->AddArray(arrayData);
     pos += nbComponents;
