@@ -40,7 +40,7 @@ In this first major release, we:
 * Added support to read
 [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html)
 `.tck/.tsf` file formats (#5).
-* Added support to read [TrackVis](http://trackvis.org/docs/?subsect=fileformat)
+* Added support to read [TrackVis](https://trackvis.org/docs/?subsect=fileformat)
 `.trk` file formats (#5).
 * Use only one core to compile VTK for compliance with CRAN policy (thanks to
 Prof. B. Ripley).

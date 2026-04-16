@@ -8,7 +8,7 @@
 #'   - standard [VTK](https://vtk.org) formats `.vtk` and `.vtp`,
 #'   - [medInria](https://med.inria.fr) `.fds` format,
 #'   - [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html) `.tck/.tsf` format,
-#'   - [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk` and `.trx` formats,
+#'   - [TrackVis](https://trackvis.org/docs/?subsect=fileformat) `.trk` and `.trx` formats,
 #'   - [DIPY](https://docs.dipy.org/1.11.0/) `.dpy` format,
 #'   - `.fib` format.
 #' @param reference_file A string specifying the path to a reference image file. This is only required

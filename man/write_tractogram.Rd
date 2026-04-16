@@ -15,7 +15,7 @@ supported files are:
 \item standard \href{https://vtk.org}{VTK} formats \code{.vtk} and \code{.vtp},
 \item \href{https://med.inria.fr}{medInria} \code{.fds} format,
 \item \href{https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html}{MRtrix} \code{.tck/.tsf} format,
-\item \href{http://trackvis.org/docs/?subsect=fileformat}{TrackVis} \code{.trk} and \code{.trx} formats,
+\item \href{https://trackvis.org/docs/?subsect=fileformat}{TrackVis} \code{.trk} and \code{.trx} formats,
 \item \href{https://docs.dipy.org/1.11.0/}{DIPY} \code{.dpy} format,
 \item \code{.fib} format.
 }}

@@ -28,7 +28,8 @@ importing formats are:
 - [medInria](https://med.inria.fr) `.fds` files;
 - [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html)
   `.tck/.tsf` files; and,
-- [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk` files.
+- [TrackVis](https://trackvis.org/docs/?subsect=fileformat) `.trk`
+  files.
 
 The package reads tractography data into a
 [tibble](https://tibble.tidyverse.org) in which each row is a point
@@ -87,14 +88,11 @@ uf_left_vtk <- read_tractogram(system.file(
 ))
 #> Number of data points: 38697
 #> Number of streamlines: 2042
-#> Registered S3 method overwritten by 'bit64':
-#>   method          from 
-#>   print.bitstring tools
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b6412e2eab/riot/extdata/UF_left.vtk' has been successfully imported.
+#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath1004323a241a/riot/extdata/UF_left.vtk' has been successfully imported.
 uf_left_vtk
 #> ℹ Tractogram with 2042 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
-#> cli-22469-8
+#> cli-27115-8
 ```
 
 ``` r
@@ -105,11 +103,11 @@ uf_left_vtp <- read_tractogram(system.file(
 ))
 #> Number of data points: 38697
 #> Number of streamlines: 2042
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b6412e2eab/riot/extdata/UF_left.vtp' has been successfully imported.
+#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath1004323a241a/riot/extdata/UF_left.vtp' has been successfully imported.
 uf_left_vtp
 #> ℹ Tractogram with 2042 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
-#> cli-22469-14
+#> cli-27115-14
 ```
 
 ### [medInria](https://med.inria.fr) `.fds` files
@@ -122,11 +120,11 @@ uf_left_fds <- read_tractogram(system.file(
 ))
 #> Number of data points: 38697
 #> Number of streamlines: 2042
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b6412e2eab/riot/extdata/UF_left.fds' has been successfully imported.
+#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath1004323a241a/riot/extdata/UF_left.fds' has been successfully imported.
 uf_left_fds
 #> ℹ Tractogram with 2042 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
-#> cli-22469-20
+#> cli-27115-20
 ```
 
 ### [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html) `.tck/.tsf` files
@@ -137,14 +135,14 @@ af_left_tck <- read_tractogram(system.file(
   "AF_left.tck",
   package = "riot"
 ))
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b6412e2eab/riot/extdata/AF_left.tck' has been successfully imported.
+#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath1004323a241a/riot/extdata/AF_left.tck' has been successfully imported.
 af_left_tck
 #> ℹ Tractogram with 5000 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 8, 23, 28, 28.0602, 33, and 54.
-#> cli-22469-26
+#> cli-27115-26
 ```
 
-### [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk` files
+### [TrackVis](https://trackvis.org/docs/?subsect=fileformat) `.trk` files
 
 ``` r
 cc_mid_trk <- read_tractogram(system.file(
@@ -152,11 +150,11 @@ cc_mid_trk <- read_tractogram(system.file(
   "CCMid.trk",
   package = "riot"
 ))
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b6412e2eab/riot/extdata/CCMid.trk' has been successfully imported.
+#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath1004323a241a/riot/extdata/CCMid.trk' has been successfully imported.
 cc_mid_trk
 #> ℹ Tractogram with 525 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 29, 189, 224, 214.619047619048, 243, and 270.
-#> cli-22469-32
+#> cli-27115-32
 ```
 
 ## Dependencies
@@ -193,5 +191,5 @@ The authors would like to thank Tim Schäfer, the author of the
 [**freesurferformats**](https://CRAN.R-project.org/package=freesurferformats)
 package, for his helpful code to read
 [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html)
-and [TrackVis](http://trackvis.org/docs/?subsect=fileformat)
+and [TrackVis](https://trackvis.org/docs/?subsect=fileformat)
 tractography file formats.

@@ -35,7 +35,7 @@ tractography data to and from `R`. Currently supported importing formats are:
 - [medInria](https://med.inria.fr) `.fds` files; 
 - [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html)
 `.tck/.tsf` files; and, 
-- [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk` files.
+- [TrackVis](https://trackvis.org/docs/?subsect=fileformat) `.trk` files.
 
 The package reads tractography data into a
 [tibble](https://tibble.tidyverse.org) in which each row is a point
@@ -125,7 +125,7 @@ af_left_tck <- read_tractogram(system.file(
 af_left_tck
 ```
 
-### [TrackVis](http://trackvis.org/docs/?subsect=fileformat) `.trk` files
+### [TrackVis](https://trackvis.org/docs/?subsect=fileformat) `.trk` files
 
 ```{r trk}
 cc_mid_trk <- read_tractogram(system.file(
@@ -169,5 +169,5 @@ The authors would like to thank Tim Schäfer, the author of the
 [**freesurferformats**](https://CRAN.R-project.org/package=freesurferformats)
 package, for his helpful code to read
 [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html)
-and [TrackVis](http://trackvis.org/docs/?subsect=fileformat) tractography file
+and [TrackVis](https://trackvis.org/docs/?subsect=fileformat) tractography file
 formats.
