@@ -1,8 +1,10 @@
 #!/bin/bash
 # configure.win -- Windows (Rtools) configuration script for riot
 # Supports:
-#   - Rtools42+ (UCRT64): installs VTK via pacman automatically
+#   - Rtools42+ (UCRT64): downloads and extracts VTK via pacman locally
 #   - Any Rtools version with a user-supplied VTK_DIR environment variable
+# VTK is extracted into ${R_PACKAGE_SOURCE}/windows/vtk so that no elevated
+# permissions are required (works on win-builder and other restricted hosts).
 # Detects the versioned include/lib dirs and generates src/Makevars from
 # src/Makevars.in.
 
@@ -135,13 +137,37 @@ else
     echo "Detected MSYSTEM: ${MSYSTEM:-UCRT64} -> sysroot=${VTK_SYSROOT}, package=${VTK_PKG}"
 
     # -------------------------------------------------------------------------
-    # 1. Install VTK via pacman if not already present
+    # 1. Obtain VTK via pacman into a package-local directory so that no
+    #    elevated permissions are required (e.g. on win-builder).
+    #
+    #    Strategy:
+    #      a) If VTK is already installed system-wide, use it directly.
+    #      b) Otherwise, download the .zst package(s) with pacman -Sw and
+    #         extract them into ${VTK_LOCAL_PREFIX}.
     # -------------------------------------------------------------------------
-    if ! pacman -Q "${VTK_PKG}" > /dev/null 2>&1; then
-        echo "VTK not found -- installing via pacman..."
-        pacman -S --noconfirm "${VTK_PKG}"
+
+    # Local prefix inside the package source tree — always writable.
+    VTK_LOCAL_PREFIX="${R_PACKAGE_SOURCE}/windows/vtk"
+
+    if pacman -Q "${VTK_PKG}" > /dev/null 2>&1; then
+        echo "VTK already installed system-wide (${VTK_PKG}); using system sysroot."
+        # VTK_SYSROOT stays as set above (e.g. /ucrt64)
     else
-        echo "VTK already installed (${VTK_PKG})."
+        echo "VTK not installed system-wide; downloading and extracting locally..."
+        VTK_CACHE_DIR="${R_PACKAGE_SOURCE}/windows/pacman-cache"
+        mkdir -p "${VTK_CACHE_DIR}" "${VTK_LOCAL_PREFIX}"
+
+        # Download the package and all its dependencies (no install).
+        pacman --noconfirm --cachedir "${VTK_CACHE_DIR}" -Sw "${VTK_PKG}"
+
+        # Extract every downloaded .zst archive (VTK + deps) into the local prefix.
+        for _pkg in "${VTK_CACHE_DIR}"/*.zst; do
+            echo "Extracting ${_pkg}..."
+            tar --use-compress-program=zstd -xf "${_pkg}" -C "${VTK_LOCAL_PREFIX}"
+        done
+
+        VTK_SYSROOT="${VTK_LOCAL_PREFIX}/${VTK_SYSROOT#/}"
+        echo "Local VTK sysroot: ${VTK_SYSROOT}"
     fi
 fi
 
