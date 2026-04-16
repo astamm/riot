@@ -10,20 +10,30 @@ of preference:
 2. Homebrew (macOS).
 3. `pkg-config` (macOS and Linux).
 4. Well-known system include paths (`/usr`, `/usr/local`) (Linux).
-5. The Rtools45 / UCRT64 pacman package `mingw-w64-ucrt-x86_64-vtk` (Windows).
+5. The Rtools42+ pacman package for the active MSYS2 environment
+   (e.g. `mingw-w64-ucrt-x86_64-vtk` for UCRT64) (Windows).
 
 On Windows, VTK is loaded dynamically at run time (no VTK DLLs are bundled
 inside the package). The `SystemRequirements` field in `DESCRIPTION` documents
 the external VTK dependency for CRAN infrastructure.
 
 ## Test environments
-* local macOS R installation, R 4.7.0
-* continuous integration via GH Actions:
-  * macOS latest release
-  * Windows latest release (Rtools45 / UCRT)
-  * Ubuntu latest release and devel
-* [win-builder](https://win-builder.r-project.org/) (release and devel)
-* [R-hub](https://builder.r-hub.io)
+
+**Local:**
+* macOS, R 4.5.3 (current release)
+* macOS, R-devel 4.7 (current R-devel)
+
+**Continuous integration via GitHub Actions (`R-CMD-check.yaml`):**
+* macOS latest, R release, with system VTK (Homebrew)
+* Windows latest, R release (Rtools42+, UCRT64), with system VTK
+* Ubuntu latest, R devel (4.6), with system VTK
+* Ubuntu latest, R release, with system VTK
+* Ubuntu latest, R oldrel-1, with system VTK
+* Ubuntu latest, R release, without system VTK (VTK built from source)
+
+**Win-builder:**
+* [win-builder](https://win-builder.r-project.org/) R release
+* [win-builder](https://win-builder.r-project.org/) R-devel (4.6)
 
 ## R CMD check results
 There were no ERRORs, WARNINGs, or NOTEs.

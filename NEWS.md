@@ -11,8 +11,8 @@
   2. Homebrew (macOS).
   3. `pkg-config` (macOS and Linux).
   4. Well-known system include paths (`/usr`, `/usr/local`) (Linux).
-  5. The Rtools45 / UCRT64 pacman package
-     `mingw-w64-ucrt-x86_64-vtk` (Windows).
+  5. The Rtools42+ pacman package for the active MSYS2 environment
+     (e.g. `mingw-w64-ucrt-x86_64-vtk` for UCRT64) (Windows).
 * On Windows, VTK is loaded dynamically at run time via `addDLLDirectory()`
   to avoid having to bundle VTK runtime DLLs inside the package.
 * Removed all bundled VTK source files, reducing the installed package size
