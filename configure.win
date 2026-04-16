@@ -1,51 +1,72 @@
 #!/bin/bash
-# configure.win -- Windows (UCRT / Rtools45) configuration script for riot
-# Installs VTK via pacman if needed, detects the versioned include/lib dirs,
-# and generates src/Makevars from src/Makevars.in.
+# configure.win -- Windows (Rtools) configuration script for riot
+# Supports:
+#   - Rtools42+ (UCRT64): installs VTK via pacman automatically
+#   - Any Rtools version with a user-supplied VTK_DIR environment variable
+# Detects the versioned include/lib dirs and generates src/Makevars from
+# src/Makevars.in.
 
 set -e
 
 # ---------------------------------------------------------------------------
-# 0. Detect the active MSYS2/Rtools environment
+# 0. Check for a user-supplied VTK installation (works with any Rtools)
 # ---------------------------------------------------------------------------
-case "${MSYSTEM:-UCRT64}" in
-    UCRT64)
-        VTK_SYSROOT="/ucrt64"
-        VTK_PKG="mingw-w64-ucrt-x86_64-vtk"
-        ;;
-    MINGW64)
-        VTK_SYSROOT="/mingw64"
-        VTK_PKG="mingw-w64-x86_64-vtk"
-        ;;
-    CLANG64)
-        VTK_SYSROOT="/clang64"
-        VTK_PKG="mingw-w64-clang-x86_64-vtk"
-        ;;
-    CLANGARM64)
-        VTK_SYSROOT="/clangarm64"
-        VTK_PKG="mingw-w64-clang-aarch64-vtk"
-        ;;
-    *)
-        echo "WARNING: Unknown MSYSTEM '${MSYSTEM}', falling back to UCRT64."
-        VTK_SYSROOT="/ucrt64"
-        VTK_PKG="mingw-w64-ucrt-x86_64-vtk"
-        ;;
-esac
-
-echo "Detected MSYSTEM: ${MSYSTEM:-UCRT64} -> sysroot=${VTK_SYSROOT}, package=${VTK_PKG}"
-
-# ---------------------------------------------------------------------------
-# 1. Install VTK via pacman if not already present
-# ---------------------------------------------------------------------------
-if ! pacman -Q "${VTK_PKG}" > /dev/null 2>&1; then
-    echo "VTK not found in Rtools45 sysroot -- installing via pacman..."
-    pacman -S --noconfirm "${VTK_PKG}"
+if test -n "${VTK_DIR}"; then
+    echo "Using user-supplied VTK installation: VTK_DIR=${VTK_DIR}"
+    VTK_SYSROOT="${VTK_DIR}"
+    VTK_PKG=""
 else
-    echo "VTK already installed in Rtools45 sysroot."
+    # -------------------------------------------------------------------------
+    # Auto-detect via pacman (Rtools42+)
+    # -------------------------------------------------------------------------
+    if ! command -v pacman > /dev/null 2>&1; then
+        echo "ERROR: pacman not found and VTK_DIR is not set."
+        echo "  For Rtools40 or other environments without pacman, please set the"
+        echo "  VTK_DIR environment variable to your VTK installation prefix and"
+        echo "  re-install the package."
+        exit 1
+    fi
+
+    # Detect the active MSYS2/Rtools environment
+    case "${MSYSTEM:-UCRT64}" in
+        UCRT64)
+            VTK_SYSROOT="/ucrt64"
+            VTK_PKG="mingw-w64-ucrt-x86_64-vtk"
+            ;;
+        MINGW64)
+            VTK_SYSROOT="/mingw64"
+            VTK_PKG="mingw-w64-x86_64-vtk"
+            ;;
+        CLANG64)
+            VTK_SYSROOT="/clang64"
+            VTK_PKG="mingw-w64-clang-x86_64-vtk"
+            ;;
+        CLANGARM64)
+            VTK_SYSROOT="/clangarm64"
+            VTK_PKG="mingw-w64-clang-aarch64-vtk"
+            ;;
+        *)
+            echo "WARNING: Unknown MSYSTEM '${MSYSTEM}', falling back to UCRT64."
+            VTK_SYSROOT="/ucrt64"
+            VTK_PKG="mingw-w64-ucrt-x86_64-vtk"
+            ;;
+    esac
+
+    echo "Detected MSYSTEM: ${MSYSTEM:-UCRT64} -> sysroot=${VTK_SYSROOT}, package=${VTK_PKG}"
+
+    # -------------------------------------------------------------------------
+    # 1. Install VTK via pacman if not already present
+    # -------------------------------------------------------------------------
+    if ! pacman -Q "${VTK_PKG}" > /dev/null 2>&1; then
+        echo "VTK not found -- installing via pacman..."
+        pacman -S --noconfirm "${VTK_PKG}"
+    else
+        echo "VTK already installed (${VTK_PKG})."
+    fi
 fi
 
 # ---------------------------------------------------------------------------
-# 2. Locate the versioned VTK include directory (e.g. /ucrt64/include/vtk)
+# 2. Locate the versioned VTK include directory (e.g. /ucrt64/include/vtk-9.5)
 # ---------------------------------------------------------------------------
 VTK_INCLUDE_DIR=$(find "${VTK_SYSROOT}/include" -maxdepth 1 -name "vtk*" -type d 2>/dev/null \
     | sort -V | tail -1)
