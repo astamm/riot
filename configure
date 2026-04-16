@@ -3226,30 +3226,42 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
+## Helper: set vtk_include/vtk_libs from a known VTK install prefix
+## Usage: call with prefix and version suffix, e.g. vtk_set_from_prefix /usr/local 9.5
+vtk_found="no"
+
+## ── 1. VTK_DIR (user-supplied, highest priority) ──────────────────────────────
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking if a custom VTK installation is specified via VTK_DIR" >&5
 printf %s "checking if a custom VTK installation is specified via VTK_DIR... " >&6; }
 if test -n "${VTK_DIR}"; then
-    # 1. If VTK_DIR is set (most probably in .Renviron), try to use it
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: found VTK_DIR at ${VTK_DIR}" >&5
 printf "%s\n" "found VTK_DIR at ${VTK_DIR}" >&6; }
-    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking if minimal version requirement is met (>= 9.5.0)" >&5
-printf %s "checking if minimal version requirement is met (>= 9.5.0)... " >&6; }
+    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking if VTK_DIR satisfies the minimum version requirement (>= 9.5.0)" >&5
+printf %s "checking if VTK_DIR satisfies the minimum version requirement (>= 9.5.0)... " >&6; }
     if test -d "${VTK_DIR}/include/vtk-9.5"; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
         vtk_include="-I${VTK_DIR}/include/vtk-9.5"
         vtk_libs="-L${VTK_DIR}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
-        # fix rpath
         vtk_libs="${vtk_libs} -Wl,-rpath,${VTK_DIR}/lib"
+        vtk_found="yes"
     else
-        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no — falling back to automatic detection" >&5
+printf "%s\n" "no — falling back to automatic detection" >&6; }
     fi
 else
-    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: not found" >&5
-printf "%s\n" "not found" >&6; }
-    # Try Homebrew if available
-    # Extract the first word of "brew", so it can be a program name with args.
+    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: not set" >&5
+printf "%s\n" "not set" >&6; }
+fi
+
+## ── 2. Platform-specific + pkg-config discovery ───────────────────────────────
+if test x"${vtk_found}" = x"no"; then
+    ## Detect the OS
+    os_type="$(uname -s)"
+
+    ## ── 2a. macOS: try Homebrew ───────────────────────────────────────────────
+    if test x"${os_type}" = x"Darwin"; then
+        # Extract the first word of "brew", so it can be a program name with args.
 set dummy brew; ac_word=$2
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 printf %s "checking for $ac_word... " >&6; }
@@ -3296,35 +3308,36 @@ printf "%s\n" "no" >&6; }
 fi
 
 
-    vtk_brew_failed="yes"
-    if test x"${have_brew}" != x"no"; then
-        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking if brew knows VTK" >&5
-printf %s "checking if brew knows VTK... " >&6; }
-        if brew --prefix vtk > /dev/null 2>&1; then
-            { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+        if test x"${have_brew}" != x"no"; then
+            { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking if Homebrew has VTK" >&5
+printf %s "checking if Homebrew has VTK... " >&6; }
+            if brew --prefix vtk > /dev/null 2>&1; then
+                brew_vtk_prefix="$(brew --prefix vtk)"
+                { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes, at ${brew_vtk_prefix}" >&5
+printf "%s\n" "yes, at ${brew_vtk_prefix}" >&6; }
+                { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking if Homebrew VTK satisfies the minimum version requirement (>= 9.5.0)" >&5
+printf %s "checking if Homebrew VTK satisfies the minimum version requirement (>= 9.5.0)... " >&6; }
+                if test -d "${brew_vtk_prefix}/include/vtk-9.5"; then
+                    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
-            { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking if minimal version requirement is met (>= 9.5.0)" >&5
-printf %s "checking if minimal version requirement is met (>= 9.5.0)... " >&6; }
-            brew_prefix="$(brew --prefix vtk)"
-            # checking for an include dir named vtk-9.5
-            if test -d "${brew_prefix}/include/vtk-9.5"; then
-                { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-printf "%s\n" "yes" >&6; }
-                vtk_include="-I${brew_prefix}/include/vtk-9.5"
-                vtk_libs="-L${brew_prefix}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
-                vtk_brew_failed="no"
+                    vtk_include="-I${brew_vtk_prefix}/include/vtk-9.5"
+                    vtk_libs="-L${brew_vtk_prefix}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
+                    vtk_found="yes"
+                else
+                    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+                    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: Homebrew VTK is too old; run: brew upgrade vtk" >&5
+printf "%s\n" "$as_me: WARNING: Homebrew VTK is too old; run: brew upgrade vtk" >&2;}
+                fi
             else
                 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
             fi
-        else
-            { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
         fi
     fi
 
-    # If brew failed, try pkg-config
-    if test x"${vtk_brew_failed}" = x"yes"; then
+    ## ── 2b. pkg-config (macOS and Linux) ─────────────────────────────────────
+    if test x"${vtk_found}" = x"no"; then
         # Extract the first word of "pkg-config", so it can be a program name with args.
 set dummy pkg-config; ac_word=$2
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -3373,31 +3386,80 @@ fi
 
 
         if test x"${have_pkg_config}" != x"no"; then
-            { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking if pkg-config knows VTK" >&5
-printf %s "checking if pkg-config knows VTK... " >&6; }
-            if pkg-config --exists vtk; then
-                { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: found via pkg-config" >&5
-printf "%s\n" "found via pkg-config" >&6; }
-                { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking if minimal version requirement is met" >&5
-printf %s "checking if minimal version requirement is met... " >&6; }
-                if pkg-config --atleast-version=9.5.0 vtk; then
-                    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: >= 9.5.0" >&5
-printf "%s\n" ">= 9.5.0" >&6; }
-                    vtk_include=$(pkg-config --cflags vtk)
-                    vtk_libs=$(pkg-config --libs vtk)
+            ## pkg-config may use names like "vtk", "vtk-9.5", "VTK", etc.
+            vtk_pc_name=""
+            for _name in vtk vtk-9.5 vtk9 VTK; do
+                if pkg-config --exists "${_name}" 2>/dev/null; then
+                    vtk_pc_name="${_name}"
+                    break
+                fi
+            done
+
+            if test -n "${vtk_pc_name}"; then
+                { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking if pkg-config VTK (${vtk_pc_name}) satisfies the minimum version requirement (>= 9.5.0)" >&5
+printf %s "checking if pkg-config VTK (${vtk_pc_name}) satisfies the minimum version requirement (>= 9.5.0)... " >&6; }
+                if pkg-config --atleast-version=9.5.0 "${vtk_pc_name}"; then
+                    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+                    vtk_include="$(pkg-config --cflags ${vtk_pc_name})"
+                    vtk_libs="$(pkg-config --libs ${vtk_pc_name})"
+                    vtk_found="yes"
                 else
-                    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
-                    as_fn_error $? "VTK 9.5.0 or later is required" "$LINENO" 5
+                    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no — installed version is too old" >&5
+printf "%s\n" "no — installed version is too old" >&6; }
                 fi
             else
-                { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
-                as_fn_error $? "Cannot find suitable VTK installation, aborting. Please set VTK_DIR environment variable to point to your VTK installation." "$LINENO" 5
+                { printf "%s\n" "$as_me:${as_lineno-$LINENO}: pkg-config could not find VTK" >&5
+printf "%s\n" "$as_me: pkg-config could not find VTK" >&6;}
             fi
         else
-            as_fn_error $? "Cannot find suitable VTK installation, aborting. Please set VTK_DIR environment variable to point to your VTK installation." "$LINENO" 5
+            { printf "%s\n" "$as_me:${as_lineno-$LINENO}: pkg-config not available" >&5
+printf "%s\n" "$as_me: pkg-config not available" >&6;}
         fi
+    fi
+
+    ## ── 2c. Linux: distro-specific fallback ──────────────────────────────────
+    if test x"${vtk_found}" = x"no" && test x"${os_type}" = x"Linux"; then
+        ## Try well-known system include paths first (covers manually installed
+        ## or distro-packaged VTK that is not registered with pkg-config).
+        for _candidate in \
+                /usr/include/vtk-9.5 \
+                /usr/local/include/vtk-9.5 \
+                /usr/include/vtk \
+                /usr/local/include/vtk; do
+            if test -d "${_candidate}"; then
+                _vtk_base="$(echo "${_candidate}" | sed 's|/include/.*||')"
+                { printf "%s\n" "$as_me:${as_lineno-$LINENO}: found VTK headers at ${_candidate}" >&5
+printf "%s\n" "$as_me: found VTK headers at ${_candidate}" >&6;}
+                vtk_include="-I${_candidate}"
+                vtk_libs="-L${_vtk_base}/lib -lvtkIOLegacy-9.5 -lvtkIOXML-9.5 -lvtkCommonCore-9.5 -lvtkCommonDataModel-9.5 -lvtksys-9.5"
+                vtk_libs="${vtk_libs} -Wl,-rpath,${_vtk_base}/lib"
+                vtk_found="yes"
+                break
+            fi
+        done
+
+        ## If still not found, emit a distro-aware installation hint
+        if test x"${vtk_found}" = x"no"; then
+            vtk_install_hint="Please install VTK >= 9.5.0 development libraries."
+            if test -f /etc/debian_version || (command -v apt-get > /dev/null 2>&1); then
+                vtk_install_hint="${vtk_install_hint} On Debian/Ubuntu: sudo apt-get install libvtk9-dev"
+            elif test -f /etc/fedora-release || (command -v dnf > /dev/null 2>&1); then
+                vtk_install_hint="${vtk_install_hint} On Fedora: sudo dnf install vtk-devel"
+            elif test -f /etc/redhat-release || (command -v yum > /dev/null 2>&1); then
+                vtk_install_hint="${vtk_install_hint} On RHEL/CentOS: sudo yum install vtk-devel (EPEL may be required)"
+            elif test -f /etc/SuSE-release || (command -v zypper > /dev/null 2>&1); then
+                vtk_install_hint="${vtk_install_hint} On openSUSE: sudo zypper install vtk-devel"
+            elif (command -v pacman > /dev/null 2>&1); then
+                vtk_install_hint="${vtk_install_hint} On Arch Linux: sudo pacman -S vtk"
+            fi
+            as_fn_error $? "${vtk_install_hint}" "$LINENO" 5
+        fi
+    fi
+
+    ## ── 2d. Generic fallback error (non-Linux, non-macOS or macOS without brew/pkg-config) ──
+    if test x"${vtk_found}" = x"no"; then
+        as_fn_error $? "Cannot find a suitable VTK installation (>= 9.5.0). Please set the VTK_DIR environment variable to your VTK install prefix, or install VTK via your system package manager." "$LINENO" 5
     fi
 fi
 
