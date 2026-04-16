@@ -141,9 +141,10 @@ cc_mid_trk
 ### VTK
 
 Since version 1.2.0, **riot** no longer bundles VTK source files. Instead it
-links against an **externally installed** [VTK](https://vtk.org/) (>= 9.1.0)
-with shared libraries enabled. VTK must be present on the host before
-installing the package.
+links against an **externally installed** [VTK](https://vtk.org/) (>= 9.1.0).
+VTK must be present on the host before installing the package. Both shared and
+static VTK builds are supported; static builds on macOS and Linux must have
+been compiled with `-fPIC`.
 
 At install time, `configure` (Unix-like) / `configure.win` (Windows) search
 for VTK in the following order:

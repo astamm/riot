@@ -90,7 +90,7 @@ uf_left_vtk <- read_tractogram(system.file(
 #> Registered S3 method overwritten by 'bit64':
 #>   method          from 
 #>   print.bitstring tools
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b64765ed15/riot/extdata/UF_left.vtk' has been successfully imported.
+#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b6412e2eab/riot/extdata/UF_left.vtk' has been successfully imported.
 uf_left_vtk
 #> ℹ Tractogram with 2042 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
@@ -105,7 +105,7 @@ uf_left_vtp <- read_tractogram(system.file(
 ))
 #> Number of data points: 38697
 #> Number of streamlines: 2042
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b64765ed15/riot/extdata/UF_left.vtp' has been successfully imported.
+#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b6412e2eab/riot/extdata/UF_left.vtp' has been successfully imported.
 uf_left_vtp
 #> ℹ Tractogram with 2042 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
@@ -122,7 +122,7 @@ uf_left_fds <- read_tractogram(system.file(
 ))
 #> Number of data points: 38697
 #> Number of streamlines: 2042
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b64765ed15/riot/extdata/UF_left.fds' has been successfully imported.
+#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b6412e2eab/riot/extdata/UF_left.fds' has been successfully imported.
 uf_left_fds
 #> ℹ Tractogram with 2042 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
@@ -137,7 +137,7 @@ af_left_tck <- read_tractogram(system.file(
   "AF_left.tck",
   package = "riot"
 ))
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b64765ed15/riot/extdata/AF_left.tck' has been successfully imported.
+#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b6412e2eab/riot/extdata/AF_left.tck' has been successfully imported.
 af_left_tck
 #> ℹ Tractogram with 5000 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 8, 23, 28, 28.0602, 33, and 54.
@@ -152,7 +152,7 @@ cc_mid_trk <- read_tractogram(system.file(
   "CCMid.trk",
   package = "riot"
 ))
-#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b64765ed15/riot/extdata/CCMid.trk' has been successfully imported.
+#> ✔ The tractogram stored in '/private/var/folders/3j/k56349vx2x9_f27779mgy8zm0000gn/T/Rtmpk1TDwp/temp_libpath77b6412e2eab/riot/extdata/CCMid.trk' has been successfully imported.
 cc_mid_trk
 #> ℹ Tractogram with 525 streamlines.
 #> ℹ Distribution of the number of sampled points per streamline: 29, 189, 224, 214.619047619048, 243, and 270.
@@ -165,8 +165,10 @@ cc_mid_trk
 
 Since version 1.2.0, **riot** no longer bundles VTK source files.
 Instead it links against an **externally installed**
-[VTK](https://vtk.org/) (\>= 9.1.0) with shared libraries enabled. VTK
-must be present on the host before installing the package.
+[VTK](https://vtk.org/) (\>= 9.1.0). VTK must be present on the host
+before installing the package. Both shared and static VTK builds are
+supported; static builds on macOS and Linux must have been compiled with
+`-fPIC`.
 
 At install time, `configure` (Unix-like) / `configure.win` (Windows)
 search for VTK in the following order:

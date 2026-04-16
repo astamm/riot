@@ -1,6 +1,6 @@
 Package: riot
 Title: R Inputs/Outputs for Tractography
-Version: 1.1.1
+Version: 1.2.0
 Authors@R: c(
     person(
         given = "Aymeric",
@@ -52,6 +52,6 @@ Suggests:
     covr,
     testthat (>= 3.0.0),
     withr
-SystemRequirements: VTK (>= 9.1.0) compiled with shared libraries enabled for
-    macOS and Linux platforms.
+SystemRequirements: VTK (>= 9.1.0). Static builds are supported on all
+    platforms but must be compiled with -fPIC on macOS and Linux.
 Config/testthat/edition: 3

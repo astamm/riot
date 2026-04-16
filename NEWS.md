@@ -2,8 +2,9 @@
 
 * **Breaking change in system requirements**: riot no longer bundles VTK
   source files. Instead, it links against an externally installed VTK
-  (>= 9.1.0) at compile time. A shared-library build of VTK must be present
-  on the host before installing the package.
+  (>= 9.1.0) at compile time. VTK must be present on the host before
+  installing the package. Both shared and static VTK builds are supported;
+  static builds on macOS and Linux must have been compiled with `-fPIC`.
 * VTK is discovered at install time via `configure` / `configure.win` using,
   in order of preference:
   1. A user-supplied `VTK_DIR` environment variable.

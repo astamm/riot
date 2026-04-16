@@ -1,8 +1,10 @@
 ## Minor version
 
 In this minor version, riot now links against an **externally provided VTK**
-(>= 9.1.0) rather than bundling VTK source files. VTK is discovered at
-install time via `configure` / `configure.win` using, in order of preference:
+(>= 9.1.0) rather than bundling VTK source files. Both shared and static VTK
+builds are supported (static builds on macOS/Linux must use `-fPIC`). VTK is
+discovered at install time via `configure` / `configure.win` using, in order
+of preference:
 
 1. A user-supplied `VTK_DIR` environment variable.
 2. Homebrew (macOS).
