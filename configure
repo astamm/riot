@@ -3256,7 +3256,7 @@ vtk_detect_from_prefix() {
 
     ## ── Fall back to unversioned vtk/ directory ───────────────────────────────
     if test -d "${_prefix}/include/vtk"; then
-        _ver_header="${_prefix}/include/vtk/vtkVersion.h"
+        _ver_header="${_prefix}/include/vtk/vtkVersionQuick.h"
         if test -f "${_ver_header}"; then
             _major="$(grep '#define VTK_MAJOR_VERSION' "${_ver_header}" | awk '{print $3}')"
             _minor="$(grep '#define VTK_MINOR_VERSION' "${_ver_header}" | awk '{print $3}')"
