@@ -35,7 +35,7 @@ VTK_CPPFLAGS="-I${VTK_INCLUDE_DIR}"
 VTK_LIBS="-L${VTK_SYSROOT}/lib"
 VTK_LIBS="${VTK_LIBS} -lvtkIOLegacy"
 VTK_LIBS="${VTK_LIBS} -lvtkIOXML"
-#VTK_LIBS="${VTK_LIBS} -lvtkIOCore"
+VTK_LIBS="${VTK_LIBS} -lvtkIOCore"
 VTK_LIBS="${VTK_LIBS} -lvtkCommonCore"
 VTK_LIBS="${VTK_LIBS} -lvtkCommonDataModel"
 VTK_LIBS="${VTK_LIBS} -lvtksys"
@@ -56,10 +56,10 @@ echo "src/Makevars written successfully."
 # ---------------------------------------------------------------------------
 # 5. Write VTK config for use by src/install.libs.R at install time
 # ---------------------------------------------------------------------------
-# Convert VTK_BIN_DIR back to a Windows path so it is usable from R
-VTK_BIN_DIR="${VTK_SYSROOT}/bin"
+# Convert VTK_BIN_DIR to a Windows path so it is usable from R
+VTK_BIN_DIR_WIN=$(cygpath -w "${VTK_SYSROOT}/bin")
 cat > src/vtk_config <<EOF
-VTK_BIN_DIR=${VTK_BIN_DIR}
+VTK_BIN_DIR=${VTK_BIN_DIR_WIN}
 EOF
 
 echo "src/vtk_config written successfully."

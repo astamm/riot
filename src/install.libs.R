@@ -20,14 +20,13 @@ message("Installed: ", dll)
 
 # 2. On Windows, also copy VTK DLLs so they are found at runtime
 if (WINDOWS) {
-  # Read VTK version and bin dir written by configure.win
+  # Read VTK bin dir written by configure.win
   cfg_file <- file.path(R_PACKAGE_SOURCE, "src", "vtk_config")
   if (!file.exists(cfg_file)) {
     stop("src/vtk_config not found -- was configure.win run?")
   }
 
-  cfg <- read.dcf(cfg_file) # key=value pairs, one per line
-  # read.dcf doesn't suit shell key=value; parse manually
+  # Parse shell-style KEY=VALUE file (read.dcf is not suitable here)
   lines <- readLines(cfg_file)
   cfg <- setNames(
     sub("^[^=]+=", "", lines),
@@ -40,7 +39,7 @@ if (WINDOWS) {
     c(
       "libvtkIOLegacy",
       "libvtkIOXML",
-      #"libvtkIOCore",
+      "libvtkIOCore",
       "libvtkCommonCore",
       "libvtkCommonDataModel",
       "libvtkCommonMath",
