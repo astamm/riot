@@ -2,7 +2,7 @@
 set -e
 : "${R_HOME:=$(R RHOME)}"
 VTK_CPPFLAGS="$("${R_HOME}/bin/Rscript" --vanilla -e "rvtk::CppFlags()")"
-VTK_LIBS="$("${R_HOME}/bin/Rscript" --vanilla -e "rvtk::LdFlags()")"
+VTK_LIBS="$("${R_HOME}/bin/Rscript" --vanilla -e "rvtk::LdFlagsFile('src/vtk_libs.rsp')")"
 sed -e "s|@VTK_CPPFLAGS@|${VTK_CPPFLAGS}|g" \
     -e "s|@VTK_LIBS@|${VTK_LIBS}|g" \
     src/Makevars.in > src/Makevars

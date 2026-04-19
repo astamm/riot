@@ -16,3 +16,4 @@ src/*.dll
 
 /.quarto/
 src/Makevars
+src/vtk_libs.rsp
