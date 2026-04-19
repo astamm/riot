@@ -38,13 +38,16 @@ RoxygenNote: 7.3.3
 LinkingTo: 
     Rcpp (>= 1.0.14)
 Imports: 
+    cli,
+    fs,
     Rcpp (>= 1.0.14),
     readr,
-    fs,
-    cli,
+    reticulate,
     rlang,
-    tibble,
-    reticulate
+    rvtk,
+    tibble
+Remotes:
+    astamm/rvtk
 URL: https://github.com/astamm/riot,
     https://astamm.github.io/riot/
 BugReports: https://github.com/astamm/riot/issues
@@ -52,6 +55,4 @@ Suggests:
     covr,
     testthat (>= 3.0.0),
     withr
-SystemRequirements: VTK (>= 9.1.0). Static builds are supported on all
-    platforms but must be compiled with -fPIC on macOS and Linux.
 Config/testthat/edition: 3
