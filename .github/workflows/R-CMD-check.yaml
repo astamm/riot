@@ -57,7 +57,7 @@ jobs:
 
       - name: Cache VTK build (Linux without VTK)
         if: runner.os == 'Linux' && matrix.config.vtk == 'without'
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: cache-vtk
         with:
           path: ~/vtk-install
