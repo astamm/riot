@@ -5,14 +5,6 @@
 #include "cpp11/declarations.hpp"
 #include <R_ext/Visibility.h>
 
-// code.cpp
-void fun();
-extern "C" SEXP _riot_fun() {
-  BEGIN_CPP11
-    fun();
-    return R_NilValue;
-  END_CPP11
-}
 // fascicleReaders.h
 cpp11::writable::list ReadVTK(const std::string & inputTracts);
 extern "C" SEXP _riot_ReadVTK(SEXP inputTracts) {
@@ -67,7 +59,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_riot_WriteFDS", (DL_FUNC) &_riot_WriteFDS, 2},
     {"_riot_WriteVTK", (DL_FUNC) &_riot_WriteVTK, 2},
     {"_riot_WriteVTP", (DL_FUNC) &_riot_WriteVTP, 2},
-    {"_riot_fun",      (DL_FUNC) &_riot_fun,      0},
     {NULL, NULL, 0}
 };
 }
