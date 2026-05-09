@@ -35,12 +35,10 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 LinkingTo: 
-    Rcpp (>= 1.0.14)
+    cpp11,
 Imports: 
     cli,
     fs,
-    Rcpp (>= 1.0.14),
-    readr,
     reticulate,
     rlang,
     rvtk,
@@ -56,3 +54,4 @@ Suggests:
     withr
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.0.0
+RoxygenNote: 8.0.0

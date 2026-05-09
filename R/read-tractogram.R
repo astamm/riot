@@ -42,16 +42,13 @@ read_tractogram <- function(file, reference_file = NULL) {
   }
 
   if (ext %in% c("vtk", "vtp", "fds")) {
-    output_file <- fs::file_temp(ext = ".csv")
     if (ext == "vtk") {
-      ReadVTK(input_file, output_file)
+      df <- tibble::as_tibble(ReadVTK(input_file))
     } else if (ext == "vtp") {
-      ReadVTP(input_file, output_file)
+      df <- tibble::as_tibble(ReadVTP(input_file))
     } else if (ext == "fds") {
-      ReadFDS(input_file, output_file)
+      df <- tibble::as_tibble(ReadFDS(input_file))
     }
-    df <- readr::read_csv(output_file, show_col_types = FALSE)
-    fs::file_delete(output_file)
   } else if (ext == "tck") {
     df <- read_mrtrix(input_file)
   } else if (ext == "trk") {

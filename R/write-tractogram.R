@@ -43,16 +43,13 @@ write_tractogram <- function(x, file, reference_file = NULL) {
   }
 
   if (ext %in% c("vtk", "vtp", "fds")) {
-    input_file <- fs::file_temp(ext = ".csv")
-    readr::write_csv(x, file = input_file)
     if (ext == "vtk") {
-      WriteVTK(input_file, output_file)
+      WriteVTK(x, output_file)
     } else if (ext == "vtp") {
-      WriteVTP(input_file, output_file)
+      WriteVTP(x, output_file)
     } else if (ext == "fds") {
-      WriteFDS(input_file, output_file)
+      WriteFDS(x, output_file)
     }
-    fs::file_delete(input_file)
   } else {
     if (is.null(reference_file)) {
       cli::cli_abort(

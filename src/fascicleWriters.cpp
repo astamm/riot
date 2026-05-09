@@ -5,176 +5,124 @@
 #include <vtkXMLPolyDataWriter.h>
 #include <vtksys/SystemTools.hxx>
 
-void ReadCSV(const std::string &inputFile,
-             vtkSmartPointer<vtkPolyData> &inputData) {
-  std::ifstream file(inputFile);
-  if (!file)
-    Rcpp::stop("The input file does not exist.");
-
-  // Read headers
-  std::vector<std::string> header;
-  std::string file_line;
-  std::getline(file, file_line);
-  std::stringstream iss(file_line);
-  unsigned int numberOfColumns = 0;
-
-  Rcpp::Rcout << "Header:" << std::endl;
-  while (iss.good()) {
-    std::string val;
-    std::getline(iss, val, ',');
-    std::stringstream convertor(val);
-
-    header.resize(numberOfColumns + 1);
-    convertor >> header[numberOfColumns];
-    Rcpp::Rcout << "    " << header[numberOfColumns] << std::endl;
-    ++numberOfColumns;
-  }
-
-  Rcpp::Rcout << "Number of columns: " << numberOfColumns << std::endl;
+void ListToPolyData(cpp11::list inputData,
+                    vtkSmartPointer<vtkPolyData> &polyData) {
+  cpp11::strings names(static_cast<SEXP>(inputData.attr("names")));
+  int numberOfColumns = inputData.size();
 
   if (numberOfColumns < 5)
-    Rcpp::stop("The CSV should contain at least 5 columns.");
+    cpp11::stop("Input must have at least 5 columns.");
 
-  if (header[0] != "X" || header[1] != "Y" || header[2] != "Z" ||
-      header[3] != "PointId" || header[4] != "StreamlineId")
-    Rcpp::stop("The CSV should contain at least the following first 5 "
-               "variables in order: X, Y, Z, PointId, StreamlineId.");
+  if (std::string(names[0]) != "X" || std::string(names[1]) != "Y" ||
+      std::string(names[2]) != "Z" || std::string(names[3]) != "PointId" ||
+      std::string(names[4]) != "StreamlineId")
+    cpp11::stop("First 5 columns must be X, Y, Z, PointId, StreamlineId.");
 
-  std::vector<unsigned int> numberOfComponents;
-  unsigned int pos = 5;
+  // Extract a list element as std::vector<double>, coercing integer if needed
+  auto extractCol = [&](int idx) -> std::vector<double> {
+    SEXP col = inputData[idx];
+    if (TYPEOF(col) == REALSXP) {
+      cpp11::doubles d = cpp11::as_cpp<cpp11::doubles>(col);
+      return std::vector<double>(d.begin(), d.end());
+    } else if (TYPEOF(col) == INTSXP) {
+      cpp11::integers iv = cpp11::as_cpp<cpp11::integers>(col);
+      std::vector<double> out(iv.size());
+      for (R_xlen_t j = 0; j < iv.size(); ++j)
+        out[static_cast<std::size_t>(j)] = iv[j];
+      return out;
+    }
+    cpp11::stop("Unsupported column type in input data.");
+  };
+
+  std::vector<double> X_col = extractCol(0);
+  std::vector<double> Y_col = extractCol(1);
+  std::vector<double> Z_col = extractCol(2);
+  // PointId is not needed for polydata reconstruction
+  std::vector<double> StreamlineId_col = extractCol(4);
+
+  unsigned int numberOfRows = static_cast<unsigned int>(X_col.size());
+
+  // Determine array component structure by inspecting column names
+  std::vector<unsigned int> componentCounts;
+  std::vector<std::string> arrayNames;
+  int pos = 5;
   while (pos < numberOfColumns) {
-    // Dealing with arrays now
-    if (header[pos].find_last_of("#") ==
-        std::string::npos) // Array value is scalar
-    {
-      numberOfComponents.push_back(1);
+    std::string name = std::string(names[pos]);
+    if (name.find('#') == std::string::npos) {
+      componentCounts.push_back(1);
+      arrayNames.push_back(name);
       ++pos;
     } else {
       unsigned int count = 0;
-      while (header[pos + count].find_last_of("#") != std::string::npos)
+      while (pos + static_cast<int>(count) < numberOfColumns &&
+             std::string(names[pos + static_cast<int>(count)]).find('#') !=
+                 std::string::npos)
         ++count;
-      numberOfComponents.push_back(count);
-      pos += count;
+      arrayNames.push_back(name.substr(0, name.find('#')));
+      componentCounts.push_back(count);
+      pos += static_cast<int>(count);
     }
   }
 
-  // Retrieve data matrix
-  std::vector<std::vector<double>> data;
-  unsigned int numberOfRows = 0;
+  // Pre-extract all extra columns
+  std::vector<std::vector<double>> arrayCols;
+  for (int c = 5; c < numberOfColumns; ++c)
+    arrayCols.push_back(extractCol(c));
 
-  while (file.good()) {
-    data.resize(numberOfRows + 1);
-    data[numberOfRows].resize(numberOfColumns);
-    std::string file_line;
-    std::getline(file, file_line);
-    std::stringstream iss(file_line);
-
-    for (unsigned int i = 0; i < numberOfColumns; ++i) {
-      std::string val;
-      std::getline(iss, val, ',');
-      std::stringstream convertor(val);
-
-      if (val == "")
-        data[numberOfRows][i] = std::numeric_limits<double>::quiet_NaN();
-      else
-        convertor >> data[numberOfRows][i];
-    }
-
-    ++numberOfRows;
-  }
-
-  // ISO standards for CSVs insert a new line at the end of the file as
-  // ENDOFFILE This line has to be removed if present
-
-  // First, check if the CSV was ISO-formatted or not
-  bool isoFormat = true;
-  for (unsigned int j = 0; j < numberOfColumns; ++j)
-    if (!std::isnan(data[numberOfRows - 1][j])) {
-      isoFormat = false;
-      break;
-    }
-
-  // If ISO standard, do not consider last line
-  if (isoFormat)
-    --numberOfRows;
-
-  Rcpp::Rcout << "Number of data points: " << numberOfRows << std::endl;
-
-  // Initialize output polydata object
-  inputData->Initialize();
-  inputData->Allocate();
-
-  //--------------------------------
-  // Add geometry to the output polydata object
-  //--------------------------------
+  // Build polydata geometry
+  polyData->Initialize();
+  polyData->Allocate();
 
   vtkSmartPointer<vtkPoints> myPoints = vtkSmartPointer<vtkPoints>::New();
-
-  // Add streamlines
-  unsigned int numberOfStreamlines = data[numberOfRows - 1][4];
-  Rcpp::Rcout << "Number of streamlines: " << numberOfStreamlines << std::endl;
+  unsigned int numberOfStreamlines =
+      static_cast<unsigned int>(StreamlineId_col[numberOfRows - 1]);
+  cpp11::message("Number of streamlines: %d", numberOfStreamlines);
 
   unsigned int initialPosition = 0;
   for (unsigned int i = 0; i < numberOfStreamlines; ++i) {
-    // Retrieve number of points along i-th streamline
     unsigned int npts = 0;
     while (initialPosition + npts < numberOfRows &&
-           data[initialPosition + npts][4] ==
-               i + 1) // numeration in CSV starts at one.
+           static_cast<unsigned int>(
+               StreamlineId_col[initialPosition + npts]) == i + 1)
       ++npts;
 
     vtkIdType *ids = new vtkIdType[npts];
-
     for (unsigned int j = 0; j < npts; ++j) {
       unsigned int tmpPos = initialPosition + j;
-      ids[j] = myPoints->InsertNextPoint(data[tmpPos][0], data[tmpPos][1],
-                                         data[tmpPos][2]);
+      ids[j] = myPoints->InsertNextPoint(X_col[tmpPos], Y_col[tmpPos],
+                                         Z_col[tmpPos]);
     }
-
-    inputData->InsertNextCell(VTK_POLY_LINE, npts, ids);
+    polyData->InsertNextCell(VTK_POLY_LINE, npts, ids);
     delete[] ids;
     initialPosition += npts;
   }
+  polyData->SetPoints(myPoints);
 
-  inputData->SetPoints(myPoints);
-
-  // Add array information
-  Rcpp::Rcout << "Number of arrays: " << numberOfComponents.size() << std::endl;
-  pos = 5;
-  unsigned int arrayPos = 0;
-  while (pos < numberOfColumns) {
-    unsigned int nbComponents = numberOfComponents[arrayPos];
+  // Add point-data arrays
+  cpp11::message("Number of arrays: %d", componentCounts.size());
+  unsigned int colOffset = 0;
+  for (unsigned int a = 0; a < componentCounts.size(); ++a) {
+    unsigned int nbComponents = componentCounts[a];
 
     vtkSmartPointer<vtkDoubleArray> arrayData =
         vtkSmartPointer<vtkDoubleArray>::New();
-    std::string tmpStr;
-
-    if (nbComponents == 1)
-      tmpStr = header[pos];
-    else
-      tmpStr = header[pos].substr(0, header[pos].find_last_of("#"));
-
-    arrayData->SetName(tmpStr.c_str());
+    arrayData->SetName(arrayNames[a].c_str());
     arrayData->SetNumberOfComponents(nbComponents);
     arrayData->SetNumberOfTuples(static_cast<vtkIdType>(numberOfRows));
 
-    // Use direct memory access to avoid instantiating vtkGenericDataArray
-    // template methods (SetValue / InsertNextValue) whose explicit
-    // specialisations are not exported by the MSYS2 VTK import libs.
     double *ptr = static_cast<double *>(arrayData->GetVoidPointer(0));
     for (unsigned int i = 0; i < numberOfRows; ++i)
       for (unsigned int j = 0; j < nbComponents; ++j)
-        ptr[i * nbComponents + j] = data[i][pos + j];
+        ptr[i * nbComponents + j] = arrayCols[colOffset + j][i];
 
-    inputData->GetPointData()->AddArray(arrayData);
-    pos += nbComponents;
-    ++arrayPos;
+    polyData->GetPointData()->AddArray(arrayData);
+    colOffset += nbComponents;
   }
 }
 
-void WriteVTK(const std::string &inputTracts, std::string &outputFile) {
+void WriteVTK(cpp11::list inputTracts, const std::string &outputFile) {
   vtkSmartPointer<vtkPolyData> inputData = vtkSmartPointer<vtkPolyData>::New();
-  ReadCSV(inputTracts, inputData);
+  ListToPolyData(inputTracts, inputData);
 
   vtkSmartPointer<vtkPolyDataWriter> vtkWriter = vtkPolyDataWriter::New();
   vtkWriter->SetInputData(inputData);
@@ -182,9 +130,9 @@ void WriteVTK(const std::string &inputTracts, std::string &outputFile) {
   vtkWriter->Update();
 }
 
-void WriteVTP(const std::string &inputTracts, std::string &outputFile) {
+void WriteVTP(cpp11::list inputTracts, const std::string &outputFile) {
   vtkSmartPointer<vtkPolyData> inputData = vtkSmartPointer<vtkPolyData>::New();
-  ReadCSV(inputTracts, inputData);
+  ListToPolyData(inputTracts, inputData);
 
   vtkSmartPointer<vtkXMLPolyDataWriter> vtkWriter = vtkXMLPolyDataWriter::New();
   vtkWriter->SetInputData(inputData);
@@ -195,19 +143,20 @@ void WriteVTP(const std::string &inputTracts, std::string &outputFile) {
   vtkWriter->Update();
 }
 
-void WriteFDS(const std::string &inputTracts, std::string &outputFile) {
+void WriteFDS(cpp11::list inputTracts, const std::string &outputFile) {
   vtkSmartPointer<vtkPolyData> inputData = vtkSmartPointer<vtkPolyData>::New();
-  ReadCSV(inputTracts, inputData);
+  ListToPolyData(inputTracts, inputData);
 
-  std::replace(outputFile.begin(), outputFile.end(), '\\', '/');
+  // Work on a local mutable copy so we can normalise path separators
+  std::string outputFilePath = outputFile;
+  std::replace(outputFilePath.begin(), outputFilePath.end(), '\\', '/');
 
   std::string baseName;
-  std::size_t lastDotPos = outputFile.find_last_of('.');
-  baseName.append(outputFile.begin(), outputFile.begin() + lastDotPos);
+  std::size_t lastDotPos = outputFilePath.find_last_of('.');
+  baseName.append(outputFilePath.begin(), outputFilePath.begin() + lastDotPos);
 
   std::string noPathName = baseName;
   std::size_t lastSlashPos = baseName.find_last_of("/");
-
   if (lastSlashPos != std::string::npos) {
     noPathName.clear();
     noPathName.append(baseName.begin() + lastSlashPos + 1, baseName.end());
@@ -230,7 +179,7 @@ void WriteFDS(const std::string &inputTracts, std::string &outputFile) {
   vtkWriter->SetCompressorTypeToZLib();
   vtkWriter->Update();
 
-  std::ofstream outputHeaderFile(outputFile.c_str());
+  std::ofstream outputHeaderFile(outputFilePath.c_str());
   outputHeaderFile << "<?xml version=\"1.0\"?>" << std::endl;
   outputHeaderFile
       << "<VTKFile type=\"vtkFiberDataSet\" version=\"1.0\" "
@@ -242,6 +191,5 @@ void WriteFDS(const std::string &inputTracts, std::string &outputFile) {
   outputHeaderFile << "\t</Fibers>" << std::endl;
   outputHeaderFile << "</vtkFiberDataSet>" << std::endl;
   outputHeaderFile << "</VTKFile>" << std::endl;
-
   outputHeaderFile.close();
 }

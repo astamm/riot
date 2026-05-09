@@ -22,7 +22,7 @@ distribution.
 */
 
 #include "tinyxml2.h"
-#include <Rcpp.h>
+#include <cpp11.hpp>
 
 #include <new> // yes, this one new style header, is in the Android SDK.
 #if defined(ANDROID_NDK) || defined(__BORLANDC__) || defined(__QNXNTO__)
@@ -2144,7 +2144,7 @@ void XMLDocument::Print(XMLPrinter *streamer) const {
   if (streamer) {
     Accept(streamer);
   } else {
-    Rcpp::stop("Empty XMLPrint streamer pointer.");
+    cpp11::stop("Empty XMLPrint streamer pointer.");
   }
 }
 
