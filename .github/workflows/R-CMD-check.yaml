@@ -53,7 +53,9 @@ jobs:
       
       - name: Install VTK (Ubuntu)
         if: runner.os == 'Linux' && matrix.config.vtk == 'with'
-        run: sudo apt-get install -y libvtk9-dev
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y libvtk9-dev || sudo apt-get install -y libvtk-dev
 
       - name: Cache VTK build (Linux without VTK)
         if: runner.os == 'Linux' && matrix.config.vtk == 'without'
