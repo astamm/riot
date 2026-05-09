@@ -41,8 +41,7 @@ Imports:
     fs,
     reticulate,
     rlang,
-    rvtk,
-    tibble
+    rvtk
 Remotes:
     astamm/rvtk
 URL: https://github.com/astamm/riot,

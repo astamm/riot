@@ -7,7 +7,7 @@
 write_tractogram(x, file, reference_file = NULL)
 }
 \arguments{
-\item{x}{An object of class \code{maf_df} storing a tractogram.}
+\item{x}{A \link[=new_bundle]{bundle} object storing a tractogram.}
 
 \item{file}{A string specifying the path to the file containing the tractography data. Currently
 supported files are:
@@ -30,12 +30,12 @@ The input tractogram (invisibly) so that the function can be
 used in pipes.
 }
 \description{
-This function exports a tractogram stored as a \code{maf_df} object to a
-file in one of the supported formats. Supported formats include VTK (\code{.vtk}),
-VTP (\code{.vtp}), FDS (\code{.fds}), TRK (\code{.trk}), TCK (\code{.tck}), TRX (\code{.trx}),
-FIB (\code{.fib}), and DPY (\code{.dpy}). For formats that require a reference image
-(such as TRX, FIB, and DPY), the user must provide the path to a reference
-image file.
+This function exports a tractogram stored as a \link[=new_bundle]{bundle} object
+to a file in one of the supported formats. Supported formats include VTK
+(\code{.vtk}), VTP (\code{.vtp}), FDS (\code{.fds}), TRK (\code{.trk}), TCK (\code{.tck}), TRX
+(\code{.trx}), FIB (\code{.fib}), and DPY (\code{.dpy}). For formats that require a
+reference image (such as TRX, FIB, and DPY), the user must provide the path
+to a reference image file.
 }
 \details{
 Warning: we rely on DIPY to provide support to save tractograms in \code{.trk}, \code{.trx}, \code{.tck}, \code{.dpy}

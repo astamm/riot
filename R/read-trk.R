@@ -139,13 +139,6 @@ read_trk <- function(input_file) {
     seq_len(header$n_count),
     function(.x) {
       num_points <- readBin(fh, integer(), n = 1, size = 4, endian = endian)
-      current_track <- tibble::tibble(
-        X = rep(0, num_points),
-        Y = rep(0, num_points),
-        Z = rep(0, num_points),
-        PointId = seq_len(num_points),
-        StreamlineId = .x
-      )
 
       tmp <- matrix(
         readBin(
@@ -158,14 +151,19 @@ read_trk <- function(input_file) {
         ncol = num_points
       )
 
-      current_track$X <- tmp[1, ]
-      current_track$Y <- tmp[2, ]
-      current_track$Z <- tmp[3, ]
+      out <- list(
+        X = tmp[1, ],
+        Y = tmp[2, ],
+        Z = tmp[3, ],
+        PointId = seq_len(num_points),
+        StreamlineId = rep(.x, num_points)
+      )
+
       for (i in seq_len(header$n_scalars)) {
-        current_track[header$scalar_names[i]] <- tmp[3 + i, ]
+        out[[header$scalar_names[i]]] <- tmp[3 + i, ]
       }
 
-      tmp <- readBin(
+      props <- readBin(
         fh,
         numeric(),
         n = header$n_properties,
@@ -173,13 +171,19 @@ read_trk <- function(input_file) {
         endian = endian
       )
       for (i in seq_len(header$n_properties)) {
-        current_track[header$property_names[i]] <- tmp[i]
+        out[[header$property_names[i]]] <- rep(props[i], num_points)
       }
 
-      current_track
+      out
     }
   )
-  tracks <- do.call(rbind, tracks)
+
+  # Combine all per-streamline lists into one flat list
+  nms <- names(tracks[[1L]])
+  flat <- lapply(nms, function(col) {
+    unlist(lapply(tracks, `[[`, col), use.names = FALSE)
+  })
+  names(flat) <- nms
 
   A <- header$vox2ras[1:3, 1:3]
   b <- header$vox2ras[1:3, 4]
@@ -187,12 +191,11 @@ read_trk <- function(input_file) {
     cli::cli_alert_info(
       "Transforming voxel to real coordinates using rotation matrix {A} and translation vector {b}..."
     )
-    new_coords <- mapply(c, tracks$X, tracks$Y, tracks$Z, SIMPLIFY = FALSE)
-    new_coords <- lapply(new_coords, function(.x) A %*% .x + b)
-    tracks$X <- sapply(new_coords, function(x) x[1])
-    tracks$Y <- sapply(new_coords, function(x) x[2])
-    tracks$Z <- sapply(new_coords, function(x) x[3])
+    coords <- A %*% rbind(flat$X, flat$Y, flat$Z) + b
+    flat$X <- coords[1, ]
+    flat$Y <- coords[2, ]
+    flat$Z <- coords[3, ]
   }
 
-  tracks
+  flat_list_to_bundle(flat)
 }

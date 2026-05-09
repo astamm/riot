@@ -87,21 +87,29 @@ read_tck <- function(file_path) {
   )
   tracks_raw_matrix <- matrix(tracks_rawdata, ncol = 3, byrow = TRUE)
   tracks_raw_matrix <- tracks_raw_matrix[-nrow(tracks_raw_matrix), ]
-  tck$tracks <- tibble::tibble(
-    X = tracks_raw_matrix[, 1],
-    Y = tracks_raw_matrix[, 2],
-    Z = tracks_raw_matrix[, 3]
-  )
-  n <- nrow(tck$tracks)
-  tck$tracks$PointId <- seq_len(n)
-  tck$tracks$StreamlineId <- rep(1, n)
-  nan_idx <- which(is.nan(tck$tracks$X))
-  for (i in 1:length(nan_idx)) {
+
+  n <- nrow(tracks_raw_matrix)
+  X <- tracks_raw_matrix[, 1]
+  Y <- tracks_raw_matrix[, 2]
+  Z <- tracks_raw_matrix[, 3]
+  point_id <- seq_len(n)
+  streamline_id <- rep(1L, n)
+
+  nan_idx <- which(is.nan(X))
+  for (i in seq_along(nan_idx)) {
     idx <- nan_idx[i]
-    tck$tracks$PointId[idx:n] <- 0:(n - idx)
-    tck$tracks$StreamlineId[idx:n] <- i + 1
+    point_id[idx:n] <- 0:(n - idx)
+    streamline_id[idx:n] <- i + 1L
   }
-  tck$tracks <- tck$tracks[tck$tracks$PointId != 0, ]
+
+  keep <- point_id != 0L
+  tck$tracks <- list(
+    X = X[keep],
+    Y = Y[keep],
+    Z = Z[keep],
+    PointId = point_id[keep],
+    StreamlineId = streamline_id[keep]
+  )
   tck
 }
 
@@ -151,7 +159,7 @@ read_tsf <- function(file_path) {
 
 read_mrtrix <- function(input_file) {
   tck_data <- read_tck(input_file)
-  df <- tck_data$tracks
+  tracks <- tck_data$tracks
   tsf_files <- fs::dir_ls(fs::path_dir(input_file), glob = "*.tsf")
   for (tsf_file in tsf_files) {
     tsf_data <- read_tsf(tsf_file)
@@ -181,13 +189,15 @@ read_mrtrix <- function(input_file) {
         next
       }
     }
-    if (nrow(tck_data$tracks) != nrow(tsf_data$tracks)) {
+    if (length(tracks$X) != length(tsf_data$scalars$merged)) {
       cli::cli_alert_info(
         "Skipping file {.file {tsf_file}} because point counts do not match."
       )
       next
     }
-    df <- tibble::tibble(merge(df, tsf_data$scalars))
+    # Append scalar column from TSF
+    scalar_name <- fs::path_ext_remove(fs::path_file(tsf_file))
+    tracks[[scalar_name]] <- tsf_data$scalars$merged
   }
-  df
+  flat_list_to_bundle(tracks)
 }

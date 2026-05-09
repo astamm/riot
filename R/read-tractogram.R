@@ -16,16 +16,12 @@
 #' information about the image space. The reference image is used to correctly position the
 #' tractogram in the appropriate space. Default is `NULL`.
 #'
-#' @return A special [tibble][tibble::tibble] (of class `maf_df`) containing the
-#' tractogram data with the following columns:
-#'
-#' - `X`: X coordinate of the point.
-#' - `Y`: Y coordinate of the point.
-#' - `Z`: Z coordinate of the point.
-#' - `PointId`: Identifier of the point within its streamline.
-#' - `StreamlineId`: Identifier of the streamline.
-#'
-#' The tractogram may contain additional columns that are attributes to either points or streamlines.
+#' @return A [bundle][new_bundle] object when the file contains multiple
+#'   streamlines, or a [streamline][new_streamline] object when it contains
+#'   exactly one. Each `streamline` is a numeric matrix with at least three
+#'   named columns `"X"`, `"Y"`, and `"Z"` (one row per point along the
+#'   tract). Additional per-point scalar attributes, when present in the source
+#'   file, appear as extra named columns.
 #'
 #' @seealso [write_tractogram()] to export tractograms from R.
 #' @export
@@ -43,16 +39,16 @@ read_tractogram <- function(file, reference_file = NULL) {
 
   if (ext %in% c("vtk", "vtp", "fds")) {
     if (ext == "vtk") {
-      df <- tibble::as_tibble(ReadVTK(input_file))
+      result <- flat_list_to_bundle(ReadVTK(input_file))
     } else if (ext == "vtp") {
-      df <- tibble::as_tibble(ReadVTP(input_file))
+      result <- flat_list_to_bundle(ReadVTP(input_file))
     } else if (ext == "fds") {
-      df <- tibble::as_tibble(ReadFDS(input_file))
+      result <- flat_list_to_bundle(ReadFDS(input_file))
     }
   } else if (ext == "tck") {
-    df <- read_mrtrix(input_file)
+    result <- read_mrtrix(input_file)
   } else if (ext == "trk") {
-    df <- read_trk(input_file)
+    result <- read_trk(input_file)
   } else if (ext %in% c("trx", "fib", "dpy")) {
     if (is.null(reference_file)) {
       cli::cli_abort(
@@ -62,45 +58,41 @@ read_tractogram <- function(file, reference_file = NULL) {
     reference_file <- fs::path_expand(reference_file)
     reference_file <- fs::path_norm(reference_file)
     tgm <- io_streamline$load_tractogram(input_file, reference_file)
-    df <- tgm$get_streamlines_copy()
-    n_streamlines <- length(df)
-    df <- lapply(0:(n_streamlines - 1), function(index) {
-      n_points <- nrow(df[index])
-      cbind(df[index], 1:n_points, rep(index + 1, length.out = n_points))
-    })
-    df <- do.call(rbind, df)
-    colnames(df) <- c("X", "Y", "Z", "PointId", "StreamlineId")
-    df <- tibble::as_tibble(df)
+    raw_streamlines <- tgm$get_streamlines_copy()
+    n_streamlines <- length(raw_streamlines)
+
     streamline_attributes <- tgm$get_data_per_streamline_keys()
-    if (length(streamline_attributes) > 0) {
-      for (attr in streamline_attributes) {
-        attr_values <- tgm$data_per_streamline[attr]
-        df_attr <- lapply(1:n_streamlines, function(index) {
-          n_points <- sum(df$StreamlineId == index)
-          rep(attr_values[index], length.out = n_points)
-        })
-        df_attr <- do.call(c, df_attr)
-        df[[attr]] <- df_attr
-      }
-    }
     point_attributes <- tgm$get_data_per_point_keys()
-    if (length(point_attributes) > 0) {
-      for (attr in point_attributes) {
-        attr_values <- tgm$data_per_point[attr]
-        df_attr <- lapply(1:n_streamlines, function(index) {
-          n_points <- sum(df$StreamlineId == index)
-          attr_streamline <- attr_values[[index]]
-          attr_streamline[1:n_points]
-        })
-        df_attr <- do.call(c, df_attr)
-        df[[attr]] <- df_attr
+
+    streamlines <- lapply(0:(n_streamlines - 1), function(index) {
+      sl_mat <- raw_streamlines[index] # n_pts x 3 matrix
+      n_pts <- nrow(sl_mat)
+      cols <- list(X = sl_mat[, 1], Y = sl_mat[, 2], Z = sl_mat[, 3])
+
+      # Per-streamline attributes broadcast to all points
+      if (length(streamline_attributes) > 0L) {
+        for (attr in streamline_attributes) {
+          val <- tgm$data_per_streamline[attr][index + 1]
+          cols[[attr]] <- rep(val, n_pts)
+        }
       }
-    }
+
+      # Per-point attributes
+      if (length(point_attributes) > 0L) {
+        for (attr in point_attributes) {
+          cols[[attr]] <- tgm$data_per_point[attr][[index + 1]][seq_len(n_pts)]
+        }
+      }
+
+      mat <- do.call(cbind, cols)
+      new_streamline(mat)
+    })
+
+    result <- new_bundle(streamlines)
   }
 
   cli::cli_alert_success(
     "The tractogram stored in {.file {input_file}} has been successfully imported."
   )
-  class(df) <- c("maf_df", class(df))
-  df
+  result
 }
