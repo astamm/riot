@@ -34,7 +34,6 @@ Description: An input-output interface for reading in and writing out tractogram
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 LinkingTo: 
     Rcpp (>= 1.0.14)
 Imports: 
@@ -47,7 +46,7 @@ Imports:
     rvtk,
     tibble
 Remotes:
-    astamm/rvtk@windows-vtk-discovery
+    astamm/rvtk
 URL: https://github.com/astamm/riot,
     https://astamm.github.io/riot/
 BugReports: https://github.com/astamm/riot/issues
@@ -56,3 +55,4 @@ Suggests:
     testthat (>= 3.0.0),
     withr
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0
