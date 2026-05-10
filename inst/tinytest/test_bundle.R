@@ -3,8 +3,11 @@ library(riot)
 # ---- new_streamline ---------------------------------------------------------
 
 # valid matrix
-mat <- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9), ncol = 3,
-              dimnames = list(NULL, c("X", "Y", "Z")))
+mat <- matrix(
+  c(1, 2, 3, 4, 5, 6, 7, 8, 9),
+  ncol = 3,
+  dimnames = list(NULL, c("X", "Y", "Z"))
+)
 sl <- new_streamline(mat)
 expect_inherits(sl, "streamline")
 expect_true(is.matrix(sl))
@@ -25,7 +28,7 @@ expect_error(new_streamline(matrix(1:9, ncol = 3)))
 # ---- is_streamline ----------------------------------------------------------
 
 expect_true(is_streamline(sl))
-expect_false(is_streamline(mat))        # plain matrix, no class
+expect_false(is_streamline(mat)) # plain matrix, no class
 expect_false(is_streamline(list()))
 
 # ---- format.streamline ------------------------------------------------------
@@ -65,7 +68,7 @@ expect_inherits(b0, "bundle")
 
 expect_true(is_bundle(b))
 expect_false(is_bundle(sl))
-expect_false(is_bundle(list(sl)))     # plain list, not bundle
+expect_false(is_bundle(list(sl))) # plain list, not bundle
 
 # ---- format.bundle ----------------------------------------------------------
 
@@ -97,13 +100,13 @@ expect_equal(length(b0), 0L)
 
 # Multiple streamlines → bundle
 lst_multi <- list(
-  X           = c(0, 1, 2, 3, 4),
-  Y           = c(0, 0, 0, 0, 0),
-  Z           = c(0, 0, 0, 0, 0),
-  PointId     = c(1, 2, 1, 2, 3),
+  X = c(0, 1, 2, 3, 4),
+  Y = c(0, 0, 0, 0, 0),
+  Z = c(0, 0, 0, 0, 0),
+  PointId = c(1, 2, 1, 2, 3),
   StreamlineId = c(1, 1, 2, 2, 2)
 )
-result_multi <- flat_list_to_bundle(lst_multi)
+result_multi <- riot:::flat_list_to_bundle(lst_multi)
 expect_inherits(result_multi, "bundle")
 expect_equal(length(result_multi), 2L)
 expect_equal(nrow(result_multi[[1L]]), 2L)
@@ -111,42 +114,45 @@ expect_equal(nrow(result_multi[[2L]]), 3L)
 
 # Single streamline → streamline (not bundle)
 lst_single <- list(
-  X           = c(0, 1, 2),
-  Y           = c(0, 0, 0),
-  Z           = c(0, 0, 0),
-  PointId     = c(1, 2, 3),
+  X = c(0, 1, 2),
+  Y = c(0, 0, 0),
+  Z = c(0, 0, 0),
+  PointId = c(1, 2, 3),
   StreamlineId = c(1, 1, 1)
 )
-result_single <- flat_list_to_bundle(lst_single)
+result_single <- riot:::flat_list_to_bundle(lst_single)
 expect_inherits(result_single, "streamline")
 expect_equal(nrow(result_single), 3L)
 
 # Extra attribute columns are preserved
 lst_attr <- list(
-  X           = c(0, 1, 2, 3),
-  Y           = c(0, 0, 0, 0),
-  Z           = c(0, 0, 0, 0),
-  PointId     = c(1, 2, 1, 2),
+  X = c(0, 1, 2, 3),
+  Y = c(0, 0, 0, 0),
+  Z = c(0, 0, 0, 0),
+  PointId = c(1, 2, 1, 2),
   StreamlineId = c(1, 1, 2, 2),
-  FA          = c(0.5, 0.6, 0.7, 0.8)
+  FA = c(0.5, 0.6, 0.7, 0.8)
 )
-result_attr <- flat_list_to_bundle(lst_attr)
+result_attr <- riot:::flat_list_to_bundle(lst_attr)
 expect_inherits(result_attr, "bundle")
 expect_true("FA" %in% colnames(result_attr[[1L]]))
 
 # ---- bundle_to_flat_list ----------------------------------------------------
 
-flat <- bundle_to_flat_list(b_plain)
-expect_equal(sort(names(flat)), sort(c("X", "Y", "Z", "PointId", "StreamlineId")))
+flat <- riot:::bundle_to_flat_list(b_plain)
+expect_equal(
+  sort(names(flat)),
+  sort(c("X", "Y", "Z", "PointId", "StreamlineId"))
+)
 expect_equal(length(unique(flat$StreamlineId)), 2L)
 
 # Lone streamline is wrapped automatically
-flat_single <- bundle_to_flat_list(sl)
+flat_single <- riot:::bundle_to_flat_list(sl)
 expect_equal(unique(flat_single$StreamlineId), 1L)
 expect_equal(nrow(sl), length(flat_single$X))
 
 # Extra attribute columns round-trip
 b_attr <- new_bundle(list(sl2, sl2))
-flat_attr <- bundle_to_flat_list(b_attr)
+flat_attr <- riot:::bundle_to_flat_list(b_attr)
 expect_true("FA" %in% names(flat_attr))
 expect_equal(length(flat_attr$FA), 2L * nrow(sl2))
