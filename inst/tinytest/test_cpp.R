@@ -212,3 +212,31 @@ writeLines(
 )
 expect_error(riot:::ReadFDS(f_unk))
 unlink(f_unk)
+
+# ---- ReadFDS: embedded .vtk file → exercises the `if (extensionName == "vtk")` branch
+
+td_vtk <- file.path(tempdir(), "fds_vtk_test")
+dir.create(td_vtk, showWarnings = FALSE)
+f_fds_vtk <- file.path(td_vtk, "bundle.fds")
+
+# Write a minimal inner .vtk polyline file (two-point streamline)
+inner_vtk <- file.path(td_vtk, "bundle_0.vtk")
+pts_inner <- matrix(c(0, 0, 0, 1, 0, 0), nrow = 2L, byrow = TRUE)
+write_vtk_ascii(inner_vtk, pts_inner, cells = list(c(1L, 2L)))
+
+# Write the .fds XML pointing to the inner .vtk (relative path, no directory prefix)
+writeLines(
+  c(
+    '<?xml version="1.0"?>',
+    '<VTKFile type="vtkFiberDataSet" version="1.0" byte_order="LittleEndian">',
+    '<vtkFiberDataSet>',
+    sprintf('  <Fibers index="0" file="%s"/>', "bundle_0.vtk"),
+    '</vtkFiberDataSet>',
+    '</VTKFile>'
+  ),
+  f_fds_vtk
+)
+
+result_fds_vtk <- riot:::ReadFDS(f_fds_vtk)
+expect_equal(length(result_fds_vtk$X), 2L)
+unlink(td_vtk, recursive = TRUE)
