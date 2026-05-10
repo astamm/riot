@@ -8,8 +8,8 @@ library(riot)
 # vectors_data: optional n x 3 numeric matrix → written as a VECTORS array
 #               named "tangent" (3-component; triggers nc > 1 branch in reader)
 write_vtk_ascii <- function(path, points, cells, vectors_data = NULL) {
-  n_pts    <- nrow(points)
-  cell_body  <- vapply(
+  n_pts <- nrow(points)
+  cell_body <- vapply(
     cells,
     function(ids) paste(length(ids), paste(ids - 1L, collapse = " ")),
     character(1L)
@@ -48,15 +48,27 @@ write_vtk_ascii <- function(path, points, cells, vectors_data = NULL) {
 
 f_sing <- tempfile(fileext = ".vtk")
 pts_sing <- matrix(
-  c(0, 0, 0,   # point 0: uniq coord, belongs only to singleton cell
-    1, 0, 0,
-    2, 0, 0,
-    3, 0, 0),
-  nrow = 4L, byrow = TRUE
+  c(
+    0,
+    0,
+    0, # point 0: uniq coord, belongs only to singleton cell
+    1,
+    0,
+    0,
+    2,
+    0,
+    0,
+    3,
+    0,
+    0
+  ),
+  nrow = 4L,
+  byrow = TRUE
 )
 write_vtk_ascii(
-  f_sing, pts_sing,
-  cells = list(c(1L), c(2L, 3L, 4L))  # 1-indexed; cell 0 = singleton
+  f_sing,
+  pts_sing,
+  cells = list(c(1L), c(2L, 3L, 4L)) # 1-indexed; cell 0 = singleton
 )
 
 result_sing <- riot:::ReadVTK(f_sing)
@@ -79,14 +91,14 @@ unlink(f_sing)
 #   and the result push (~100).
 
 flat_mc <- list(
-  X            = c(0.0, 1.0, 0.0, 1.0),
-  Y            = c(0.0, 0.0, 0.0, 0.0),
-  Z            = c(0.0, 0.0, 0.0, 0.0),
-  PointId      = c(1L,  2L,  1L,  2L),
-  StreamlineId = c(1L,  1L,  2L,  2L),
-  `tangent#0`  = c(1.0, 0.7, 0.0, 0.5),
-  `tangent#1`  = c(0.0, 0.7, 1.0, 0.5),
-  `tangent#2`  = c(0.0, 0.0, 0.0, 0.0)
+  X = c(0.0, 1.0, 0.0, 1.0),
+  Y = c(0.0, 0.0, 0.0, 0.0),
+  Z = c(0.0, 0.0, 0.0, 0.0),
+  PointId = c(1L, 2L, 1L, 2L),
+  StreamlineId = c(1L, 1L, 2L, 2L),
+  `tangent#0` = c(1.0, 0.7, 0.0, 0.5),
+  `tangent#1` = c(0.0, 0.7, 1.0, 0.5),
+  `tangent#2` = c(0.0, 0.0, 0.0, 0.0)
 )
 
 f_mc <- tempfile(fileext = ".vtk")
@@ -107,13 +119,15 @@ unlink(f_mc)
 
 sl_fa <- cbind(
   matrix(
-    c(0, 0, 0, 1, 0, 0, 2, 0, 0), ncol = 3L, byrow = TRUE,
+    c(0, 0, 0, 1, 0, 0, 2, 0, 0),
+    ncol = 3L,
+    byrow = TRUE,
     dimnames = list(NULL, c("X", "Y", "Z"))
   ),
   FA = c(0.5, 0.6, 0.7)
 )
 b_fa <- new_bundle(list(new_streamline(sl_fa)))
-f_fa  <- tempfile(fileext = ".vtk")
+f_fa <- tempfile(fileext = ".vtk")
 write_tractogram(b_fa, f_fa)
 
 result_fa <- riot:::ReadVTK(f_fa)
@@ -183,8 +197,8 @@ unlink(f_nodset)
 # The Fibers element references "fibers.foo".  ReadFDS extracts the extension
 # "foo", which is neither "vtk" nor "vtp" → cpp11::stop("Unsupported…").
 
-td_unk  <- tempdir()
-f_unk   <- file.path(td_unk, "test_unk.fds")
+td_unk <- tempdir()
+f_unk <- file.path(td_unk, "test_unk.fds")
 writeLines(
   c(
     '<?xml version="1.0"?>',
