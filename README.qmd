@@ -1,28 +1,26 @@
 ---
-output: github_document
+format: gfm
+default-image-extension: ""
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.qmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+  message = FALSE,
+  warning = FALSE
 )
 ```
 
 # riot <img src="man/figures/logo.png" align="right" height="139" />
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/astamm/riot/workflows/R-CMD-check/badge.svg)](https://github.com/astamm/riot/actions)
-[![test-coverage](https://github.com/astamm/riot/workflows/test-coverage/badge.svg)](https://github.com/astamm/riot/actions)
-[![Codecov test coverage](https://codecov.io/gh/astamm/riot/branch/master/graph/badge.svg)](https://app.codecov.io/gh/astamm/riot?branch=master)
-[![pkgdown](https://github.com/astamm/riot/workflows/pkgdown/badge.svg)](https://github.com/astamm/riot/actions)
-[![CRAN status](https://www.r-pkg.org/badges/version/riot)](https://CRAN.R-project.org/package=riot)
 [![R-CMD-check](https://github.com/astamm/riot/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/astamm/riot/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/astamm/riot/graph/badge.svg)](https://app.codecov.io/gh/astamm/riot)
+[![CRAN status](https://www.r-pkg.org/badges/version/riot)](https://CRAN.R-project.org/package=riot)
 <!-- badges: end -->
 
 ## Overview
@@ -31,29 +29,20 @@ The [**riot**](https://astamm.github.io/riot/) (R Input/Output for
 Tractography) package provides an R interface for importing and exporting
 tractography data to and from `R`. Currently supported importing formats are:
 
-- native [VTK](https://vtk.org) `.vtk` and `.vtp` files; 
-- [medInria](https://med.inria.fr) `.fds` files; 
+- native [VTK](https://vtk.org) `.vtk` and `.vtp` files;
+- [medInria](https://med.inria.fr) `.fds` files;
 - [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html)
-`.tck/.tsf` files; and, 
+  `.tck/.tsf` files; and,
 - [TrackVis](https://trackvis.org/docs/?subsect=fileformat) `.trk` files.
 
-The package reads tractography data into a
-[tibble](https://tibble.tidyverse.org) in which each row is a point
-characterized by at least the following five variables:
+The package reads tractography data into `bundle` objects (lists of
+`streamline` matrices) in which each streamline is a numeric matrix with
+columns `X`, `Y`, `Z` for the 3D coordinates of successive points. Points may
+also carry scalar attributes (e.g. diffusion metrics) stored as additional
+matrix columns.
 
-- `X`, `Y`, `Z`: 3D coordinates of the current point; 
-- `PointId`: Identification number of the current point among all points of the
-streamline it belongs to;
-- `StreamlineId`: Identification number of the streamline which the current
-point belongs to.
-
-The points might also have attributes or a color assigned to them, in which
-case, additional variables will be properly created to import them as well. The
-user can perform statistical analysis on the point cloud and store any new
-variable that (s)he would deem to be useful as additional column of the
-[tibble](https://tibble.tidyverse.org). The package also allows to write back
-the [tibble](https://tibble.tidyverse.org), including all newly created
-attributes, into the following exporting formats:
+The package also allows to write bundles back into the following exporting
+formats:
 
 - native [VTK](https://vtk.org) `.vtk` and `.vtp` files; or,
 - [medInria](https://med.inria.fr) `.fds` files.
@@ -141,7 +130,8 @@ cc_mid_trk
 ### VTK
 
 Since version 1.2.0, **riot** no longer bundles VTK source files. Instead it
-links against an **externally installed** [VTK](https://vtk.org/) (>= 9.1.0).
+links against an **externally installed** [VTK](https://vtk.org/) (>= 9.1.0)
+via the [**rvtk**](https://github.com/astamm/rvtk) infrastructure package.
 VTK must be present on the host before installing the package. Both shared and
 static VTK builds are supported; static builds on macOS and Linux must have
 been compiled with `-fPIC`.

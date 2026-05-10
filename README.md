@@ -1,20 +1,16 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<!-- README.md is generated from README.qmd. Please edit that file -->
 
 # riot <img src="man/figures/logo.png" align="right" height="139" />
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/astamm/riot/workflows/R-CMD-check/badge.svg)](https://github.com/astamm/riot/actions)
-[![test-coverage](https://github.com/astamm/riot/workflows/test-coverage/badge.svg)](https://github.com/astamm/riot/actions)
-[![Codecov test
-coverage](https://codecov.io/gh/astamm/riot/branch/master/graph/badge.svg)](https://app.codecov.io/gh/astamm/riot?branch=master)
-[![pkgdown](https://github.com/astamm/riot/workflows/pkgdown/badge.svg)](https://github.com/astamm/riot/actions)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/riot)](https://CRAN.R-project.org/package=riot)
 [![R-CMD-check](https://github.com/astamm/riot/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/astamm/riot/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/astamm/riot/graph/badge.svg)](https://app.codecov.io/gh/astamm/riot)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/riot)](https://CRAN.R-project.org/package=riot)
 <!-- badges: end -->
 
 ## Overview
@@ -31,24 +27,14 @@ importing formats are:
 - [TrackVis](https://trackvis.org/docs/?subsect=fileformat) `.trk`
   files.
 
-The package reads tractography data into a
-[tibble](https://tibble.tidyverse.org) in which each row is a point
-characterized by at least the following five variables:
+The package reads tractography data into `bundle` objects (lists of
+`streamline` matrices) in which each streamline is a numeric matrix with
+columns `X`, `Y`, `Z` for the 3D coordinates of successive points.
+Points may also carry scalar attributes (e.g. diffusion metrics) stored
+as additional matrix columns.
 
-- `X`, `Y`, `Z`: 3D coordinates of the current point;
-- `PointId`: Identification number of the current point among all points
-  of the streamline it belongs to;
-- `StreamlineId`: Identification number of the streamline which the
-  current point belongs to.
-
-The points might also have attributes or a color assigned to them, in
-which case, additional variables will be properly created to import them
-as well. The user can perform statistical analysis on the point cloud
-and store any new variable that (s)he would deem to be useful as
-additional column of the [tibble](https://tibble.tidyverse.org). The
-package also allows to write back the
-[tibble](https://tibble.tidyverse.org), including all newly created
-attributes, into the following exporting formats:
+The package also allows to write bundles back into the following
+exporting formats:
 
 - native [VTK](https://vtk.org) `.vtk` and `.vtp` files; or,
 - [medInria](https://med.inria.fr) `.fds` files.
@@ -86,13 +72,8 @@ uf_left_vtk <- read_tractogram(system.file(
   "UF_left.vtk",
   package = "riot"
 ))
-#> Number of data points: 38697
-#> Number of streamlines: 2042
-#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath10047b5015c5/riot/extdata/UF_left.vtk' has been successfully imported.
 uf_left_vtk
-#> ℹ Tractogram with 2042 streamlines.
-#> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
-#> cli-27115-8
+#> <bundle [2042 streamlines | 9–33 pts/streamline]>
 ```
 
 ``` r
@@ -101,13 +82,8 @@ uf_left_vtp <- read_tractogram(system.file(
   "UF_left.vtp",
   package = "riot"
 ))
-#> Number of data points: 38697
-#> Number of streamlines: 2042
-#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath10047b5015c5/riot/extdata/UF_left.vtp' has been successfully imported.
 uf_left_vtp
-#> ℹ Tractogram with 2042 streamlines.
-#> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
-#> cli-27115-14
+#> <bundle [2042 streamlines | 9–33 pts/streamline]>
 ```
 
 ### [medInria](https://med.inria.fr) `.fds` files
@@ -118,13 +94,8 @@ uf_left_fds <- read_tractogram(system.file(
   "UF_left.fds",
   package = "riot"
 ))
-#> Number of data points: 38697
-#> Number of streamlines: 2042
-#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath10047b5015c5/riot/extdata/UF_left.fds' has been successfully imported.
 uf_left_fds
-#> ℹ Tractogram with 2042 streamlines.
-#> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
-#> cli-27115-20
+#> <bundle [2042 streamlines | 9–33 pts/streamline]>
 ```
 
 ### [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html) `.tck/.tsf` files
@@ -135,11 +106,8 @@ af_left_tck <- read_tractogram(system.file(
   "AF_left.tck",
   package = "riot"
 ))
-#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath10047b5015c5/riot/extdata/AF_left.tck' has been successfully imported.
 af_left_tck
-#> ℹ Tractogram with 5000 streamlines.
-#> ℹ Distribution of the number of sampled points per streamline: 8, 23, 28, 28.0602, 33, and 54.
-#> cli-27115-26
+#> <bundle [5000 streamlines | 8–54 pts/streamline]>
 ```
 
 ### [TrackVis](https://trackvis.org/docs/?subsect=fileformat) `.trk` files
@@ -150,11 +118,8 @@ cc_mid_trk <- read_tractogram(system.file(
   "CCMid.trk",
   package = "riot"
 ))
-#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath10047b5015c5/riot/extdata/CCMid.trk' has been successfully imported.
 cc_mid_trk
-#> ℹ Tractogram with 525 streamlines.
-#> ℹ Distribution of the number of sampled points per streamline: 29, 189, 224, 214.619047619048, 243, and 270.
-#> cli-27115-32
+#> <bundle [525 streamlines | 29–270 pts/streamline]>
 ```
 
 ## Dependencies
@@ -163,10 +128,11 @@ cc_mid_trk
 
 Since version 1.2.0, **riot** no longer bundles VTK source files.
 Instead it links against an **externally installed**
-[VTK](https://vtk.org/) (\>= 9.1.0). VTK must be present on the host
-before installing the package. Both shared and static VTK builds are
-supported; static builds on macOS and Linux must have been compiled with
-`-fPIC`.
+[VTK](https://vtk.org/) (\>= 9.1.0) via the
+[**rvtk**](https://github.com/astamm/rvtk) infrastructure package. VTK
+must be present on the host before installing the package. Both shared
+and static VTK builds are supported; static builds on macOS and Linux
+must have been compiled with `-fPIC`.
 
 At install time, `configure` (Unix-like) / `configure.win` (Windows)
 search for VTK in the following order:

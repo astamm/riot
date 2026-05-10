@@ -6,7 +6,7 @@
 \.o$
 \.so$
 \.a$
-^README\.Rmd$
+^README\.qmd$
 ^codecov\.yml$
 ^windows$
 ^cran-comments\.md$
