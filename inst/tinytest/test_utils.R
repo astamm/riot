@@ -2,7 +2,7 @@ library(riot)
 
 # ---- supported_formats / write_formats / read_formats -----------------------
 
-fmts <- supported_formats()
+fmts <- riot:::supported_formats()
 expect_true(is.character(fmts))
 expect_true(length(fmts) > 0L)
 expect_true("vtk" %in% fmts)
