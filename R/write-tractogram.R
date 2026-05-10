@@ -57,6 +57,7 @@ write_tractogram <- function(x, file, reference_file = NULL) {
         "For {.file {ext}} files, a reference image must be provided to save the tractogram."
       )
     }
+    # nocov start
     reference_file <- fs::path_expand(reference_file)
     reference_file <- fs::path_norm(reference_file)
     n_streamlines <- length(x)
@@ -76,6 +77,7 @@ write_tractogram <- function(x, file, reference_file = NULL) {
       data_per_point = extra_data
     )
     io_streamline$save_tractogram(tgm, output_file)
+    # nocov end
   }
 
   cli::cli_alert_success(

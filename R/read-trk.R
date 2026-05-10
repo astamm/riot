@@ -130,11 +130,12 @@ read_trk <- function(input_file) {
     )
   }
   if (header$hdr_size != 1000L) {
+    # nocov start
     cli::cli_alert_warning(
       "TRK file {.file {input_file}} header field hdr_size is
                            {header$hdr_size}, must be 1000."
     )
-  }
+  } # nocov end
   tracks <- lapply(
     seq_len(header$n_count),
     function(.x) {
