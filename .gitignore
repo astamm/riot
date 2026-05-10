@@ -10,10 +10,10 @@ configure~
 src/*.o
 src/*.so
 src/*.exe
-src/Makevars
-src/Makevars.ucrt
 src/vtk_config
 inst/vtk_config
 src/*.dll
 
 /.quarto/
+src/Makevars
+src/vtk_libs.rsp

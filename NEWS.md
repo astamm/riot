@@ -1,3 +1,53 @@
+# riot 1.3.0
+
+## New data model: `streamline` and `bundle` objects
+
+* **Breaking change**: the `maf_df` tibble (with columns `X`, `Y`, `Z`,
+  `PointId`, `StreamlineId`) is replaced by two new S3 classes:
+  * `streamline` — a numeric matrix with named columns `X`, `Y`, `Z` (plus
+    optional per-point scalar attribute columns). Each row is an ordered point
+    along a single tract. `PointId` is implicit in row order and is no longer
+    stored.
+  * `bundle` — an ordered list of `streamline` objects representing a
+    collection of tracts. `StreamlineId` is implicit in list position and is
+    no longer stored.
+* `read_tractogram()` now returns a `streamline` when the file contains
+  exactly one tract, and a `bundle` otherwise.
+* `write_tractogram()` accepts both `streamline` and `bundle` objects.
+* New constructors and predicates exported: `new_streamline()`,
+  `is_streamline()`, `new_bundle()`, `is_bundle()`.
+* `print()` and `format()` methods provided for both classes.
+* The `readr` package is no longer a dependency.
+
+## C++ layer: elimination of intermediate CSV files
+
+* **Breaking change** (internal): the C++ reader functions (`ReadVTK`,
+  `ReadVTP`, `ReadFDS`) no longer write a temporary CSV file. They now return
+  a `cpp11::writable::list` directly to R, eliminating all temporary file I/O
+  and the associated string-reference issues.
+* The C++ writer functions (`WriteVTK`, `WriteVTP`, `WriteFDS`) no longer
+  read from a temporary CSV. They now accept a `cpp11::list` directly from R.
+* The helper `WriteCSV` (vtkPolyData → CSV) and `ReadCSV` (CSV →
+  vtkPolyData) are replaced by `PolyDataToList` and `ListToPolyData`
+  respectively, operating entirely in memory.
+
+## VTK bindings delegated to `rvtk`
+
+* VTK discovery, compilation flags, and pre-built static library distribution
+  are now handled entirely by the
+  [`rvtk`](https://github.com/astamm/rvtk) package (pending CRAN
+  submission). `rvtk` supplies pre-compiled VTK headers and libraries so that
+  no manual VTK installation is required on most platforms: it honours a
+  user-supplied `VTK_DIR` environment variable first, then tries Homebrew
+  (macOS), `pkg-config` (macOS/Linux), and well-known system prefixes; on
+  Windows it checks `VTK_DIR`, Rtools45 pacman, and common MSYS2 prefixes; if
+  no suitable system VTK is found it downloads pre-built static libraries
+  automatically from the `rvtk` GitHub releases.
+* `rvtk` is listed as an `Imports` dependency; downstream packages no longer
+  need to locate VTK themselves.
+* The `Remotes: astamm/rvtk` field will be removed from `DESCRIPTION` once
+  `rvtk` is available on CRAN.
+
 # riot 1.2.0
 
 * **Breaking change in system requirements**: riot no longer bundles VTK
@@ -11,8 +61,8 @@
   2. Homebrew (macOS).
   3. `pkg-config` (macOS and Linux).
   4. Well-known system include paths (`/usr`, `/usr/local`) (Linux).
-  5. The Rtools45 / UCRT64 pacman package
-     `mingw-w64-ucrt-x86_64-vtk` (Windows).
+  5. The Rtools42+ pacman package for the active MSYS2 environment
+     (e.g. `mingw-w64-ucrt-x86_64-vtk` for UCRT64) (Windows).
 * On Windows, VTK is loaded dynamically at run time via `addDLLDirectory()`
   to avoid having to bundle VTK runtime DLLs inside the package.
 * Removed all bundled VTK source files, reducing the installed package size

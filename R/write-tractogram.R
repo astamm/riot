@@ -1,17 +1,17 @@
 #' Export tractograms from R
 #'
-#' This function exports a tractogram stored as a `maf_df` object to a
-#' file in one of the supported formats. Supported formats include VTK (`.vtk`),
-#' VTP (`.vtp`), FDS (`.fds`), TRK (`.trk`), TCK (`.tck`), TRX (`.trx`),
-#' FIB (`.fib`), and DPY (`.dpy`). For formats that require a reference image
-#' (such as TRX, FIB, and DPY), the user must provide the path to a reference
-#' image file.
+#' This function exports a tractogram stored as a [bundle][new_bundle] object
+#' to a file in one of the supported formats. Supported formats include VTK
+#' (`.vtk`), VTP (`.vtp`), FDS (`.fds`), TRK (`.trk`), TCK (`.tck`), TRX
+#' (`.trx`), FIB (`.fib`), and DPY (`.dpy`). For formats that require a
+#' reference image (such as TRX, FIB, and DPY), the user must provide the path
+#' to a reference image file.
 #'
 #' Warning: we rely on DIPY to provide support to save tractograms in `.trk`, `.trx`, `.tck`, `.dpy`
 #' and `.fib` formats. Among these formats, only `.trk` and `.trx` formats are able to keep track of
 #' additional attributes assigned to either streamlines or points.
 #'
-#' @param x An object of class `maf_df` storing a tractogram.
+#' @param x A [bundle][new_bundle] object storing a tractogram.
 #' @inheritParams read_tractogram
 #'
 #' @return The input tractogram (invisibly) so that the function can be
@@ -27,9 +27,9 @@
 #' }
 write_tractogram <- function(x, file, reference_file = NULL) {
   xq <- rlang::enquo(x)
-  if (!("maf_df" %in% class(x))) {
+  if (!is_bundle(x)) {
     cli::cli_abort(
-      "The input object {.code {rlang::as_name(xq)}} is not of class {.cls maf_df} but has class {.cls {class(x)}}."
+      "The input object {.code {rlang::as_name(xq)}} is not of class {.cls bundle}."
     )
   }
 
@@ -43,16 +43,14 @@ write_tractogram <- function(x, file, reference_file = NULL) {
   }
 
   if (ext %in% c("vtk", "vtp", "fds")) {
-    input_file <- fs::file_temp(ext = ".csv")
-    readr::write_csv(x, file = input_file)
+    flat <- bundle_to_flat_list(x)
     if (ext == "vtk") {
-      WriteVTK(input_file, output_file)
+      WriteVTK(flat, output_file)
     } else if (ext == "vtp") {
-      WriteVTP(input_file, output_file)
+      WriteVTP(flat, output_file)
     } else if (ext == "fds") {
-      WriteFDS(input_file, output_file)
+      WriteFDS(flat, output_file)
     }
-    fs::file_delete(input_file)
   } else {
     if (is.null(reference_file)) {
       cli::cli_abort(
@@ -61,27 +59,14 @@ write_tractogram <- function(x, file, reference_file = NULL) {
     }
     reference_file <- fs::path_expand(reference_file)
     reference_file <- fs::path_norm(reference_file)
-    # Extract streamline as a list of 3-column matrices from x
-    n_streamlines <- length(unique(x$StreamlineId))
-    streamlines <- lapply(1:n_streamlines, function(streamline_index) {
-      as.matrix(subset(
-        x,
-        x$StreamlineId == streamline_index,
-        select = c(x$X, x$Y, x$Z)
-      ))
-    })
-    # Extract additional data per point if any
-    extra_cols <- names(x)[
-      !names(x) %in% c("X", "Y", "Z", "PointId", "StreamlineId")
-    ]
+    n_streamlines <- length(x)
+    # Each streamline is a matrix; pass only the X/Y/Z columns
+    streamlines <- lapply(x, function(sl) sl[, c("X", "Y", "Z"), drop = FALSE])
+
+    # Extra per-point attribute columns
+    extra_cols <- setdiff(colnames(x[[1L]]), c("X", "Y", "Z"))
     extra_data <- lapply(extra_cols, function(col) {
-      lapply(1:n_streamlines, function(streamline_index) {
-        subset(
-          x,
-          x$StreamlineId == streamline_index,
-          select = col
-        )[[col]]
-      })
+      lapply(x, function(sl) sl[, col])
     })
     names(extra_data) <- extra_cols
     tgm <- io_stateful_tractogram$StatefulTractogram(

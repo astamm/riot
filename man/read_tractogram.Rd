@@ -24,17 +24,12 @@ information about the image space. The reference image is used to correctly posi
 tractogram in the appropriate space. Default is \code{NULL}.}
 }
 \value{
-A special \link[tibble:tibble]{tibble} (of class \code{maf_df}) containing the
-tractogram data with the following columns:
-\itemize{
-\item \code{X}: X coordinate of the point.
-\item \code{Y}: Y coordinate of the point.
-\item \code{Z}: Z coordinate of the point.
-\item \code{PointId}: Identifier of the point within its streamline.
-\item \code{StreamlineId}: Identifier of the streamline.
-}
-
-The tractogram may contain additional columns that are attributes to either points or streamlines.
+A \link[=new_bundle]{bundle} object when the file contains multiple
+streamlines, or a \link[=new_streamline]{streamline} object when it contains
+exactly one. Each \code{streamline} is a numeric matrix with at least three
+named columns \code{"X"}, \code{"Y"}, and \code{"Z"} (one row per point along the
+tract). Additional per-point scalar attributes, when present in the source
+file, appear as extra named columns.
 }
 \description{
 This is the go-to function to import tractograms into R. Based on both VTK and DIPY, we currently

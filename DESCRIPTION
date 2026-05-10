@@ -1,6 +1,6 @@
 Package: riot
 Title: R Inputs/Outputs for Tractography
-Version: 1.2.0
+Version: 1.3.0
 Authors@R: c(
     person(
         given = "Aymeric",
@@ -26,32 +26,34 @@ Authors@R: c(
         role = "ctb", 
         comment = "Author of the freesurferformats R package"
     ))
-Description: An input-output interface for reading in and writing out tractogram
-    in different common formats. This data comes in the form of 3D polygons with
-    possibly attributes at each point. These are obtained via tracking algorithms
-    from diffusion MRI and are a non-invasive way of studying brain structural
-    connectivity.
+Description: Provides a unified input-output interface for reading and writing
+    tractograms — collections of 3-D polylines (streamlines) reconstructed by
+    fibre-tracking algorithms applied to diffusion MRI data. Supported formats
+    include VTK (.vtk), VTP (.vtp), medInria FDS (.fds), MRtrix TCK/TSF
+    (.tck/.tsf), and TrackVis TRK (.trk), with additional formats accessible
+    via the 'DIPY' Python library (reticulate). Tractograms are represented
+    in R as lightweight S3 objects: a single tract is a numeric matrix
+    (class 'streamline') and a collection of tracts is a list of such matrices
+    (class 'bundle'). VTK support is provided at compile time by the 'rvtk'
+    package, which supplies pre-compiled VTK libraries and headers so that no
+    manual VTK installation is required on most platforms.
 License: MIT + file LICENSE
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 LinkingTo: 
-    Rcpp
+    cpp11,
 Imports: 
-    Rcpp,
-    readr,
-    fs,
     cli,
+    fs,
+    reticulate,
     rlang,
-    tibble,
-    reticulate
+    rvtk
+Remotes:
+    astamm/rvtk
 URL: https://github.com/astamm/riot,
     https://astamm.github.io/riot/
 BugReports: https://github.com/astamm/riot/issues
 Suggests: 
     covr,
-    testthat (>= 3.0.0),
-    withr
-SystemRequirements: VTK (>= 9.1.0). Static builds are supported on all
-    platforms but must be compiled with -fPIC on macOS and Linux.
-Config/testthat/edition: 3
+    tinytest
+Config/roxygen2/version: 8.0.0
+Config/roxygen2/markdown: TRUE

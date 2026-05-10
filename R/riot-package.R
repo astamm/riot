@@ -1,2 +1,3 @@
-#' @importFrom Rcpp sourceCpp
+#' @useDynLib riot, .registration = TRUE
+#' @importFrom rvtk CppFlags
 NULL

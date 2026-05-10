@@ -6,7 +6,7 @@
 \.o$
 \.so$
 \.a$
-^README\.Rmd$
+^README\.qmd$
 ^codecov\.yml$
 ^windows$
 ^cran-comments\.md$
@@ -21,3 +21,6 @@
 ^config\.status$
 ^autom4te\.cache$
 ^src/Makevars$
+^src/vtk_libs\.rsp$
+^docker$
+.dockerignore
