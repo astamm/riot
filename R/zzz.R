@@ -3,7 +3,6 @@ io_streamline <- NULL
 
 .onLoad <- function(libname, pkgname) {
   # nocov start
-  reticulate::py_require("fury")
   reticulate::py_require("dipy")
   io_stateful_tractogram <<- reticulate::import(
     "dipy.io.stateful_tractogram",
