@@ -1,11 +1,12 @@
 # Export tractograms from R
 
-This function exports a tractogram stored as a `maf_df` object to a file
-in one of the supported formats. Supported formats include VTK (`.vtk`),
-VTP (`.vtp`), FDS (`.fds`), TRK (`.trk`), TCK (`.tck`), TRX (`.trx`),
-FIB (`.fib`), and DPY (`.dpy`). For formats that require a reference
-image (such as TRX, FIB, and DPY), the user must provide the path to a
-reference image file.
+This function exports a tractogram stored as a
+[bundle](https://astamm.github.io/riot/reference/new_bundle.md) object
+to a file in one of the supported formats. Supported formats include VTK
+(`.vtk`), VTP (`.vtp`), FDS (`.fds`), TRK (`.trk`), TCK (`.tck`), TRX
+(`.trx`), FIB (`.fib`), and DPY (`.dpy`). For formats that require a
+reference image (such as TRX, FIB, and DPY), the user must provide the
+path to a reference image file.
 
 ## Usage
 
@@ -17,7 +18,8 @@ write_tractogram(x, file, reference_file = NULL)
 
 - x:
 
-  An object of class `maf_df` storing a tractogram.
+  A [bundle](https://astamm.github.io/riot/reference/new_bundle.md)
+  object storing a tractogram.
 
 - file:
 

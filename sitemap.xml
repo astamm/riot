@@ -5,8 +5,13 @@
 <url><loc>https://astamm.github.io/riot/authors.html</loc></url>
 <url><loc>https://astamm.github.io/riot/index.html</loc></url>
 <url><loc>https://astamm.github.io/riot/news/index.html</loc></url>
+<url><loc>https://astamm.github.io/riot/reference/bundle_to_flat_list.html</loc></url>
+<url><loc>https://astamm.github.io/riot/reference/flat_list_to_bundle.html</loc></url>
 <url><loc>https://astamm.github.io/riot/reference/index.html</loc></url>
-<url><loc>https://astamm.github.io/riot/reference/print.maf_df.html</loc></url>
+<url><loc>https://astamm.github.io/riot/reference/is_bundle.html</loc></url>
+<url><loc>https://astamm.github.io/riot/reference/is_streamline.html</loc></url>
+<url><loc>https://astamm.github.io/riot/reference/new_bundle.html</loc></url>
+<url><loc>https://astamm.github.io/riot/reference/new_streamline.html</loc></url>
 <url><loc>https://astamm.github.io/riot/reference/read_tractogram.html</loc></url>
 <url><loc>https://astamm.github.io/riot/reference/write_tractogram.html</loc></url>
 </urlset>

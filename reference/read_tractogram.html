@@ -9,7 +9,7 @@ support eight different formats detailed in the documentation of input argument 
 
     <a class="navbar-brand me-2" href="../index.html">riot</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,13 +68,12 @@ tractogram in the appropriate space. Default is <code>NULL</code>.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A special <a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a> (of class <code>maf_df</code>) containing the
-tractogram data with the following columns:</p><ul><li><p><code>X</code>: X coordinate of the point.</p></li>
-<li><p><code>Y</code>: Y coordinate of the point.</p></li>
-<li><p><code>Z</code>: Z coordinate of the point.</p></li>
-<li><p><code>PointId</code>: Identifier of the point within its streamline.</p></li>
-<li><p><code>StreamlineId</code>: Identifier of the streamline.</p></li>
-</ul><p>The tractogram may contain additional columns that are attributes to either points or streamlines.</p>
+    <p>A <a href="new_bundle.html">bundle</a> object when the file contains multiple
+streamlines, or a <a href="new_streamline.html">streamline</a> object when it contains
+exactly one. Each <code>streamline</code> is a numeric matrix with at least three
+named columns <code>"X"</code>, <code>"Y"</code>, and <code>"Z"</code> (one row per point along the
+tract). Additional per-point scalar attributes, when present in the source
+file, appear as extra named columns.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -84,8 +83,8 @@ tractogram data with the following columns:</p><ul><li><p><code>X</code>: X coor
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">uf_left_vtk</span> <span class="op">&lt;-</span> <span class="fu">read_tractogram</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_left.vtk"</span>,  package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of data points: 38697</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of streamlines: 2042</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Number of data points: 38697</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Number of streamlines: 2042</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The tractogram stored in <span style="color: #0000BB;">/home/runner/work/_temp/Library/riot/extdata/UF_left.vtk</span> has been successfully imported.</span>
 </code></pre></div>
     </div>

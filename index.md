@@ -14,24 +14,14 @@ importing formats are:
 - [TrackVis](https://trackvis.org/docs/?subsect=fileformat) `.trk`
   files.
 
-The package reads tractography data into a
-[tibble](https://tibble.tidyverse.org) in which each row is a point
-characterized by at least the following five variables:
+The package reads tractography data into `bundle` objects (lists of
+`streamline` matrices) in which each streamline is a numeric matrix with
+columns `X`, `Y`, `Z` for the 3D coordinates of successive points.
+Points may also carry scalar attributes (e.g. diffusion metrics) stored
+as additional matrix columns.
 
-- `X`, `Y`, `Z`: 3D coordinates of the current point;
-- `PointId`: Identification number of the current point among all points
-  of the streamline it belongs to;
-- `StreamlineId`: Identification number of the streamline which the
-  current point belongs to.
-
-The points might also have attributes or a color assigned to them, in
-which case, additional variables will be properly created to import them
-as well. The user can perform statistical analysis on the point cloud
-and store any new variable that (s)he would deem to be useful as
-additional column of the [tibble](https://tibble.tidyverse.org). The
-package also allows to write back the
-[tibble](https://tibble.tidyverse.org), including all newly created
-attributes, into the following exporting formats:
+The package also allows to write bundles back into the following
+exporting formats:
 
 - native [VTK](https://vtk.org) `.vtk` and `.vtp` files; or,
 - [medInria](https://med.inria.fr) `.fds` files.
@@ -43,6 +33,7 @@ You can install the released version of
 [CRAN](https://cran.r-project.org) with:
 
 ``` r
+
 install.packages("riot")
 ```
 
@@ -51,6 +42,7 @@ Alternatively you can install the development version of
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("astamm/riot")
 ```
@@ -58,108 +50,94 @@ remotes::install_github("astamm/riot")
 ## Example
 
 ``` r
+
 library(riot)
 ```
 
 ### Native [VTK](https://vtk.org) `.vtk` and `.vtp` files
 
 ``` r
+
 uf_left_vtk <- read_tractogram(system.file(
   "extdata",
   "UF_left.vtk",
   package = "riot"
 ))
-#> Number of data points: 38697
-#> Number of streamlines: 2042
-#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath1004323a241a/riot/extdata/UF_left.vtk' has been successfully imported.
 uf_left_vtk
-#> ℹ Tractogram with 2042 streamlines.
-#> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
-#> cli-27115-8
+#> <bundle [2042 streamlines | 9–33 pts/streamline]>
 ```
 
 ``` r
+
 uf_left_vtp <- read_tractogram(system.file(
   "extdata",
   "UF_left.vtp",
   package = "riot"
 ))
-#> Number of data points: 38697
-#> Number of streamlines: 2042
-#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath1004323a241a/riot/extdata/UF_left.vtp' has been successfully imported.
 uf_left_vtp
-#> ℹ Tractogram with 2042 streamlines.
-#> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
-#> cli-27115-14
+#> <bundle [2042 streamlines | 9–33 pts/streamline]>
 ```
 
 ### [medInria](https://med.inria.fr) `.fds` files
 
 ``` r
+
 uf_left_fds <- read_tractogram(system.file(
   "extdata",
   "UF_left.fds",
   package = "riot"
 ))
-#> Number of data points: 38697
-#> Number of streamlines: 2042
-#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath1004323a241a/riot/extdata/UF_left.fds' has been successfully imported.
 uf_left_fds
-#> ℹ Tractogram with 2042 streamlines.
-#> ℹ Distribution of the number of sampled points per streamline: 9, 15, 18, 18.9505386875612, 23, and 33.
-#> cli-27115-20
+#> <bundle [2042 streamlines | 9–33 pts/streamline]>
 ```
 
 ### [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html) `.tck/.tsf` files
 
 ``` r
+
 af_left_tck <- read_tractogram(system.file(
   "extdata",
   "AF_left.tck",
   package = "riot"
 ))
-#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath1004323a241a/riot/extdata/AF_left.tck' has been successfully imported.
 af_left_tck
-#> ℹ Tractogram with 5000 streamlines.
-#> ℹ Distribution of the number of sampled points per streamline: 8, 23, 28, 28.0602, 33, and 54.
-#> cli-27115-26
+#> <bundle [5000 streamlines | 8–54 pts/streamline]>
 ```
 
 ### [TrackVis](https://trackvis.org/docs/?subsect=fileformat) `.trk` files
 
 ``` r
+
 cc_mid_trk <- read_tractogram(system.file(
   "extdata",
   "CCMid.trk",
   package = "riot"
 ))
-#> ✔ The tractogram stored in '/private/var/folders/f3/ycwwj6td205fvwjmcfj53w5r0000gn/T/RtmpVW9OFz/temp_libpath1004323a241a/riot/extdata/CCMid.trk' has been successfully imported.
 cc_mid_trk
-#> ℹ Tractogram with 525 streamlines.
-#> ℹ Distribution of the number of sampled points per streamline: 29, 189, 224, 214.619047619048, 243, and 270.
-#> cli-27115-32
+#> <bundle [525 streamlines | 29–270 pts/streamline]>
 ```
 
 ## Dependencies
 
 ### VTK
 
-Since version 1.2.0, **riot** no longer bundles VTK source files.
-Instead it links against an **externally installed**
-[VTK](https://vtk.org/) (\>= 9.1.0). VTK must be present on the host
-before installing the package. Both shared and static VTK builds are
-supported; static builds on macOS and Linux must have been compiled with
-`-fPIC`.
-
-At install time, `configure` (Unix-like) / `configure.win` (Windows)
-search for VTK in the following order:
+Since version 1.2.0, **riot** delegates all VTK linkage to the
+[**rvtk**](https://github.com/astamm/rvtk) infrastructure package. **VTK
+is not a system requirement**: neither for **riot** nor for **rvtk**. At
+install time, **rvtk** searches for a pre-installed VTK in the following
+order:
 
 1.  `VTK_DIR` environment variable (highest priority).
 2.  [Homebrew](https://brew.sh) — macOS only (`brew install vtk`).
 3.  `pkg-config` — macOS and Linux.
 4.  Well-known system prefix paths (`/usr`, `/usr/local`) — Linux.
-5.  Rtools45 / UCRT64 pacman package `mingw-w64-ucrt-x86_64-vtk` —
-    Windows.
+5.  Rtools42+ pacman package for the active MSYS2 environment
+    (e.g. `mingw-w64-ucrt-x86_64-vtk` for UCRT64) — Windows.
+
+If no pre-installed VTK is found, **rvtk** automatically downloads a
+pre-compiled static or shared VTK build from its [GitHub
+releases](https://github.com/astamm/rvtk/releases), so no manual VTK
+installation is ever required.
 
 ### TinyXML-2
 

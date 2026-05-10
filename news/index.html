@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">riot</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +32,42 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.3.0" id="riot-130">riot 1.3.0<a class="anchor" aria-label="anchor" href="#riot-130"></a></h2>
+<div class="section level3">
+<h3 id="new-data-model-streamline-and-bundle-objects-1-3-0">New data model: <code>streamline</code> and <code>bundle</code> objects<a class="anchor" aria-label="anchor" href="#new-data-model-streamline-and-bundle-objects-1-3-0"></a></h3>
+<ul><li>
+<strong>Breaking change</strong>: the <code>maf_df</code> tibble (with columns <code>X</code>, <code>Y</code>, <code>Z</code>, <code>PointId</code>, <code>StreamlineId</code>) is replaced by two new S3 classes:
+<ul><li>
+<code>streamline</code> — a numeric matrix with named columns <code>X</code>, <code>Y</code>, <code>Z</code> (plus optional per-point scalar attribute columns). Each row is an ordered point along a single tract. <code>PointId</code> is implicit in row order and is no longer stored.</li>
+<li>
+<code>bundle</code> — an ordered list of <code>streamline</code> objects representing a collection of tracts. <code>StreamlineId</code> is implicit in list position and is no longer stored.</li>
+</ul></li>
+<li>
+<code><a href="../reference/read_tractogram.html">read_tractogram()</a></code> now returns a <code>streamline</code> when the file contains exactly one tract, and a <code>bundle</code> otherwise.</li>
+<li>
+<code><a href="../reference/write_tractogram.html">write_tractogram()</a></code> accepts both <code>streamline</code> and <code>bundle</code> objects.</li>
+<li>New constructors and predicates exported: <code><a href="../reference/new_streamline.html">new_streamline()</a></code>, <code><a href="../reference/is_streamline.html">is_streamline()</a></code>, <code><a href="../reference/new_bundle.html">new_bundle()</a></code>, <code><a href="../reference/is_bundle.html">is_bundle()</a></code>.</li>
+<li>
+<code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> methods provided for both classes.</li>
+<li>The <code>readr</code> package is no longer a dependency.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="c-layer-elimination-of-intermediate-csv-files-1-3-0">C++ layer: elimination of intermediate CSV files<a class="anchor" aria-label="anchor" href="#c-layer-elimination-of-intermediate-csv-files-1-3-0"></a></h3>
+<ul><li>
+<strong>Breaking change</strong> (internal): the C++ reader functions (<code>ReadVTK</code>, <code>ReadVTP</code>, <code>ReadFDS</code>) no longer write a temporary CSV file. They now return a <code>cpp11::writable::list</code> directly to R, eliminating all temporary file I/O and the associated string-reference issues.</li>
+<li>The C++ writer functions (<code>WriteVTK</code>, <code>WriteVTP</code>, <code>WriteFDS</code>) no longer read from a temporary CSV. They now accept a <code>cpp11::list</code> directly from R.</li>
+<li>The helper <code>WriteCSV</code> (vtkPolyData → CSV) and <code>ReadCSV</code> (CSV → vtkPolyData) are replaced by <code>PolyDataToList</code> and <code>ListToPolyData</code> respectively, operating entirely in memory.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="vtk-bindings-delegated-to-rvtk-1-3-0">VTK bindings delegated to <code>rvtk</code>
+<a class="anchor" aria-label="anchor" href="#vtk-bindings-delegated-to-rvtk-1-3-0"></a></h3>
+<ul><li>VTK discovery, compilation flags, and pre-built static library distribution are now handled entirely by the <a href="https://github.com/astamm/rvtk" class="external-link"><code>rvtk</code></a> package (pending CRAN submission). <code>rvtk</code> supplies pre-compiled VTK headers and libraries so that no manual VTK installation is required on most platforms: it honours a user-supplied <code>VTK_DIR</code> environment variable first, then tries Homebrew (macOS), <code>pkg-config</code> (macOS/Linux), and well-known system prefixes; on Windows it checks <code>VTK_DIR</code>, Rtools45 pacman, and common MSYS2 prefixes; if no suitable system VTK is found it downloads pre-built static libraries automatically from the <code>rvtk</code> GitHub releases.</li>
+<li>
+<code>rvtk</code> is listed as an <code>Imports</code> dependency; downstream packages no longer need to locate VTK themselves.</li>
+<li>The <code>Remotes: astamm/rvtk</code> field will be removed from <code>DESCRIPTION</code> once <code>rvtk</code> is available on CRAN.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.0" id="riot-120">riot 1.2.0<a class="anchor" aria-label="anchor" href="#riot-120"></a></h2>
 <ul><li>
 <strong>Breaking change in system requirements</strong>: riot no longer bundles VTK source files. Instead, it links against an externally installed VTK (&gt;= 9.1.0) at compile time. VTK must be present on the host before installing the package. Both shared and static VTK builds are supported; static builds on macOS and Linux must have been compiled with <code>-fPIC</code>.</li>
@@ -41,7 +77,7 @@
 <li>
 <code>pkg-config</code> (macOS and Linux).</li>
 <li>Well-known system include paths (<code>/usr</code>, <code>/usr/local</code>) (Linux).</li>
-<li>The Rtools45 / UCRT64 pacman package <code>mingw-w64-ucrt-x86_64-vtk</code> (Windows).</li>
+<li>The Rtools42+ pacman package for the active MSYS2 environment (e.g. <code>mingw-w64-ucrt-x86_64-vtk</code> for UCRT64) (Windows).</li>
 </ol></li>
 <li>On Windows, VTK is loaded dynamically at run time via <code>addDLLDirectory()</code> to avoid having to bundle VTK runtime DLLs inside the package.</li>
 <li>Removed all bundled VTK source files, reducing the installed package size considerably.</li>

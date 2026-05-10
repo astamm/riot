@@ -41,22 +41,13 @@ read_tractogram(file, reference_file = NULL)
 
 ## Value
 
-A special [tibble](https://tibble.tidyverse.org/reference/tibble.html)
-(of class `maf_df`) containing the tractogram data with the following
-columns:
-
-- `X`: X coordinate of the point.
-
-- `Y`: Y coordinate of the point.
-
-- `Z`: Z coordinate of the point.
-
-- `PointId`: Identifier of the point within its streamline.
-
-- `StreamlineId`: Identifier of the streamline.
-
-The tractogram may contain additional columns that are attributes to
-either points or streamlines.
+A [bundle](https://astamm.github.io/riot/reference/new_bundle.md) object
+when the file contains multiple streamlines, or a
+[streamline](https://astamm.github.io/riot/reference/new_streamline.md)
+object when it contains exactly one. Each `streamline` is a numeric
+matrix with at least three named columns `"X"`, `"Y"`, and `"Z"` (one
+row per point along the tract). Additional per-point scalar attributes,
+when present in the source file, appear as extra named columns.
 
 ## See also
 
