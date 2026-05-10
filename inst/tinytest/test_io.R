@@ -1,10 +1,10 @@
 library(riot)
 
-vtk_file  <- system.file("extdata", "UF_left.vtk", package = "riot")
-vtp_file  <- system.file("extdata", "UF_left.vtp", package = "riot")
-fds_file  <- system.file("extdata", "UF_left.fds", package = "riot")
-tck_file  <- system.file("extdata", "AF_left.tck", package = "riot")
-trk_file  <- system.file("extdata", "CCMid.trk",   package = "riot")
+vtk_file <- system.file("extdata", "UF_left.vtk", package = "riot")
+vtp_file <- system.file("extdata", "UF_left.vtp", package = "riot")
+fds_file <- system.file("extdata", "UF_left.fds", package = "riot")
+tck_file <- system.file("extdata", "AF_left.tck", package = "riot")
+trk_file <- system.file("extdata", "CCMid.trk", package = "riot")
 
 # ---- read_tractogram: supported formats ------------------------------------
 
