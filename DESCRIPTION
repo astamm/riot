@@ -44,16 +44,18 @@ LinkingTo:
 Imports: 
     cli,
     fs,
-    reticulate,
     rlang,
     rvtk
+Suggests: 
+    covr,
+    reticulate,
+    tinytest
+SystemRequirements: Python (>= 3.7) with the 'dipy' package is optional;
+    required only for TRX, FIB, and DPY tractogram formats.
 Remotes:
     astamm/rvtk
 URL: https://github.com/astamm/riot,
     https://astamm.github.io/riot/
 BugReports: https://github.com/astamm/riot/issues
-Suggests: 
-    covr,
-    tinytest
 Config/roxygen2/version: 8.0.0
 Config/roxygen2/markdown: TRUE

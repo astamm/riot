@@ -58,6 +58,7 @@ write_tractogram <- function(x, file, reference_file = NULL) {
       )
     }
     # nocov start
+    check_dipy()
     reference_file <- fs::path_expand(reference_file)
     reference_file <- fs::path_norm(reference_file)
     n_streamlines <- length(x)

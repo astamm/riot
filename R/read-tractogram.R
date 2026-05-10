@@ -56,6 +56,7 @@ read_tractogram <- function(file, reference_file = NULL) {
       )
     }
     # nocov start
+    check_dipy()
     reference_file <- fs::path_expand(reference_file)
     reference_file <- fs::path_norm(reference_file)
     tgm <- io_streamline$load_tractogram(input_file, reference_file)
