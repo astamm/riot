@@ -126,16 +126,11 @@ cc_mid_trk
 
 ### VTK
 
-Since version 1.2.0, **riot** no longer bundles VTK source files.
-Instead it links against an **externally installed**
-[VTK](https://vtk.org/) (\>= 9.1.0) via the
-[**rvtk**](https://github.com/astamm/rvtk) infrastructure package. VTK
-must be present on the host before installing the package. Both shared
-and static VTK builds are supported; static builds on macOS and Linux
-must have been compiled with `-fPIC`.
-
-At install time, `configure` (Unix-like) / `configure.win` (Windows)
-search for VTK in the following order:
+Since version 1.2.0, **riot** delegates all VTK linkage to the
+[**rvtk**](https://github.com/astamm/rvtk) infrastructure package. **VTK
+is not a system requirement**: neither for **riot** nor for **rvtk**. At
+install time, **rvtk** searches for a pre-installed VTK in the following
+order:
 
 1.  `VTK_DIR` environment variable (highest priority).
 2.  [Homebrew](https://brew.sh) — macOS only (`brew install vtk`).
@@ -143,6 +138,11 @@ search for VTK in the following order:
 4.  Well-known system prefix paths (`/usr`, `/usr/local`) — Linux.
 5.  Rtools42+ pacman package for the active MSYS2 environment
     (e.g. `mingw-w64-ucrt-x86_64-vtk` for UCRT64) — Windows.
+
+If no pre-installed VTK is found, **rvtk** automatically downloads a
+pre-compiled static or shared VTK build from its [GitHub
+releases](https://github.com/astamm/rvtk/releases), so no manual VTK
+installation is ever required.
 
 ### TinyXML-2
 
