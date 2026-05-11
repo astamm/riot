@@ -19,12 +19,12 @@ Source:
 [`DESCRIPTION`](https://github.com/astamm/riot/blob/master/DESCRIPTION)
 
 Stamm A (2026). *riot: R Inputs/Outputs for Tractography*. R package
-version 1.3.0, <https://github.com/astamm/riot>.
+version 2.0.0, <https://github.com/astamm/riot>.
 
     @Manual{,
       title = {riot: R Inputs/Outputs for Tractography},
       author = {Aymeric Stamm},
       year = {2026},
-      note = {R package version 1.3.0},
+      note = {R package version 2.0.0},
       url = {https://github.com/astamm/riot},
     }

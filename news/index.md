@@ -1,6 +1,6 @@
 # Changelog
 
-## riot 1.3.0
+## riot 2.0.0
 
 ### API rename: `read_bundle()` and `write_bundle()`
 
@@ -19,17 +19,26 @@
   automatically provision DIPY in an ephemeral virtual environment when
   one of the DIPY-backed formats (`.trx`, `.fib`, `.dpy`) is first used.
 
-### New data model: `streamline` and `bundle` objects
+### New S7 data model: `streamline` and `bundle` classes
 
 - **Breaking change**: the `maf_df` tibble (with columns `X`, `Y`, `Z`,
-  `PointId`, `StreamlineId`) is replaced by two new S3 classes:
-  - `streamline` — a numeric matrix with named columns `X`, `Y`, `Z`
-    (plus optional per-point scalar attribute columns). Each row is an
-    ordered point along a single tract. `PointId` is implicit in row
-    order and is no longer stored.
-  - `bundle` — an ordered list of `streamline` objects representing a
-    collection of tracts. `StreamlineId` is implicit in list position
-    and is no longer stored.
+  `PointId`, `StreamlineId`) is replaced by two new **S7** classes:
+  - `streamline` — stores three typed slots accessed with `@`:
+    - `@points`: an $`n \times 3`$ numeric matrix with columns `"X"`,
+      `"Y"`, `"Z"` for the ordered coordinates of the $`n`$ points along
+      the tract. `PointId` is implicit in row order and is no longer
+      stored.
+    - `@point_data`: a named list of numeric vectors of length $`n`$,
+      holding per-point scalar attributes (e.g. fractional anisotropy at
+      each point).
+    - `@streamline_data`: a named list of numeric scalars (length-1
+      vectors) holding per-streamline attributes (e.g. a tract-level
+      weight or mean FA).
+  - `bundle` — stores two typed slots:
+    - `@streamlines`: a list of `streamline` objects. `StreamlineId` is
+      implicit in list position and is no longer stored.
+    - `@bundle_data`: a named list of bundle-level metadata (e.g. the
+      affine transform used during tracking).
 - [`read_bundle()`](https://astamm.github.io/riot/reference/read_bundle.md)
   now returns a `streamline` when the file contains exactly one tract,
   and a `bundle` otherwise.
@@ -40,9 +49,13 @@
   [`is_streamline()`](https://astamm.github.io/riot/reference/is_streamline.md),
   [`new_bundle()`](https://astamm.github.io/riot/reference/new_bundle.md),
   [`is_bundle()`](https://astamm.github.io/riot/reference/is_bundle.md).
-- [`print()`](https://rdrr.io/r/base/print.html) and
-  [`format()`](https://rdrr.io/r/base/format.html) methods provided for
+- [`format()`](https://rdrr.io/r/base/format.html) and
+  [`print()`](https://rdrr.io/r/base/print.html) S7 methods provided for
   both classes.
+- [`length()`](https://rdrr.io/r/base/length.html), `[[`, and `[` S7
+  methods provided for `bundle`: `bundle[[i]]` extracts the $`i`$-th
+  `streamline`; `bundle[i]` returns a sub-`bundle` preserving
+  `@bundle_data`.
 - The `readr` package is no longer a dependency.
 
 ### C++ layer: elimination of intermediate CSV files

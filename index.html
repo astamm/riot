@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">riot</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,14 @@
 <li>
 <a href="https://trackvis.org/docs/?subsect=fileformat" class="external-link">TrackVis</a> <code>.trk</code> files.</li>
 </ul>
-<p>The package reads tractography data into <code>bundle</code> objects (lists of <code>streamline</code> matrices) in which each streamline is a numeric matrix with columns <code>X</code>, <code>Y</code>, <code>Z</code> for the 3D coordinates of successive points. Points may also carry scalar attributes (e.g. diffusion metrics) stored as additional matrix columns.</p>
+<p>The package reads tractography data into S7 objects:</p>
+<ul>
+<li>
+<code>streamline</code> — a single fibre tract stored in three typed slots: <code>@points</code> (an <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">n \times 3</annotation></semantics></math> matrix with columns <code>X</code>, <code>Y</code>, <code>Z</code>), <code>@point_data</code> (a named list of per-point numeric vectors, e.g. diffusion metrics sampled at every point), and <code>@streamline_data</code> (a named list of per-streamline scalar attributes).</li>
+<li>
+<code>bundle</code> — an ordered collection of <code>streamline</code> objects in <code>@streamlines</code>, plus optional bundle-level metadata in <code>@bundle_data</code>.</li>
+</ul>
+<p><code><a href="reference/read_bundle.html">read_bundle()</a></code> returns a <code>streamline</code> when the file contains a single tract and a <code>bundle</code> otherwise.</p>
 <p>The package also allows to write bundles back into the following exporting formats:</p>
 <ul>
 <li>native <a href="https://vtk.org" class="external-link">VTK</a> <code>.vtk</code> and <code>.vtp</code> files; or,</li>

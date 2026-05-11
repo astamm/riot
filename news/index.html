@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">riot</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,25 +32,37 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.3.0" id="riot-130">riot 1.3.0<a class="anchor" aria-label="anchor" href="#riot-130"></a></h2>
+<h2 class="pkg-version" data-toc-text="2.0.0" id="riot-200">riot 2.0.0<a class="anchor" aria-label="anchor" href="#riot-200"></a></h2>
 <div class="section level3">
-<h3 id="api-rename-read_bundle-and-write_bundle-1-3-0">API rename: <code>read_bundle()</code> and <code>write_bundle()</code>
-<a class="anchor" aria-label="anchor" href="#api-rename-read_bundle-and-write_bundle-1-3-0"></a></h3>
+<h3 id="api-rename-read_bundle-and-write_bundle-2-0-0">API rename: <code>read_bundle()</code> and <code>write_bundle()</code>
+<a class="anchor" aria-label="anchor" href="#api-rename-read_bundle-and-write_bundle-2-0-0"></a></h3>
 <ul><li>
 <strong>Breaking change</strong>: <code>read_tractogram()</code> and <code>write_tractogram()</code> are renamed to <code><a href="../reference/read_bundle.html">read_bundle()</a></code> and <code><a href="../reference/write_bundle.html">write_bundle()</a></code> for consistency with the <code>bundle</code> data model.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="dipy-dependency-declaration-modernised-1-3-0">DIPY dependency declaration modernised<a class="anchor" aria-label="anchor" href="#dipy-dependency-declaration-modernised-1-3-0"></a></h3>
+<h3 id="dipy-dependency-declaration-modernised-2-0-0">DIPY dependency declaration modernised<a class="anchor" aria-label="anchor" href="#dipy-dependency-declaration-modernised-2-0-0"></a></h3>
 <ul><li>The optional DIPY Python dependency is now declared via <code>reticulate::py_require("dipy")</code> (reticulate ≥ 1.41) instead of the previous manual <code>py_module_available()</code> check. Reticulate will automatically provision DIPY in an ephemeral virtual environment when one of the DIPY-backed formats (<code>.trx</code>, <code>.fib</code>, <code>.dpy</code>) is first used.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-data-model-streamline-and-bundle-objects-1-3-0">New data model: <code>streamline</code> and <code>bundle</code> objects<a class="anchor" aria-label="anchor" href="#new-data-model-streamline-and-bundle-objects-1-3-0"></a></h3>
+<h3 id="new-s7-data-model-streamline-and-bundle-classes-2-0-0">New S7 data model: <code>streamline</code> and <code>bundle</code> classes<a class="anchor" aria-label="anchor" href="#new-s7-data-model-streamline-and-bundle-classes-2-0-0"></a></h3>
 <ul><li>
-<strong>Breaking change</strong>: the <code>maf_df</code> tibble (with columns <code>X</code>, <code>Y</code>, <code>Z</code>, <code>PointId</code>, <code>StreamlineId</code>) is replaced by two new S3 classes:
+<strong>Breaking change</strong>: the <code>maf_df</code> tibble (with columns <code>X</code>, <code>Y</code>, <code>Z</code>, <code>PointId</code>, <code>StreamlineId</code>) is replaced by two new <strong>S7</strong> classes:
 <ul><li>
-<code>streamline</code> — a numeric matrix with named columns <code>X</code>, <code>Y</code>, <code>Z</code> (plus optional per-point scalar attribute columns). Each row is an ordered point along a single tract. <code>PointId</code> is implicit in row order and is no longer stored.</li>
+<code>streamline</code> — stores three typed slots accessed with <code>@</code>:
+<ul><li>
+<code>@points</code>: an <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">n \times 3</annotation></semantics></math> numeric matrix with columns <code>"X"</code>, <code>"Y"</code>, <code>"Z"</code> for the ordered coordinates of the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> points along the tract. <code>PointId</code> is implicit in row order and is no longer stored.</li>
 <li>
-<code>bundle</code> — an ordered list of <code>streamline</code> objects representing a collection of tracts. <code>StreamlineId</code> is implicit in list position and is no longer stored.</li>
+<code>@point_data</code>: a named list of numeric vectors of length <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>, holding per-point scalar attributes (e.g. fractional anisotropy at each point).</li>
+<li>
+<code>@streamline_data</code>: a named list of numeric scalars (length-1 vectors) holding per-streamline attributes (e.g. a tract-level weight or mean FA).</li>
+</ul></li>
+<li>
+<code>bundle</code> — stores two typed slots:
+<ul><li>
+<code>@streamlines</code>: a list of <code>streamline</code> objects. <code>StreamlineId</code> is implicit in list position and is no longer stored.</li>
+<li>
+<code>@bundle_data</code>: a named list of bundle-level metadata (e.g. the affine transform used during tracking).</li>
+</ul></li>
 </ul></li>
 <li>
 <code><a href="../reference/read_bundle.html">read_bundle()</a></code> now returns a <code>streamline</code> when the file contains exactly one tract, and a <code>bundle</code> otherwise.</li>
@@ -58,19 +70,21 @@
 <code><a href="../reference/write_bundle.html">write_bundle()</a></code> accepts both <code>streamline</code> and <code>bundle</code> objects.</li>
 <li>New constructors and predicates exported: <code><a href="../reference/new_streamline.html">new_streamline()</a></code>, <code><a href="../reference/is_streamline.html">is_streamline()</a></code>, <code><a href="../reference/new_bundle.html">new_bundle()</a></code>, <code><a href="../reference/is_bundle.html">is_bundle()</a></code>.</li>
 <li>
-<code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> methods provided for both classes.</li>
+<code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> and <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> S7 methods provided for both classes.</li>
+<li>
+<code><a href="https://rdrr.io/r/base/length.html" class="external-link">length()</a></code>, <code>[[</code>, and <code>[</code> S7 methods provided for <code>bundle</code>: <code>bundle[[i]]</code> extracts the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>-th <code>streamline</code>; <code>bundle[i]</code> returns a sub-<code>bundle</code> preserving <code>@bundle_data</code>.</li>
 <li>The <code>readr</code> package is no longer a dependency.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="c-layer-elimination-of-intermediate-csv-files-1-3-0">C++ layer: elimination of intermediate CSV files<a class="anchor" aria-label="anchor" href="#c-layer-elimination-of-intermediate-csv-files-1-3-0"></a></h3>
+<h3 id="c-layer-elimination-of-intermediate-csv-files-2-0-0">C++ layer: elimination of intermediate CSV files<a class="anchor" aria-label="anchor" href="#c-layer-elimination-of-intermediate-csv-files-2-0-0"></a></h3>
 <ul><li>
 <strong>Breaking change</strong> (internal): the C++ reader functions (<code>ReadVTK</code>, <code>ReadVTP</code>, <code>ReadFDS</code>) no longer write a temporary CSV file. They now return a <code>cpp11::writable::list</code> directly to R, eliminating all temporary file I/O and the associated string-reference issues.</li>
 <li>The C++ writer functions (<code>WriteVTK</code>, <code>WriteVTP</code>, <code>WriteFDS</code>) no longer read from a temporary CSV. They now accept a <code>cpp11::list</code> directly from R.</li>
 <li>The helper <code>WriteCSV</code> (vtkPolyData → CSV) and <code>ReadCSV</code> (CSV → vtkPolyData) are replaced by <code>PolyDataToList</code> and <code>ListToPolyData</code> respectively, operating entirely in memory.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="vtk-bindings-delegated-to-rvtk-1-3-0">VTK bindings delegated to <code>rvtk</code>
-<a class="anchor" aria-label="anchor" href="#vtk-bindings-delegated-to-rvtk-1-3-0"></a></h3>
+<h3 id="vtk-bindings-delegated-to-rvtk-2-0-0">VTK bindings delegated to <code>rvtk</code>
+<a class="anchor" aria-label="anchor" href="#vtk-bindings-delegated-to-rvtk-2-0-0"></a></h3>
 <ul><li>VTK discovery, compilation flags, and pre-built static library distribution are now handled entirely by the <a href="https://github.com/astamm/rvtk" class="external-link"><code>rvtk</code></a> package (pending CRAN submission). <code>rvtk</code> supplies pre-compiled VTK headers and libraries so that no manual VTK installation is required on most platforms: it honours a user-supplied <code>VTK_DIR</code> environment variable first, then tries Homebrew (macOS), <code>pkg-config</code> (macOS/Linux), and well-known system prefixes; on Windows it checks <code>VTK_DIR</code>, Rtools45 pacman, and common MSYS2 prefixes; if no suitable system VTK is found it downloads pre-built static libraries automatically from the <code>rvtk</code> GitHub releases.</li>
 <li>
 <code>rvtk</code> is listed as an <code>Imports</code> dependency; downstream packages no longer need to locate VTK themselves.</li>
