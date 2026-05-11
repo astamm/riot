@@ -1,6 +1,26 @@
-## riot v1.3.0
+## riot v2.0.0
 
-This release introduces four changes.
+This is a major release. It introduces breaking changes to the data model
+(S3 → S7), additional API improvements, and internal C++ refactoring.
+
+### New S7 data model for `streamline` and `bundle`
+
+The previous `maf_df` tibble representation (columns `X`, `Y`, `Z`,
+`PointId`, `StreamlineId`) and the interim S3 classes are replaced by two
+full **S7** classes:
+
+- `streamline`: three typed slots accessed with `@`:
+  - `@points` — $n \times 3$ numeric matrix (`"X"`, `"Y"`, `"Z"` columns).
+  - `@point_data` — named list of per-point numeric vectors (length $n$).
+  - `@streamline_data` — named list of per-streamline numeric scalars.
+- `bundle`: two typed slots:
+  - `@streamlines` — list of `streamline` objects.
+  - `@bundle_data` — named list of bundle-level metadata.
+
+S7 methods are provided for `format`, `print`, `length`, `[[`, and `[`.
+`read_bundle()` returns a `streamline` for single-tract files and a `bundle`
+otherwise. `write_bundle()` accepts both. The `readr` dependency has been
+removed.
 
 ### API rename: `read_bundle()` and `write_bundle()`
 
@@ -16,20 +36,6 @@ provision DIPY in an ephemeral virtual environment when a DIPY-backed format
 (`.trx`, `.fib`, `.dpy`) is first used. DIPY is a Python package and therefore
 cannot appear in `Imports`/`Suggests`; it is documented in `SystemRequirements`
 and `reticulate` remains in `Suggests` as the R-side bridge.
-
-### New `streamline` / `bundle` data model
-
-The previous `maf_df` tibble representation (columns `X`, `Y`, `Z`,
-`PointId`, `StreamlineId`) is replaced by two new S3 classes:
-
-- `streamline`: a numeric matrix (rows = points, columns ≥ `X Y Z`) for a
-  single fibre tract. `PointId` is implicit in row order.
-- `bundle`: an ordered list of `streamline` objects for a collection of
-  tracts. `StreamlineId` is implicit in list position.
-
-`read_bundle()` returns a `streamline` for single-tract files and a
-`bundle` otherwise. `write_bundle()` accepts both. The `readr` package
-dependency has been removed.
 
 ### Elimination of intermediate CSV temp files
 

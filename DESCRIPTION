@@ -1,6 +1,6 @@
 Package: riot
 Title: R Inputs/Outputs for Tractography
-Version: 1.3.0
+Version: 2.0.0
 Authors@R: c(
     person(
         given = "Aymeric",

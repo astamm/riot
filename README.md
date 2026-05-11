@@ -27,11 +27,18 @@ importing formats are:
 - [TrackVis](https://trackvis.org/docs/?subsect=fileformat) `.trk`
   files.
 
-The package reads tractography data into `bundle` objects (lists of
-`streamline` matrices) in which each streamline is a numeric matrix with
-columns `X`, `Y`, `Z` for the 3D coordinates of successive points.
-Points may also carry scalar attributes (e.g. diffusion metrics) stored
-as additional matrix columns.
+The package reads tractography data into S7 objects:
+
+- `streamline` — a single fibre tract stored in three typed slots:
+  `@points` (an $n \times 3$ matrix with columns `X`, `Y`, `Z`),
+  `@point_data` (a named list of per-point numeric vectors,
+  e.g. diffusion metrics sampled at every point), and `@streamline_data`
+  (a named list of per-streamline scalar attributes).
+- `bundle` — an ordered collection of `streamline` objects in
+  `@streamlines`, plus optional bundle-level metadata in `@bundle_data`.
+
+`read_bundle()` returns a `streamline` when the file contains a single
+tract and a `bundle` otherwise.
 
 The package also allows to write bundles back into the following
 exporting formats:
