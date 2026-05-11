@@ -251,7 +251,7 @@ S7::method(length, bundle) <- function(x) length(x@streamlines)
 #' @param i Integer or character index.
 #' @return The corresponding [streamline] object.
 #' @export
-`[[.riot::bundle` <- function(x, i) x@streamlines[[i]]
+`[[.bundle` <- function(x, i) x@streamlines[[i]]
 
 #' Subset a bundle
 #'
@@ -260,7 +260,7 @@ S7::method(length, bundle) <- function(x) length(x@streamlines)
 #' @return A [bundle] containing the selected streamlines (preserving
 #'   `bundle_data`).
 #' @export
-`[.riot::bundle` <- function(x, i) {
+`[.bundle` <- function(x, i) {
   new_bundle(x@streamlines[i], bundle_data = x@bundle_data)
 }
 
