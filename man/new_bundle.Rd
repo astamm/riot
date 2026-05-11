@@ -4,16 +4,20 @@
 \alias{new_bundle}
 \title{Create a bundle object}
 \usage{
-new_bundle(streamlines)
+new_bundle(streamlines, bundle_data = list())
 }
 \arguments{
-\item{streamlines}{A list of objects of class \code{streamline}.}
+\item{streamlines}{A list of \link{streamline} objects.}
+
+\item{bundle_data}{A named list of bundle-level metadata.  Defaults to an
+empty list.}
 }
 \value{
-An object of class \code{bundle}.
+An object of class \verb{<riot::bundle>}.
 }
 \description{
-A \code{bundle} is an ordered list of \link[=new_streamline]{streamline} objects
-representing a collection of fibre tracts (a tractogram or white-matter
-bundle).
+A convenience constructor that wraps the \link{bundle} S7 class.
+}
+\seealso{
+\code{\link[=new_streamline]{new_streamline()}}
 }

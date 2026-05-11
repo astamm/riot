@@ -4,22 +4,25 @@
 \alias{flat_list_to_bundle}
 \title{Convert a flat named list (C++ output) to a streamline or bundle}
 \usage{
-flat_list_to_bundle(lst)
+flat_list_to_bundle(lst, streamline_cols = character(0L))
 }
 \arguments{
 \item{lst}{A named list with at least the columns \code{"X"}, \code{"Y"}, \code{"Z"},
 \code{"PointId"}, and \code{"StreamlineId"}.}
+
+\item{streamline_cols}{Character vector of column names to store as
+per-streamline data.  Defaults to \code{character(0)}.}
 }
 \value{
-A \link[=new_streamline]{streamline} or \link[=new_bundle]{bundle}.
+A \link{streamline} or \link{bundle}.
 }
 \description{
 The input is the named list returned by \code{ReadVTK()}, \code{ReadVTP()}, or
 \code{ReadFDS()}, which has at minimum columns \code{"X"}, \code{"Y"}, \code{"Z"},
-\code{"PointId"}, and \code{"StreamlineId"}. Each streamline is assembled as a
-numeric matrix with columns \code{"X"}, \code{"Y"}, \code{"Z"} plus any extra per-point
-attribute columns. \code{PointId} and \code{StreamlineId} are dropped — they are
-implicit in the row order and list position respectively.
+\code{"PointId"}, and \code{"StreamlineId"}. Columns named in \code{streamline_cols} are
+treated as per-streamline attributes: one value is stored per streamline
+(taken from the first occurrence in each group rather than broadcast).
+All remaining extra columns are treated as per-point attributes.
 }
 \details{
 Returns a \code{streamline} when the data contain exactly one streamline,

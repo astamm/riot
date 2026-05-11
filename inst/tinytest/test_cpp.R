@@ -117,16 +117,16 @@ unlink(f_mc)
 #   `if` branch (single-component, fascicleWriters ~line 51-54) and emits
 #   "Number of arrays: 1" message.
 
-sl_fa <- cbind(
-  matrix(
-    c(0, 0, 0, 1, 0, 0, 2, 0, 0),
-    ncol = 3L,
-    byrow = TRUE,
-    dimnames = list(NULL, c("X", "Y", "Z"))
-  ),
-  FA = c(0.5, 0.6, 0.7)
+sl_fa <- matrix(
+  c(0, 0, 0, 1, 0, 0, 2, 0, 0),
+  ncol = 3L,
+  byrow = TRUE,
+  dimnames = list(NULL, c("X", "Y", "Z"))
 )
-b_fa <- new_bundle(list(new_streamline(sl_fa)))
+b_fa <- new_bundle(list(new_streamline(
+  sl_fa,
+  point_data = list(FA = c(0.5, 0.6, 0.7))
+)))
 f_fa <- tempfile(fileext = ".vtk")
 write_bundle(b_fa, f_fa)
 

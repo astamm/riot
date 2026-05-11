@@ -7,14 +7,14 @@
 bundle_to_flat_list(x)
 }
 \arguments{
-\item{x}{A \link[=new_bundle]{bundle} or \link[=new_streamline]{streamline}.}
+\item{x}{A \link{bundle} or \link{streamline}.}
 }
 \value{
 A named list suitable for passing to the C++ writer functions.
 }
 \description{
 Reconstructs the \code{X}, \code{Y}, \code{Z}, \code{PointId}, \code{StreamlineId} columns (plus any
-extra per-point attribute columns) expected by \code{WriteVTK()}, \code{WriteVTP()},
-and \code{WriteFDS()}.
+extra per-point attribute columns and per-streamline attributes broadcast to
+all points) expected by \code{WriteVTK()}, \code{WriteVTP()}, and \code{WriteFDS()}.
 }
 \keyword{internal}

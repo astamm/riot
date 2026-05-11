@@ -61,21 +61,47 @@ write_bundle <- function(x, file, reference_file = NULL) {
     check_dipy()
     reference_file <- fs::path_expand(reference_file)
     reference_file <- fs::path_norm(reference_file)
-    n_streamlines <- length(x)
-    # Each streamline is a matrix; pass only the X/Y/Z columns
-    streamlines <- lapply(x, function(sl) sl[, c("X", "Y", "Z"), drop = FALSE])
+    n_streamlines <- length(x@streamlines)
 
-    # Extra per-point attribute columns
-    extra_cols <- setdiff(colnames(x[[1L]]), c("X", "Y", "Z"))
-    extra_data <- lapply(extra_cols, function(col) {
-      lapply(x, function(sl) sl[, col])
-    })
-    names(extra_data) <- extra_cols
+    # Coordinate matrices (n_pts × 3) for each streamline
+    streamlines_xyz <- lapply(x@streamlines, function(sl) sl@points)
+
+    # Per-point attributes: named list of lists (one inner list per streamline)
+    all_pd_keys <- unique(unlist(lapply(x@streamlines, function(sl) {
+      names(sl@point_data)
+    })))
+    extra_data <- if (length(all_pd_keys) > 0L) {
+      setNames(
+        lapply(all_pd_keys, function(nm) {
+          lapply(x@streamlines, function(sl) sl@point_data[[nm]])
+        }),
+        all_pd_keys
+      )
+    } else {
+      list()
+    }
+
+    # Per-streamline attributes: named numeric matrix (n_streamlines × 1)
+    all_sld_keys <- unique(unlist(lapply(x@streamlines, function(sl) {
+      names(sl@streamline_data)
+    })))
+    sl_data <- if (length(all_sld_keys) > 0L) {
+      setNames(
+        lapply(all_sld_keys, function(nm) {
+          unlist(lapply(x@streamlines, function(sl) sl@streamline_data[[nm]]))
+        }),
+        all_sld_keys
+      )
+    } else {
+      list()
+    }
+
     tgm <- io_stateful_tractogram$StatefulTractogram(
-      streamlines = streamlines,
+      streamlines = streamlines_xyz,
       reference = reference_file,
       space = io_stateful_tractogram$Space("rasmm"),
-      data_per_point = extra_data
+      data_per_point = extra_data,
+      data_per_streamline = sl_data
     )
     io_streamline$save_tractogram(tgm, output_file)
     # nocov end

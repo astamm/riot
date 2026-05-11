@@ -246,7 +246,7 @@ make_tsf_file(
 
 tr <- riot:::read_mrtrix(tck_f)
 # TSF should be skipped (timestamp mismatch), no scalar columns
-expect_equal(ncol(tr[[1L]]), 3L)
+expect_equal(length(tr@streamlines[[1L]]@point_data), 0L)
 unlink(c(tck_f, tsf_f))
 
 # ---- read_mrtrix: TSF count mismatch → skip ---------------------------------
@@ -264,7 +264,7 @@ make_tsf_file(
 )
 
 tr <- riot:::read_mrtrix(tck_f)
-expect_equal(ncol(tr[[1L]]), 3L)
+expect_equal(length(tr@streamlines[[1L]]@point_data), 0L)
 unlink(c(tck_f, tsf_f))
 
 # ---- read_mrtrix: TSF point-count mismatch → skip ---------------------------
@@ -278,7 +278,7 @@ make_tck_file(tck_f, list(sl1, sl2), timestamp = "333", count = "2")
 make_tsf_file(tsf_f, list(c(0.1)), timestamp = "333", count = "2")
 
 tr <- riot:::read_mrtrix(tck_f)
-expect_equal(ncol(tr[[1L]]), 3L)
+expect_equal(length(tr@streamlines[[1L]]@point_data), 0L)
 unlink(c(tck_f, tsf_f))
 
 # ---- read_mrtrix: missing timestamps → warning + continue to count check ----
@@ -294,7 +294,7 @@ make_tsf_file(tsf_f, list(c(0.1, 0.2, 0.3), c(0.4, 0.5))) # no timestamp, no cou
 
 tr <- riot:::read_mrtrix(tck_f)
 # Point counts match (5 scalars for 5 points) → scalar column appended
-expect_equal(ncol(tr[[1L]]), 4L) # X,Y,Z + test_nots scalar
+expect_equal(length(tr@streamlines[[1L]]@point_data), 1L) # 1 scalar (test_nots)
 unlink(c(tck_f, tsf_f))
 
 # ---- read_mrtrix: valid TSF match -------------------------------------------
@@ -313,6 +313,6 @@ make_tsf_file(
 
 tr <- riot:::read_mrtrix(tck_f)
 # Scalar column should be appended
-expect_equal(ncol(tr[[1L]]), 4L)
-expect_true("test_ok" %in% colnames(tr[[1L]]))
+expect_equal(length(tr@streamlines[[1L]]@point_data), 1L)
+expect_true("test_ok" %in% names(tr@streamlines[[1L]]@point_data))
 unlink(c(tck_f, tsf_f))
