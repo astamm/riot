@@ -1,6 +1,21 @@
 ## riot v1.3.0
 
-This release introduces three changes.
+This release introduces four changes.
+
+### API rename: `read_bundle()` and `write_bundle()`
+
+`read_tractogram()` and `write_tractogram()` are renamed to `read_bundle()` and
+`write_bundle()` for consistency with the `bundle` data model.
+
+### DIPY dependency declaration modernised
+
+The optional DIPY Python dependency is now declared via
+`reticulate::py_require("dipy")` (reticulate ≥ 1.41) instead of the previous
+manual `py_module_available()` + abort pattern. Reticulate will automatically
+provision DIPY in an ephemeral virtual environment when a DIPY-backed format
+(`.trx`, `.fib`, `.dpy`) is first used. DIPY is a Python package and therefore
+cannot appear in `Imports`/`Suggests`; it is documented in `SystemRequirements`
+and `reticulate` remains in `Suggests` as the R-side bridge.
 
 ### New `streamline` / `bundle` data model
 
@@ -12,8 +27,8 @@ The previous `maf_df` tibble representation (columns `X`, `Y`, `Z`,
 - `bundle`: an ordered list of `streamline` objects for a collection of
   tracts. `StreamlineId` is implicit in list position.
 
-`read_tractogram()` returns a `streamline` for single-tract files and a
-`bundle` otherwise. `write_tractogram()` accepts both. The `readr` package
+`read_bundle()` returns a `streamline` for single-tract files and a
+`bundle` otherwise. `write_bundle()` accepts both. The `readr` package
 dependency has been removed.
 
 ### Elimination of intermediate CSV temp files

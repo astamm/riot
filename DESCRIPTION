@@ -27,11 +27,11 @@ Authors@R: c(
         comment = "Author of the freesurferformats R package"
     ))
 Description: Provides a unified input-output interface for reading and writing
-    tractograms — collections of 3-D polylines (streamlines) reconstructed by
+    bundles — collections of 3-D polylines (streamlines) reconstructed by
     fibre-tracking algorithms applied to diffusion MRI data. Supported formats
     include VTK (.vtk), VTP (.vtp), medInria FDS (.fds), MRtrix TCK/TSF
     (.tck/.tsf), and TrackVis TRK (.trk), with additional formats accessible
-    via the 'DIPY' Python library (reticulate). Tractograms are represented
+    via the 'DIPY' Python library through 'reticulate'. Bundles are represented
     in R as lightweight S3 objects: a single tract is a numeric matrix
     (class 'streamline') and a collection of tracts is a list of such matrices
     (class 'bundle'). VTK support is provided at compile time by the 'rvtk'
@@ -51,7 +51,7 @@ Suggests:
     reticulate,
     tinytest
 SystemRequirements: Python (>= 3.7) with the 'dipy' package is optional;
-    required only for TRX, FIB, and DPY tractogram formats.
+    required only for TRX, FIB, and DPY bundle formats.
 Remotes:
     astamm/rvtk
 URL: https://github.com/astamm/riot,

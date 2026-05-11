@@ -1,5 +1,19 @@
 # riot 1.3.0
 
+## API rename: `read_bundle()` and `write_bundle()`
+
+* **Breaking change**: `read_tractogram()` and `write_tractogram()` are renamed
+  to `read_bundle()` and `write_bundle()` for consistency with the `bundle`
+  data model.
+
+## DIPY dependency declaration modernised
+
+* The optional DIPY Python dependency is now declared via
+  `reticulate::py_require("dipy")` (reticulate ≥ 1.41) instead of the
+  previous manual `py_module_available()` check. Reticulate will automatically
+  provision DIPY in an ephemeral virtual environment when one of the
+  DIPY-backed formats (`.trx`, `.fib`, `.dpy`) is first used.
+
 ## New data model: `streamline` and `bundle` objects
 
 * **Breaking change**: the `maf_df` tibble (with columns `X`, `Y`, `Z`,
@@ -11,9 +25,9 @@
   * `bundle` — an ordered list of `streamline` objects representing a
     collection of tracts. `StreamlineId` is implicit in list position and is
     no longer stored.
-* `read_tractogram()` now returns a `streamline` when the file contains
+* `read_bundle()` now returns a `streamline` when the file contains
   exactly one tract, and a `bundle` otherwise.
-* `write_tractogram()` accepts both `streamline` and `bundle` objects.
+* `write_bundle()` accepts both `streamline` and `bundle` objects.
 * New constructors and predicates exported: `new_streamline()`,
   `is_streamline()`, `new_bundle()`, `is_bundle()`.
 * `print()` and `format()` methods provided for both classes.

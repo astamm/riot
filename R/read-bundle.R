@@ -1,6 +1,6 @@
-#' Import tractograms into R
+#' Import bundles into R
 #'
-#' This is the go-to function to import tractograms into R. Based on both VTK and DIPY, we currently
+#' This is the go-to function to import bundles into R. Based on both VTK and DIPY, we currently
 #' support eight different formats detailed in the documentation of input argument `file`.
 #'
 #' @param file A string specifying the path to the file containing the tractography data. Currently
@@ -14,7 +14,7 @@
 #' @param reference_file A string specifying the path to a reference image file. This is only required
 #' when importing `.trx`, `.fib`, or `.dpy` files, as these formats do not contain spatial
 #' information about the image space. The reference image is used to correctly position the
-#' tractogram in the appropriate space. Default is `NULL`.
+#' bundle in the appropriate space. Default is `NULL`.
 #'
 #' @return A [bundle][new_bundle] object when the file contains multiple
 #'   streamlines, or a [streamline][new_streamline] object when it contains
@@ -23,11 +23,11 @@
 #'   tract). Additional per-point scalar attributes, when present in the source
 #'   file, appear as extra named columns.
 #'
-#' @seealso [write_tractogram()] to export tractograms from R.
+#' @seealso [write_bundle()] to export bundles from R.
 #' @export
 #' @examples
-#' uf_left_vtk <- read_tractogram(system.file("extdata", "UF_left.vtk",  package = "riot"))
-read_tractogram <- function(file, reference_file = NULL) {
+#' uf_left_vtk <- read_bundle(system.file("extdata", "UF_left.vtk",  package = "riot"))
+read_bundle <- function(file, reference_file = NULL) {
   input_file <- fs::path_expand(file)
   input_file <- fs::path_norm(input_file)
   ext <- fs::path_ext(input_file)
@@ -52,7 +52,7 @@ read_tractogram <- function(file, reference_file = NULL) {
   } else if (ext %in% c("trx", "fib", "dpy")) {
     if (is.null(reference_file)) {
       cli::cli_abort(
-        "For {.file {ext}} files, a reference image must be provided to load the tractogram."
+        "For {.file {ext}} files, a reference image must be provided to load the bundle."
       )
     }
     # nocov start
@@ -95,7 +95,7 @@ read_tractogram <- function(file, reference_file = NULL) {
   }
 
   cli::cli_alert_success(
-    "The tractogram stored in {.file {input_file}} has been successfully imported."
+    "The bundle stored in {.file {input_file}} has been successfully imported."
   )
   result
 }

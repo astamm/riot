@@ -112,7 +112,7 @@ expect_equal(length(result_mc[["tangent#0"]]), 4L)
 unlink(f_mc)
 
 # ---- fascicleWriters: single-component extra column roundtrip ---------------
-# write_tractogram with a bundle that carries an "FA" per-point column.
+# write_bundle with a bundle that carries an "FA" per-point column.
 # bundle_to_flat_list adds "FA" (no '#') → ListToPolyData enters while loop
 #   `if` branch (single-component, fascicleWriters ~line 51-54) and emits
 #   "Number of arrays: 1" message.
@@ -128,7 +128,7 @@ sl_fa <- cbind(
 )
 b_fa <- new_bundle(list(new_streamline(sl_fa)))
 f_fa <- tempfile(fileext = ".vtk")
-write_tractogram(b_fa, f_fa)
+write_bundle(b_fa, f_fa)
 
 result_fa <- riot:::ReadVTK(f_fa)
 expect_true("FA" %in% names(result_fa))

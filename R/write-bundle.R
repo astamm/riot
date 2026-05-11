@@ -1,31 +1,31 @@
-#' Export tractograms from R
+#' Export bundles from R
 #'
-#' This function exports a tractogram stored as a [bundle][new_bundle] object
+#' This function exports a bundle stored as a [bundle][new_bundle] object
 #' to a file in one of the supported formats. Supported formats include VTK
 #' (`.vtk`), VTP (`.vtp`), FDS (`.fds`), TRK (`.trk`), TCK (`.tck`), TRX
 #' (`.trx`), FIB (`.fib`), and DPY (`.dpy`). For formats that require a
 #' reference image (such as TRX, FIB, and DPY), the user must provide the path
 #' to a reference image file.
 #'
-#' Warning: we rely on DIPY to provide support to save tractograms in `.trk`, `.trx`, `.tck`, `.dpy`
+#' Warning: we rely on DIPY to provide support to save bundles in `.trk`, `.trx`, `.tck`, `.dpy`
 #' and `.fib` formats. Among these formats, only `.trk` and `.trx` formats are able to keep track of
 #' additional attributes assigned to either streamlines or points.
 #'
-#' @param x A [bundle][new_bundle] object storing a tractogram.
-#' @inheritParams read_tractogram
+#' @param x A [bundle][new_bundle] object.
+#' @inheritParams read_bundle
 #'
-#' @return The input tractogram (invisibly) so that the function can be
+#' @return The input bundle (invisibly) so that the function can be
 #'   used in pipes.
 #'
-#' @seealso [read_tractogram()] to import tractograms into R.
+#' @seealso [read_bundle()] to import bundles into R.
 #' @export
 #' @examples
-#' uf_left  <- read_tractogram(system.file("extdata", "UF_left.vtp",  package = "riot"))
+#' uf_left  <- read_bundle(system.file("extdata", "UF_left.vtp",  package = "riot"))
 #' \dontrun{
 #' out <- fs::file_temp(ext = ".vtp")
-#' write_tractogram(uf_left, file = out)
+#' write_bundle(uf_left, file = out)
 #' }
-write_tractogram <- function(x, file, reference_file = NULL) {
+write_bundle <- function(x, file, reference_file = NULL) {
   xq <- rlang::enquo(x)
   if (!is_bundle(x)) {
     cli::cli_abort(
@@ -54,7 +54,7 @@ write_tractogram <- function(x, file, reference_file = NULL) {
   } else {
     if (is.null(reference_file)) {
       cli::cli_abort(
-        "For {.file {ext}} files, a reference image must be provided to save the tractogram."
+        "For {.file {ext}} files, a reference image must be provided to save the bundle."
       )
     }
     # nocov start
@@ -82,7 +82,7 @@ write_tractogram <- function(x, file, reference_file = NULL) {
   }
 
   cli::cli_alert_success(
-    "The tractogram stored in {.code {rlang::as_name(xq)}} has been successfully exported to {.file {output_file}}."
+    "The bundle stored in {.code {rlang::as_name(xq)}} has been successfully exported to {.file {output_file}}."
   )
   invisible(x)
 }

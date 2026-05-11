@@ -67,7 +67,7 @@ library(riot)
 ### Native [VTK](https://vtk.org) `.vtk` and `.vtp` files
 
 ``` r
-uf_left_vtk <- read_tractogram(system.file(
+uf_left_vtk <- read_bundle(system.file(
   "extdata",
   "UF_left.vtk",
   package = "riot"
@@ -77,7 +77,7 @@ uf_left_vtk
 ```
 
 ``` r
-uf_left_vtp <- read_tractogram(system.file(
+uf_left_vtp <- read_bundle(system.file(
   "extdata",
   "UF_left.vtp",
   package = "riot"
@@ -89,7 +89,7 @@ uf_left_vtp
 ### [medInria](https://med.inria.fr) `.fds` files
 
 ``` r
-uf_left_fds <- read_tractogram(system.file(
+uf_left_fds <- read_bundle(system.file(
   "extdata",
   "UF_left.fds",
   package = "riot"
@@ -101,7 +101,7 @@ uf_left_fds
 ### [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html) `.tck/.tsf` files
 
 ``` r
-af_left_tck <- read_tractogram(system.file(
+af_left_tck <- read_bundle(system.file(
   "extdata",
   "AF_left.tck",
   package = "riot"
@@ -113,7 +113,7 @@ af_left_tck
 ### [TrackVis](https://trackvis.org/docs/?subsect=fileformat) `.trk` files
 
 ``` r
-cc_mid_trk <- read_tractogram(system.file(
+cc_mid_trk <- read_bundle(system.file(
   "extdata",
   "CCMid.trk",
   package = "riot"
