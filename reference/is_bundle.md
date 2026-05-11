@@ -16,4 +16,4 @@ is_bundle(x)
 
 ## Value
 
-`TRUE` if `x` inherits from `"bundle"`, otherwise `FALSE`.
+`TRUE` if `x` is of class `<riot::bundle>`, otherwise `FALSE`.

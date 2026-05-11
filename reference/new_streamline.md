@@ -1,23 +1,36 @@
 # Create a streamline object
 
-A `streamline` is a numeric matrix whose rows are ordered 3-D points
-along a single fibre tract. The first three columns must be named `"X"`,
-`"Y"`, and `"Z"`. Any additional columns carry per-point scalar or
-vector attributes.
+A convenience constructor that wraps the
+[streamline](https://astamm.github.io/riot/reference/streamline.md) S7
+class.
 
 ## Usage
 
 ``` r
-new_streamline(mat)
+new_streamline(points, point_data = list(), streamline_data = list())
 ```
 
 ## Arguments
 
-- mat:
+- points:
 
   A numeric matrix with at least three columns named `"X"`, `"Y"`, and
-  `"Z"`.
+  `"Z"`. Rows correspond to ordered points along the tract.
+
+- point_data:
+
+  A named list of numeric vectors, each of length `nrow(points)`,
+  holding per-point scalar attributes. Defaults to an empty list.
+
+- streamline_data:
+
+  A named list of numeric scalars (length-1 vectors) holding
+  per-streamline attributes. Defaults to an empty list.
 
 ## Value
 
-An object of class `streamline`.
+An object of class `<riot::streamline>`.
+
+## See also
+
+[`new_bundle()`](https://astamm.github.io/riot/reference/new_bundle.md)

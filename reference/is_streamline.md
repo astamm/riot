@@ -16,4 +16,4 @@ is_streamline(x)
 
 ## Value
 
-`TRUE` if `x` inherits from `"streamline"`, otherwise `FALSE`.
+`TRUE` if `x` is of class `<riot::streamline>`, otherwise `FALSE`.
