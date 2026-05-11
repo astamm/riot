@@ -245,22 +245,9 @@ S7::method(print, bundle) <- function(x, ...) {
 
 S7::method(length, bundle) <- function(x) length(x@streamlines)
 
-#' Extract a streamline from a bundle by index
-#'
-#' @param x A [bundle] object.
-#' @param i Integer or character index.
-#' @return The corresponding [streamline] object.
-#' @export
-`[[.bundle` <- function(x, i) x@streamlines[[i]]
+S7::method(`[[`, bundle) <- function(x, i, ...) x@streamlines[[i]]
 
-#' Subset a bundle
-#'
-#' @param x A [bundle] object.
-#' @param i Integer, logical, or character index vector.
-#' @return A [bundle] containing the selected streamlines (preserving
-#'   `bundle_data`).
-#' @export
-`[.bundle` <- function(x, i) {
+S7::method(`[`, bundle) <- function(x, i, j, ..., drop = TRUE) {
   new_bundle(x@streamlines[i], bundle_data = x@bundle_data)
 }
 
