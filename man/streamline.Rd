@@ -17,8 +17,6 @@ streamline(points = NULL, point_data = list(), streamline_data = list())
 A \code{streamline} represents a single fibre tract. It stores three data
 compartments that mirror the conceptual levels found in tractography file
 formats:
-}
-\details{
 \itemize{
 \item \verb{@points} — an \eqn{n \times 3} numeric matrix whose columns are named
 \code{"X"}, \code{"Y"}, and \code{"Z"}, holding the ordered 3-D coordinates of the
@@ -29,7 +27,8 @@ at every point).
 \item \verb{@streamline_data} — a named list of numeric scalars (length-1 vectors)
 holding per-streamline attributes (e.g. a tract-level weight or mean FA).
 }
-
+}
+\details{
 Use the \code{\link[=new_streamline]{new_streamline()}} constructor to create instances. Slots are
 accessed with the \code{@} operator: \code{sl@points}, \code{sl@point_data},
 \code{sl@streamline_data}.

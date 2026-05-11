@@ -5,7 +5,6 @@
 #' A `streamline` represents a single fibre tract. It stores three data
 #' compartments that mirror the conceptual levels found in tractography file
 #' formats:
-#'
 #' - `@points` — an \eqn{n \times 3} numeric matrix whose columns are named
 #'   `"X"`, `"Y"`, and `"Z"`, holding the ordered 3-D coordinates of the
 #'   \eqn{n} points along the tract.
@@ -70,7 +69,6 @@ streamline <- S7::new_class(
 #'
 #' A `bundle` is an ordered collection of [streamline] objects representing a
 #' tractogram or white-matter bundle.  It stores two compartments:
-#'
 #' - `@streamlines` — a list of [streamline] objects.
 #' - `@bundle_data` — a named list of bundle-level metadata (arbitrary R
 #'   objects, e.g. the affine transform used during tracking).

@@ -14,13 +14,12 @@ bundle(streamlines = list(), bundle_data = list())
 \description{
 A \code{bundle} is an ordered collection of \link{streamline} objects representing a
 tractogram or white-matter bundle.  It stores two compartments:
-}
-\details{
 \itemize{
 \item \verb{@streamlines} — a list of \link{streamline} objects.
 \item \verb{@bundle_data} — a named list of bundle-level metadata (arbitrary R
 objects, e.g. the affine transform used during tracking).
 }
-
+}
+\details{
 Use the \code{\link[=new_bundle]{new_bundle()}} constructor to create instances.
 }
