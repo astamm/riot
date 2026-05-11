@@ -14,7 +14,7 @@ streamline(points = NULL, point_data = list(), streamline_data = list())
 \item{streamline_data}{A named list of per-streamline numeric scalars.}
 }
 \description{
-A \code{streamline} represents a single fibre tract. It stores three data
+A \link{streamline} represents a single fibre tract. It stores three data
 compartments that mirror the conceptual levels found in tractography file
 formats:
 \itemize{

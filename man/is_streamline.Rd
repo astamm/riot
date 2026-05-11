@@ -10,7 +10,7 @@ is_streamline(x)
 \item{x}{An object.}
 }
 \value{
-\code{TRUE} if \code{x} is of class \verb{<riot::streamline>}, otherwise \code{FALSE}.
+\code{TRUE} if \code{x} is of class \link{streamline}, otherwise \code{FALSE}.
 }
 \description{
 Check whether an object is a streamline

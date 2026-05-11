@@ -12,7 +12,7 @@ bundle(streamlines = list(), bundle_data = list())
 \item{bundle_data}{A named list of bundle-level metadata.}
 }
 \description{
-A \code{bundle} is an ordered collection of \link{streamline} objects representing a
+A \link{bundle} is an ordered collection of \link{streamline} objects representing a
 tractogram or white-matter bundle.  It stores two compartments:
 \itemize{
 \item \verb{@streamlines} — a list of \link{streamline} objects.

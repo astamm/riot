@@ -2,7 +2,7 @@
 
 #' The streamline S7 class
 #'
-#' A `streamline` represents a single fibre tract. It stores three data
+#' A [streamline] represents a single fibre tract. It stores three data
 #' compartments that mirror the conceptual levels found in tractography file
 #' formats:
 #' - `@points` — an \eqn{n \times 3} numeric matrix whose columns are named
@@ -67,7 +67,7 @@ streamline <- S7::new_class(
 
 #' The bundle S7 class
 #'
-#' A `bundle` is an ordered collection of [streamline] objects representing a
+#' A [bundle] is an ordered collection of [streamline] objects representing a
 #' tractogram or white-matter bundle.  It stores two compartments:
 #' - `@streamlines` — a list of [streamline] objects.
 #' - `@bundle_data` — a named list of bundle-level metadata (arbitrary R
@@ -113,7 +113,7 @@ bundle <- S7::new_class(
 #' @param streamline_data A named list of numeric scalars (length-1 vectors)
 #'   holding per-streamline attributes.  Defaults to an empty list.
 #'
-#' @return An object of class `<riot::streamline>`.
+#' @return An object of class [streamline].
 #' @export
 #' @seealso [new_bundle()]
 new_streamline <- function(
@@ -136,7 +136,7 @@ new_streamline <- function(
 #' @param bundle_data A named list of bundle-level metadata.  Defaults to an
 #'   empty list.
 #'
-#' @return An object of class `<riot::bundle>`.
+#' @return An object of class [bundle].
 #' @export
 #' @seealso [new_streamline()]
 new_bundle <- function(streamlines, bundle_data = list()) {
@@ -148,14 +148,14 @@ new_bundle <- function(streamlines, bundle_data = list()) {
 #' Check whether an object is a streamline
 #'
 #' @param x An object.
-#' @return `TRUE` if `x` is of class `<riot::streamline>`, otherwise `FALSE`.
+#' @return `TRUE` if `x` is of class [streamline], otherwise `FALSE`.
 #' @export
 is_streamline <- function(x) S7::S7_inherits(x, streamline)
 
 #' Check whether an object is a bundle
 #'
 #' @param x An object.
-#' @return `TRUE` if `x` is of class `<riot::bundle>`, otherwise `FALSE`.
+#' @return `TRUE` if `x` is of class [bundle], otherwise `FALSE`.
 #' @export
 is_bundle <- function(x) S7::S7_inherits(x, bundle)
 
@@ -260,8 +260,8 @@ S7::method(`[`, bundle) <- function(x, i, j, ..., drop = TRUE) {
 #' (taken from the first occurrence in each group rather than broadcast).
 #' All remaining extra columns are treated as per-point attributes.
 #'
-#' Returns a `streamline` when the data contain exactly one streamline,
-#' otherwise a `bundle`.
+#' Returns a [streamline] when the data contain exactly one streamline,
+#' otherwise a [bundle].
 #'
 #' @param lst A named list with at least the columns `"X"`, `"Y"`, `"Z"`,
 #'   `"PointId"`, and `"StreamlineId"`.

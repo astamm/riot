@@ -25,7 +25,7 @@ treated as per-streamline attributes: one value is stored per streamline
 All remaining extra columns are treated as per-point attributes.
 }
 \details{
-Returns a \code{streamline} when the data contain exactly one streamline,
-otherwise a \code{bundle}.
+Returns a \link{streamline} when the data contain exactly one streamline,
+otherwise a \link{bundle}.
 }
 \keyword{internal}

@@ -10,7 +10,7 @@ is_bundle(x)
 \item{x}{An object.}
 }
 \value{
-\code{TRUE} if \code{x} is of class \verb{<riot::bundle>}, otherwise \code{FALSE}.
+\code{TRUE} if \code{x} is of class \link{bundle}, otherwise \code{FALSE}.
 }
 \description{
 Check whether an object is a bundle

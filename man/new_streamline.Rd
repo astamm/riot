@@ -18,7 +18,7 @@ empty list.}
 holding per-streamline attributes.  Defaults to an empty list.}
 }
 \value{
-An object of class \verb{<riot::streamline>}.
+An object of class \link{streamline}.
 }
 \description{
 A convenience constructor that wraps the \link{streamline} S7 class.

@@ -13,7 +13,7 @@ new_bundle(streamlines, bundle_data = list())
 empty list.}
 }
 \value{
-An object of class \verb{<riot::bundle>}.
+An object of class \link{bundle}.
 }
 \description{
 A convenience constructor that wraps the \link{bundle} S7 class.
