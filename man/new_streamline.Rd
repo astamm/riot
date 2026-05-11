@@ -4,17 +4,25 @@
 \alias{new_streamline}
 \title{Create a streamline object}
 \usage{
-new_streamline(mat)
+new_streamline(points, point_data = list(), streamline_data = list())
 }
 \arguments{
-\item{mat}{A numeric matrix with at least three columns named \code{"X"}, \code{"Y"},
-and \code{"Z"}.}
+\item{points}{A numeric matrix with at least three columns named \code{"X"},
+\code{"Y"}, and \code{"Z"}. Rows correspond to ordered points along the tract.}
+
+\item{point_data}{A named list of numeric vectors, each of length
+\code{nrow(points)}, holding per-point scalar attributes.  Defaults to an
+empty list.}
+
+\item{streamline_data}{A named list of numeric scalars (length-1 vectors)
+holding per-streamline attributes.  Defaults to an empty list.}
 }
 \value{
-An object of class \code{streamline}.
+An object of class \verb{<riot::streamline>}.
 }
 \description{
-A \code{streamline} is a numeric matrix whose rows are ordered 3-D points along a
-single fibre tract. The first three columns must be named \code{"X"}, \code{"Y"}, and
-\code{"Z"}. Any additional columns carry per-point scalar or vector attributes.
+A convenience constructor that wraps the \link{streamline} S7 class.
+}
+\seealso{
+\code{\link[=new_bundle]{new_bundle()}}
 }

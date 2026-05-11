@@ -69,25 +69,33 @@ read_bundle <- function(file, reference_file = NULL) {
     streamlines <- lapply(0:(n_streamlines - 1), function(index) {
       sl_mat <- raw_streamlines[index] # n_pts x 3 matrix
       n_pts <- nrow(sl_mat)
-      cols <- list(X = sl_mat[, 1], Y = sl_mat[, 2], Z = sl_mat[, 3])
-
-      # Per-streamline attributes broadcast to all points
-      if (length(streamline_attributes) > 0L) {
-        for (attr in streamline_attributes) {
-          val <- tgm$data_per_streamline[attr][index + 1]
-          cols[[attr]] <- rep(val, n_pts)
-        }
-      }
+      pts <- cbind(X = sl_mat[, 1], Y = sl_mat[, 2], Z = sl_mat[, 3])
 
       # Per-point attributes
-      if (length(point_attributes) > 0L) {
-        for (attr in point_attributes) {
-          cols[[attr]] <- tgm$data_per_point[attr][[index + 1]][seq_len(n_pts)]
-        }
+      pd <- if (length(point_attributes) > 0L) {
+        setNames(
+          lapply(point_attributes, function(attr) {
+            tgm$data_per_point[attr][[index + 1]][seq_len(n_pts)]
+          }),
+          point_attributes
+        )
+      } else {
+        list()
       }
 
-      mat <- do.call(cbind, cols)
-      new_streamline(mat)
+      # Per-streamline attributes (one scalar per streamline)
+      sld <- if (length(streamline_attributes) > 0L) {
+        setNames(
+          lapply(streamline_attributes, function(attr) {
+            tgm$data_per_streamline[attr][index + 1]
+          }),
+          streamline_attributes
+        )
+      } else {
+        list()
+      }
+
+      new_streamline(pts, point_data = pd, streamline_data = sld)
     })
 
     result <- new_bundle(streamlines)

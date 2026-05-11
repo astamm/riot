@@ -3,46 +3,65 @@ library(riot)
 # ---- new_streamline ---------------------------------------------------------
 
 # valid matrix
-mat <- matrix(
+pts <- matrix(
   c(1, 2, 3, 4, 5, 6, 7, 8, 9),
   ncol = 3,
   dimnames = list(NULL, c("X", "Y", "Z"))
 )
-sl <- new_streamline(mat)
-expect_inherits(sl, "streamline")
-expect_true(is.matrix(sl))
+sl <- new_streamline(pts)
+expect_true(is_streamline(sl))
+expect_true(is.matrix(sl@points))
 
-# not a matrix → error
+# not a matrix -> error
 expect_error(new_streamline("not a matrix"))
 
-# numeric vector (not matrix) → error
-expect_error(new_streamline(c(1, 2, 3)))
+# no colnames -> error
+expect_error(new_streamline(matrix(1:9, ncol = 3)))
 
-# missing required column names → error
+# missing required column names -> error
 bad <- matrix(1:9, ncol = 3, dimnames = list(NULL, c("A", "B", "C")))
 expect_error(new_streamline(bad))
 
-# no colnames at all → error
-expect_error(new_streamline(matrix(1:9, ncol = 3)))
+# point_data length mismatch -> error
+expect_error(new_streamline(pts, point_data = list(FA = c(0.1, 0.2))))
+
+# streamline_data non-scalar -> error
+expect_error(new_streamline(pts, streamline_data = list(weight = c(1, 2))))
+
+# ---- with point_data and streamline_data ------------------------------------
+
+sl_pd  <- new_streamline(pts, point_data = list(FA = c(0.1, 0.2, 0.3)))
+sl_sld <- new_streamline(pts, streamline_data = list(weight = 0.5))
+sl_all <- new_streamline(
+  pts,
+  point_data      = list(FA = c(0.1, 0.2, 0.3)),
+  streamline_data = list(weight = 0.5)
+)
+
+expect_true(is_streamline(sl_pd))
+expect_equal(sl_pd@point_data[["FA"]], c(0.1, 0.2, 0.3))
+expect_equal(sl_sld@streamline_data[["weight"]], 0.5)
+expect_equal(names(sl_all@point_data), "FA")
+expect_equal(names(sl_all@streamline_data), "weight")
 
 # ---- is_streamline ----------------------------------------------------------
 
 expect_true(is_streamline(sl))
-expect_false(is_streamline(mat)) # plain matrix, no class
+expect_false(is_streamline(pts))
 expect_false(is_streamline(list()))
 
 # ---- format.streamline ------------------------------------------------------
 
-# without extra columns
 f <- format(sl)
 expect_true(grepl("streamline", f))
-expect_true(grepl("3 points", f))
+expect_true(grepl("3 pts", f))
 
-# with extra columns
-mat2 <- cbind(mat, FA = c(0.1, 0.2, 0.3))
-sl2 <- new_streamline(mat2)
-f2 <- format(sl2)
-expect_true(grepl("attributes: FA", f2))
+f_pd <- format(sl_pd)
+expect_true(grepl("point: FA", f_pd))
+
+f_all <- format(sl_all)
+expect_true(grepl("point: FA", f_all))
+expect_true(grepl("streamline: weight", f_all))
 
 # ---- print.streamline -------------------------------------------------------
 
@@ -50,42 +69,46 @@ expect_stdout(print(sl), "streamline")
 
 # ---- new_bundle -------------------------------------------------------------
 
-b <- new_bundle(list(sl, sl2))
-expect_inherits(b, "bundle")
-expect_true(is.list(b))
+b <- new_bundle(list(sl, sl_pd))
+expect_true(is_bundle(b))
 
-# non-list → error
+# non-list -> error
 expect_error(new_bundle(sl))
 
-# list with non-streamline element → error
+# list with non-streamline element -> error
 expect_error(new_bundle(list(sl, "not a streamline")))
 
 # empty list is allowed (zero-streamline bundle)
 b0 <- new_bundle(list())
-expect_inherits(b0, "bundle")
+expect_true(is_bundle(b0))
+
+# bundle_data is stored
+b_meta <- new_bundle(list(sl), bundle_data = list(origin = "phantom"))
+expect_equal(b_meta@bundle_data[["origin"]], "phantom")
 
 # ---- is_bundle --------------------------------------------------------------
 
 expect_true(is_bundle(b))
 expect_false(is_bundle(sl))
-expect_false(is_bundle(list(sl))) # plain list, not bundle
+expect_false(is_bundle(list(sl)))
 
 # ---- format.bundle ----------------------------------------------------------
 
-# empty bundle
 f0 <- format(b0)
 expect_true(grepl("0 streamlines", f0))
 
-# non-empty bundle, no extra columns
 b_plain <- new_bundle(list(sl, sl))
 fp <- format(b_plain)
 expect_true(grepl("streamlines", fp))
 
-# non-empty bundle with extra columns (both streamlines must carry the column
-# since format.bundle inspects colnames of x[[1L]])
-b_extra <- new_bundle(list(sl2, sl2))
-f_extra <- format(b_extra)
-expect_true(grepl("attributes: FA", f_extra))
+b_pd <- new_bundle(list(sl_pd, sl_pd))
+fp_pd <- format(b_pd)
+expect_true(grepl("point: FA", fp_pd))
+
+b_all <- new_bundle(list(sl_all, sl_all))
+fp_all <- format(b_all)
+expect_true(grepl("point: FA", fp_all))
+expect_true(grepl("streamline: weight", fp_all))
 
 # ---- print.bundle -----------------------------------------------------------
 
@@ -96,46 +119,61 @@ expect_stdout(print(b_plain), "streamlines")
 expect_equal(length(b), 2L)
 expect_equal(length(b0), 0L)
 
+# ---- indexing ---------------------------------------------------------------
+
+expect_true(is_streamline(b@streamlines[[1L]]))
+
 # ---- flat_list_to_bundle ----------------------------------------------------
 
-# Multiple streamlines → bundle
 lst_multi <- list(
-  X = c(0, 1, 2, 3, 4),
-  Y = c(0, 0, 0, 0, 0),
-  Z = c(0, 0, 0, 0, 0),
-  PointId = c(1, 2, 1, 2, 3),
+  X            = c(0, 1, 2, 3, 4),
+  Y            = c(0, 0, 0, 0, 0),
+  Z            = c(0, 0, 0, 0, 0),
+  PointId      = c(1, 2, 1, 2, 3),
   StreamlineId = c(1, 1, 2, 2, 2)
 )
 result_multi <- riot:::flat_list_to_bundle(lst_multi)
-expect_inherits(result_multi, "bundle")
+expect_true(is_bundle(result_multi))
 expect_equal(length(result_multi), 2L)
-expect_equal(nrow(result_multi[[1L]]), 2L)
-expect_equal(nrow(result_multi[[2L]]), 3L)
+expect_equal(nrow(result_multi@streamlines[[1L]]@points), 2L)
+expect_equal(nrow(result_multi@streamlines[[2L]]@points), 3L)
 
-# Single streamline → streamline (not bundle)
 lst_single <- list(
-  X = c(0, 1, 2),
-  Y = c(0, 0, 0),
-  Z = c(0, 0, 0),
-  PointId = c(1, 2, 3),
+  X            = c(0, 1, 2),
+  Y            = c(0, 0, 0),
+  Z            = c(0, 0, 0),
+  PointId      = c(1, 2, 3),
   StreamlineId = c(1, 1, 1)
 )
 result_single <- riot:::flat_list_to_bundle(lst_single)
-expect_inherits(result_single, "streamline")
-expect_equal(nrow(result_single), 3L)
+expect_true(is_streamline(result_single))
+expect_equal(nrow(result_single@points), 3L)
 
-# Extra attribute columns are preserved
-lst_attr <- list(
-  X = c(0, 1, 2, 3),
-  Y = c(0, 0, 0, 0),
-  Z = c(0, 0, 0, 0),
-  PointId = c(1, 2, 1, 2),
+lst_pd <- list(
+  X            = c(0, 1, 2, 3),
+  Y            = c(0, 0, 0, 0),
+  Z            = c(0, 0, 0, 0),
+  PointId      = c(1, 2, 1, 2),
   StreamlineId = c(1, 1, 2, 2),
-  FA = c(0.5, 0.6, 0.7, 0.8)
+  FA           = c(0.5, 0.6, 0.7, 0.8)
 )
-result_attr <- riot:::flat_list_to_bundle(lst_attr)
-expect_inherits(result_attr, "bundle")
-expect_true("FA" %in% colnames(result_attr[[1L]]))
+result_pd <- riot:::flat_list_to_bundle(lst_pd)
+expect_true(is_bundle(result_pd))
+expect_true("FA" %in% names(result_pd@streamlines[[1L]]@point_data))
+
+lst_sld <- list(
+  X            = c(0, 1, 2, 3),
+  Y            = c(0, 0, 0, 0),
+  Z            = c(0, 0, 0, 0),
+  PointId      = c(1, 2, 1, 2),
+  StreamlineId = c(1, 1, 2, 2),
+  weight       = c(0.9, 0.9, 0.4, 0.4)
+)
+result_sld <- riot:::flat_list_to_bundle(lst_sld, streamline_cols = "weight")
+expect_true(is_bundle(result_sld))
+expect_equal(result_sld@streamlines[[1L]]@streamline_data[["weight"]], 0.9)
+expect_equal(result_sld@streamlines[[2L]]@streamline_data[["weight"]], 0.4)
+expect_false("weight" %in% names(result_sld@streamlines[[1L]]@point_data))
 
 # ---- bundle_to_flat_list ----------------------------------------------------
 
@@ -146,13 +184,17 @@ expect_equal(
 )
 expect_equal(length(unique(flat$StreamlineId)), 2L)
 
-# Lone streamline is wrapped automatically
 flat_single <- riot:::bundle_to_flat_list(sl)
 expect_equal(unique(flat_single$StreamlineId), 1L)
-expect_equal(nrow(sl), length(flat_single$X))
+expect_equal(nrow(sl@points), length(flat_single$X))
 
-# Extra attribute columns round-trip
-b_attr <- new_bundle(list(sl2, sl2))
-flat_attr <- riot:::bundle_to_flat_list(b_attr)
-expect_true("FA" %in% names(flat_attr))
-expect_equal(length(flat_attr$FA), 2L * nrow(sl2))
+b_pd_rt <- new_bundle(list(sl_pd, sl_pd))
+flat_pd  <- riot:::bundle_to_flat_list(b_pd_rt)
+expect_true("FA" %in% names(flat_pd))
+expect_equal(length(flat_pd$FA), 2L * nrow(sl_pd@points))
+
+b_sld_rt <- new_bundle(list(sl_sld, sl_sld))
+flat_sld  <- riot:::bundle_to_flat_list(b_sld_rt)
+expect_true("weight" %in% names(flat_sld))
+grp1 <- flat_sld$weight[flat_sld$StreamlineId == 1L]
+expect_true(all(grp1 == grp1[1L]))

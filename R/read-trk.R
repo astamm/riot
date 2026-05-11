@@ -47,7 +47,16 @@ read_trk <- function(input_file) {
   header$voxel_size <- readBin(fh, numeric(), n = 3, size = 4, endian = endian)
   header$origin <- readBin(fh, numeric(), n = 3, size = 4, endian = endian)
   header$n_scalars <- readBin(fh, integer(), n = 1, size = 2, endian = endian)
-  header$scalar_names <- read_fixed_char_binary(fh, 200L)
+  # scalar_names: 10 slots × 20 bytes each (null-terminated per slot)
+  scalar_raw <- readBin(fh, "raw", 200L)
+  header$scalar_names <- vapply(
+    seq_len(10L),
+    function(i) {
+      chunk <- scalar_raw[((i - 1L) * 20L + 1L):(i * 20L)]
+      iconv(rawToChar(chunk[chunk != as.raw(0L)]), to = "UTF-8")
+    },
+    character(1L)
+  )
   header$n_properties <- readBin(
     fh,
     integer(),
@@ -55,7 +64,16 @@ read_trk <- function(input_file) {
     size = 2,
     endian = endian
   )
-  header$property_names <- read_fixed_char_binary(fh, 200L)
+  # property_names: 10 slots × 20 bytes each (null-terminated per slot)
+  prop_raw <- readBin(fh, "raw", 200L)
+  header$property_names <- vapply(
+    seq_len(10L),
+    function(i) {
+      chunk <- prop_raw[((i - 1L) * 20L + 1L):(i * 20L)]
+      iconv(rawToChar(chunk[chunk != as.raw(0L)]), to = "UTF-8")
+    },
+    character(1L)
+  )
   header$vox2ras <- matrix(
     readBin(fh, numeric(), n = 16, size = 4, endian = endian),
     ncol = 4,
@@ -198,5 +216,9 @@ read_trk <- function(input_file) {
     flat$Z <- coords[3, ]
   }
 
-  flat_list_to_bundle(flat)
+  # Property names (per-streamline) to be stored in @streamline_data
+  sl_cols <- head(header$property_names, header$n_properties)
+  sl_cols <- sl_cols[nchar(sl_cols) > 0L]
+
+  flat_list_to_bundle(flat, streamline_cols = sl_cols)
 }
