@@ -34,6 +34,16 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.3.0" id="riot-130">riot 1.3.0<a class="anchor" aria-label="anchor" href="#riot-130"></a></h2>
 <div class="section level3">
+<h3 id="api-rename-read_bundle-and-write_bundle-1-3-0">API rename: <code>read_bundle()</code> and <code>write_bundle()</code>
+<a class="anchor" aria-label="anchor" href="#api-rename-read_bundle-and-write_bundle-1-3-0"></a></h3>
+<ul><li>
+<strong>Breaking change</strong>: <code>read_tractogram()</code> and <code>write_tractogram()</code> are renamed to <code><a href="../reference/read_bundle.html">read_bundle()</a></code> and <code><a href="../reference/write_bundle.html">write_bundle()</a></code> for consistency with the <code>bundle</code> data model.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="dipy-dependency-declaration-modernised-1-3-0">DIPY dependency declaration modernised<a class="anchor" aria-label="anchor" href="#dipy-dependency-declaration-modernised-1-3-0"></a></h3>
+<ul><li>The optional DIPY Python dependency is now declared via <code>reticulate::py_require("dipy")</code> (reticulate ≥ 1.41) instead of the previous manual <code>py_module_available()</code> check. Reticulate will automatically provision DIPY in an ephemeral virtual environment when one of the DIPY-backed formats (<code>.trx</code>, <code>.fib</code>, <code>.dpy</code>) is first used.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="new-data-model-streamline-and-bundle-objects-1-3-0">New data model: <code>streamline</code> and <code>bundle</code> objects<a class="anchor" aria-label="anchor" href="#new-data-model-streamline-and-bundle-objects-1-3-0"></a></h3>
 <ul><li>
 <strong>Breaking change</strong>: the <code>maf_df</code> tibble (with columns <code>X</code>, <code>Y</code>, <code>Z</code>, <code>PointId</code>, <code>StreamlineId</code>) is replaced by two new S3 classes:
@@ -43,9 +53,9 @@
 <code>bundle</code> — an ordered list of <code>streamline</code> objects representing a collection of tracts. <code>StreamlineId</code> is implicit in list position and is no longer stored.</li>
 </ul></li>
 <li>
-<code><a href="../reference/read_tractogram.html">read_tractogram()</a></code> now returns a <code>streamline</code> when the file contains exactly one tract, and a <code>bundle</code> otherwise.</li>
+<code><a href="../reference/read_bundle.html">read_bundle()</a></code> now returns a <code>streamline</code> when the file contains exactly one tract, and a <code>bundle</code> otherwise.</li>
 <li>
-<code><a href="../reference/write_tractogram.html">write_tractogram()</a></code> accepts both <code>streamline</code> and <code>bundle</code> objects.</li>
+<code><a href="../reference/write_bundle.html">write_bundle()</a></code> accepts both <code>streamline</code> and <code>bundle</code> objects.</li>
 <li>New constructors and predicates exported: <code><a href="../reference/new_streamline.html">new_streamline()</a></code>, <code><a href="../reference/is_streamline.html">is_streamline()</a></code>, <code><a href="../reference/new_bundle.html">new_bundle()</a></code>, <code><a href="../reference/is_bundle.html">is_bundle()</a></code>.</li>
 <li>
 <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> methods provided for both classes.</li>

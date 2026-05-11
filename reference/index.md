@@ -10,7 +10,7 @@
   : Create a bundle object
 - [`new_streamline()`](https://astamm.github.io/riot/reference/new_streamline.md)
   : Create a streamline object
-- [`read_tractogram()`](https://astamm.github.io/riot/reference/read_tractogram.md)
-  : Import tractograms into R
-- [`write_tractogram()`](https://astamm.github.io/riot/reference/write_tractogram.md)
-  : Export tractograms from R
+- [`read_bundle()`](https://astamm.github.io/riot/reference/read_bundle.md)
+  : Import bundles into R
+- [`write_bundle()`](https://astamm.github.io/riot/reference/write_bundle.md)
+  : Export bundles from R
