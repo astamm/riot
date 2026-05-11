@@ -5,6 +5,7 @@ supported_formats <- function() {
 # Internal helper: declare the optional DIPY Python dependency and lazily
 # initialise the two module-level globals used by the DIPY code
 # paths in read_bundle() and write_bundle().
+# nocov start
 check_dipy <- function() {
   if (!requireNamespace("reticulate", quietly = TRUE)) {
     cli::cli_abort(c(
@@ -21,3 +22,4 @@ check_dipy <- function() {
   }
   invisible(NULL)
 }
+# nocov end
