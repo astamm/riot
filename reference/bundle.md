@@ -1,6 +1,6 @@
 # The bundle S7 class
 
-A `bundle` is an ordered collection of
+A bundle is an ordered collection of
 [streamline](https://astamm.github.io/riot/reference/streamline.md)
 objects representing a tractogram or white-matter bundle. It stores two
 compartments:

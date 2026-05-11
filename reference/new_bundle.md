@@ -23,7 +23,8 @@ new_bundle(streamlines, bundle_data = list())
 
 ## Value
 
-An object of class `<riot::bundle>`.
+An object of class
+[bundle](https://astamm.github.io/riot/reference/bundle.md).
 
 ## See also
 

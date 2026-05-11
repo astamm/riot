@@ -29,7 +29,8 @@ new_streamline(points, point_data = list(), streamline_data = list())
 
 ## Value
 
-An object of class `<riot::streamline>`.
+An object of class
+[streamline](https://astamm.github.io/riot/reference/streamline.md).
 
 ## See also
 

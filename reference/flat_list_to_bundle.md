@@ -33,5 +33,7 @@ A [streamline](https://astamm.github.io/riot/reference/streamline.md) or
 
 ## Details
 
-Returns a `streamline` when the data contain exactly one streamline,
-otherwise a `bundle`.
+Returns a
+[streamline](https://astamm.github.io/riot/reference/streamline.md) when
+the data contain exactly one streamline, otherwise a
+[bundle](https://astamm.github.io/riot/reference/bundle.md).

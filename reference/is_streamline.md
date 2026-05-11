@@ -16,4 +16,6 @@ is_streamline(x)
 
 ## Value
 
-`TRUE` if `x` is of class `<riot::streamline>`, otherwise `FALSE`.
+`TRUE` if `x` is of class
+[streamline](https://astamm.github.io/riot/reference/streamline.md),
+otherwise `FALSE`.

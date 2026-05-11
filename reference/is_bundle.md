@@ -16,4 +16,6 @@ is_bundle(x)
 
 ## Value
 
-`TRUE` if `x` is of class `<riot::bundle>`, otherwise `FALSE`.
+`TRUE` if `x` is of class
+[bundle](https://astamm.github.io/riot/reference/bundle.md), otherwise
+`FALSE`.

@@ -1,6 +1,6 @@
 # The streamline S7 class
 
-A `streamline` represents a single fibre tract. It stores three data
+A streamline represents a single fibre tract. It stores three data
 compartments that mirror the conceptual levels found in tractography
 file formats:
 
