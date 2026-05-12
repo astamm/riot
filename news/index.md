@@ -44,11 +44,8 @@
   and a `bundle` otherwise.
 - [`write_bundle()`](https://astamm.github.io/riot/reference/write_bundle.md)
   accepts both `streamline` and `bundle` objects.
-- New constructors and predicates exported:
-  [`new_streamline()`](https://astamm.github.io/riot/reference/new_streamline.md),
-  [`is_streamline()`](https://astamm.github.io/riot/reference/is_streamline.md),
-  [`new_bundle()`](https://astamm.github.io/riot/reference/new_bundle.md),
-  [`is_bundle()`](https://astamm.github.io/riot/reference/is_bundle.md).
+- New constructors and predicates exported: `new_streamline()`,
+  `is_streamline()`, `new_bundle()`, `is_bundle()`.
 - [`format()`](https://rdrr.io/r/base/format.html) and
   [`print()`](https://rdrr.io/r/base/print.html) S7 methods provided for
   both classes.

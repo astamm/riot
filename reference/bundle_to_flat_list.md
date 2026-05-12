@@ -15,8 +15,8 @@ bundle_to_flat_list(x)
 
 - x:
 
-  A [bundle](https://astamm.github.io/riot/reference/bundle.md) or
-  [streamline](https://astamm.github.io/riot/reference/streamline.md).
+  A [bundle](https://astamm.github.io/fiber/reference/bundle.html) or
+  [streamline](https://astamm.github.io/fiber/reference/streamline.html).
 
 ## Value
 

@@ -28,12 +28,12 @@ flat_list_to_bundle(lst, streamline_cols = character(0L))
 
 ## Value
 
-A [streamline](https://astamm.github.io/riot/reference/streamline.md) or
-[bundle](https://astamm.github.io/riot/reference/bundle.md).
+A [streamline](https://astamm.github.io/fiber/reference/streamline.html)
+or [bundle](https://astamm.github.io/fiber/reference/bundle.html).
 
 ## Details
 
 Returns a
-[streamline](https://astamm.github.io/riot/reference/streamline.md) when
-the data contain exactly one streamline, otherwise a
-[bundle](https://astamm.github.io/riot/reference/bundle.md).
+[streamline](https://astamm.github.io/fiber/reference/streamline.html)
+when the data contain exactly one streamline, otherwise a
+[bundle](https://astamm.github.io/fiber/reference/bundle.html).

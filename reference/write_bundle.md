@@ -1,12 +1,12 @@
 # Export bundles from R
 
 This function exports a bundle stored as a
-[bundle](https://astamm.github.io/riot/reference/new_bundle.md) object
-to a file in one of the supported formats. Supported formats include VTK
-(`.vtk`), VTP (`.vtp`), FDS (`.fds`), TRK (`.trk`), TCK (`.tck`), TRX
-(`.trx`), FIB (`.fib`), and DPY (`.dpy`). For formats that require a
-reference image (such as TRX, FIB, and DPY), the user must provide the
-path to a reference image file.
+[bundle](https://astamm.github.io/fiber/reference/new_bundle.html)
+object to a file in one of the supported formats. Supported formats
+include VTK (`.vtk`), VTP (`.vtp`), FDS (`.fds`), TRK (`.trk`), TCK
+(`.tck`), TRX (`.trx`), FIB (`.fib`), and DPY (`.dpy`). For formats that
+require a reference image (such as TRX, FIB, and DPY), the user must
+provide the path to a reference image file.
 
 ## Usage
 
@@ -18,7 +18,7 @@ write_bundle(x, file, reference_file = NULL)
 
 - x:
 
-  A [bundle](https://astamm.github.io/riot/reference/new_bundle.md)
+  A [bundle](https://astamm.github.io/fiber/reference/new_bundle.html)
   object.
 
 - file:

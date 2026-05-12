@@ -41,9 +41,9 @@ read_bundle(file, reference_file = NULL)
 
 ## Value
 
-A [bundle](https://astamm.github.io/riot/reference/new_bundle.md) object
-when the file contains multiple streamlines, or a
-[streamline](https://astamm.github.io/riot/reference/new_streamline.md)
+A [bundle](https://astamm.github.io/fiber/reference/new_bundle.html)
+object when the file contains multiple streamlines, or a
+[streamline](https://astamm.github.io/fiber/reference/new_streamline.html)
 object when it contains exactly one. Each `streamline` is a numeric
 matrix with at least three named columns `"X"`, `"Y"`, and `"Z"` (one
 row per point along the tract). Additional per-point scalar attributes,
