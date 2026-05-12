@@ -45,10 +45,10 @@ LinkingTo:
     cpp11,
 Imports: 
     cli,
+    fiber,
     fs,
     rlang,
-    rvtk,
-    S7
+    rvtk
 Suggests: 
     covr,
     reticulate,
@@ -56,6 +56,7 @@ Suggests:
 SystemRequirements: Python (>= 3.7) with the 'dipy' package is optional;
     required only for TRX, FIB, and DPY bundle formats.
 Remotes:
+    astamm/fiber,
     astamm/rvtk
 URL: https://github.com/astamm/riot,
     https://astamm.github.io/riot/

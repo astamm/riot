@@ -7,7 +7,7 @@
 bundle_to_flat_list(x)
 }
 \arguments{
-\item{x}{A \link{bundle} or \link{streamline}.}
+\item{x}{A \link[fiber:bundle]{bundle} or \link[fiber:streamline]{streamline}.}
 }
 \value{
 A named list suitable for passing to the C++ writer functions.

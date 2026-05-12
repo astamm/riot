@@ -14,7 +14,7 @@ flat_list_to_bundle(lst, streamline_cols = character(0L))
 per-streamline data.  Defaults to \code{character(0)}.}
 }
 \value{
-A \link{streamline} or \link{bundle}.
+A \link[fiber:streamline]{streamline} or \link[fiber:bundle]{bundle}.
 }
 \description{
 The input is the named list returned by \code{ReadVTK()}, \code{ReadVTP()}, or
@@ -25,7 +25,7 @@ treated as per-streamline attributes: one value is stored per streamline
 All remaining extra columns are treated as per-point attributes.
 }
 \details{
-Returns a \link{streamline} when the data contain exactly one streamline,
-otherwise a \link{bundle}.
+Returns a \link[fiber:streamline]{streamline} when the data contain exactly one streamline,
+otherwise a \link[fiber:bundle]{bundle}.
 }
 \keyword{internal}

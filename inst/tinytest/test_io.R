@@ -9,7 +9,7 @@ trk_file <- system.file("extdata", "CCMid.trk", package = "riot")
 # ---- read_bundle: supported formats ------------------------------------
 
 tr_vtk <- read_bundle(vtk_file)
-expect_true(is_bundle(tr_vtk))
+expect_true(fiber::is_bundle(tr_vtk))
 expect_equal(
   sum(vapply(tr_vtk@streamlines, function(sl) nrow(sl@points), integer(1L))),
   38697L
@@ -25,7 +25,7 @@ expect_false(anyNA(do.call(
 )))
 
 tr_vtp <- read_bundle(vtp_file)
-expect_true(is_bundle(tr_vtp))
+expect_true(fiber::is_bundle(tr_vtp))
 expect_equal(
   sum(vapply(tr_vtp@streamlines, function(sl) nrow(sl@points), integer(1L))),
   38697L
@@ -41,7 +41,7 @@ expect_false(anyNA(do.call(
 )))
 
 tr_fds <- read_bundle(fds_file)
-expect_true(is_bundle(tr_fds))
+expect_true(fiber::is_bundle(tr_fds))
 expect_equal(
   sum(vapply(tr_fds@streamlines, function(sl) nrow(sl@points), integer(1L))),
   38697L
@@ -57,7 +57,7 @@ expect_false(anyNA(do.call(
 )))
 
 tr_tck <- read_bundle(tck_file)
-expect_true(is_bundle(tr_tck))
+expect_true(fiber::is_bundle(tr_tck))
 expect_equal(
   sum(vapply(tr_tck@streamlines, function(sl) nrow(sl@points), integer(1L))),
   140301L
@@ -73,7 +73,7 @@ expect_false(anyNA(do.call(
 )))
 
 tr_trk <- read_bundle(trk_file)
-expect_true(is_bundle(tr_trk))
+expect_true(fiber::is_bundle(tr_trk))
 expect_equal(
   sum(vapply(tr_trk@streamlines, function(sl) nrow(sl@points), integer(1L))),
   112675L

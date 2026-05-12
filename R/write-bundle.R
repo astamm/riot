@@ -27,7 +27,7 @@
 #' }
 write_bundle <- function(x, file, reference_file = NULL) {
   xq <- rlang::enquo(x)
-  if (!is_bundle(x)) {
+  if (!fiber::is_bundle(x)) {
     cli::cli_abort(
       "The input object {.code {rlang::as_name(xq)}} is not of class {.cls bundle}."
     )

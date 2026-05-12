@@ -7,7 +7,7 @@
 write_bundle(x, file, reference_file = NULL)
 }
 \arguments{
-\item{x}{A \link[=new_bundle]{bundle} object.}
+\item{x}{A \link[fiber:new_bundle]{bundle} object.}
 
 \item{file}{A string specifying the path to the file containing the tractography data. Currently
 supported files are:
@@ -30,7 +30,7 @@ The input bundle (invisibly) so that the function can be
 used in pipes.
 }
 \description{
-This function exports a bundle stored as a \link[=new_bundle]{bundle} object
+This function exports a bundle stored as a \link[fiber:new_bundle]{bundle} object
 to a file in one of the supported formats. Supported formats include VTK
 (\code{.vtk}), VTP (\code{.vtp}), FDS (\code{.fds}), TRK (\code{.trk}), TCK (\code{.tck}), TRX
 (\code{.trx}), FIB (\code{.fib}), and DPY (\code{.dpy}). For formats that require a

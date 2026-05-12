@@ -95,10 +95,10 @@ read_bundle <- function(file, reference_file = NULL) {
         list()
       }
 
-      new_streamline(pts, point_data = pd, streamline_data = sld)
+      fiber::new_streamline(pts, point_data = pd, streamline_data = sld)
     })
 
-    result <- new_bundle(streamlines)
+    result <- fiber::new_bundle(streamlines)
     # nocov end
   }
 

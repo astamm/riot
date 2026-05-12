@@ -123,7 +123,7 @@ sl_fa <- matrix(
   byrow = TRUE,
   dimnames = list(NULL, c("X", "Y", "Z"))
 )
-b_fa <- new_bundle(list(new_streamline(
+b_fa <- fiber::new_bundle(list(fiber::new_streamline(
   sl_fa,
   point_data = list(FA = c(0.5, 0.6, 0.7))
 )))
