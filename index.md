@@ -14,7 +14,8 @@ importing formats are:
 - [TrackVis](https://trackvis.org/docs/?subsect=fileformat) `.trk`
   files.
 
-The package reads tractography data into S7 objects:
+The package reads tractography data into S7 objects defined by the
+[**fiber**](https://astamm.github.io/fiber/) package:
 
 - `streamline` — a single fibre tract stored in three typed slots:
   `@points` (an $`n \times 3`$ matrix with columns `X`, `Y`, `Z`),
@@ -126,6 +127,14 @@ cc_mid_trk
 ```
 
 ## Dependencies
+
+### fiber
+
+**riot** relies on the [**fiber**](https://astamm.github.io/fiber/)
+package for the S7 classes `streamline` and `bundle` that represent
+tractography data in R, as well as the constructors, predicates, and
+geometry methods that operate on them. **riot** does not depend on
+**S7** directly.
 
 ### VTK
 

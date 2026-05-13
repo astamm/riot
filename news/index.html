@@ -44,9 +44,10 @@
 <ul><li>The optional DIPY Python dependency is now declared via <code>reticulate::py_require("dipy")</code> (reticulate ≥ 1.41) instead of the previous manual <code>py_module_available()</code> check. Reticulate will automatically provision DIPY in an ephemeral virtual environment when one of the DIPY-backed formats (<code>.trx</code>, <code>.fib</code>, <code>.dpy</code>) is first used.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-s7-data-model-streamline-and-bundle-classes-2-0-0">New S7 data model: <code>streamline</code> and <code>bundle</code> classes<a class="anchor" aria-label="anchor" href="#new-s7-data-model-streamline-and-bundle-classes-2-0-0"></a></h3>
+<h3 id="s7-data-model-streamline-and-bundle-classes-moved-to-fiber-2-0-0">S7 data model: <code>streamline</code> and <code>bundle</code> classes moved to <code>{fiber}</code>
+<a class="anchor" aria-label="anchor" href="#s7-data-model-streamline-and-bundle-classes-moved-to-fiber-2-0-0"></a></h3>
 <ul><li>
-<strong>Breaking change</strong>: the <code>maf_df</code> tibble (with columns <code>X</code>, <code>Y</code>, <code>Z</code>, <code>PointId</code>, <code>StreamlineId</code>) is replaced by two new <strong>S7</strong> classes:
+<strong>Breaking change</strong>: the <code>maf_df</code> tibble (with columns <code>X</code>, <code>Y</code>, <code>Z</code>, <code>PointId</code>, <code>StreamlineId</code>) is replaced by two <strong>S7</strong> classes now defined in the <a href="https://astamm.github.io/fiber/" class="external-link"><code>fiber</code></a> package:
 <ul><li>
 <code>streamline</code> — stores three typed slots accessed with <code>@</code>:
 <ul><li>
@@ -65,14 +66,13 @@
 </ul></li>
 </ul></li>
 <li>
-<code><a href="../reference/read_bundle.html">read_bundle()</a></code> now returns a <code>streamline</code> when the file contains exactly one tract, and a <code>bundle</code> otherwise.</li>
+<strong>riot</strong> no longer depends on <strong>S7</strong> directly; the S7 classes, constructors, predicates, and methods (<code>new_streamline()</code>, <code>is_streamline()</code>, <code>new_bundle()</code>, <code>is_bundle()</code>, <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code>, <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/base/length.html" class="external-link">length()</a></code>, <code>[[</code>, <code>[</code>, …) are all provided by <strong>fiber</strong> and re-exported from there.</li>
+<li>
+<strong>riot</strong> now imports <strong>fiber</strong> instead of <strong>S7</strong>.</li>
+<li>
+<code><a href="../reference/read_bundle.html">read_bundle()</a></code> returns a <code>streamline</code> when the file contains exactly one tract, and a <code>bundle</code> otherwise.</li>
 <li>
 <code><a href="../reference/write_bundle.html">write_bundle()</a></code> accepts both <code>streamline</code> and <code>bundle</code> objects.</li>
-<li>New constructors and predicates exported: <code>new_streamline()</code>, <code>is_streamline()</code>, <code>new_bundle()</code>, <code>is_bundle()</code>.</li>
-<li>
-<code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> and <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> S7 methods provided for both classes.</li>
-<li>
-<code><a href="https://rdrr.io/r/base/length.html" class="external-link">length()</a></code>, <code>[[</code>, and <code>[</code> S7 methods provided for <code>bundle</code>: <code>bundle[[i]]</code> extracts the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>-th <code>streamline</code>; <code>bundle[i]</code> returns a sub-<code>bundle</code> preserving <code>@bundle_data</code>.</li>
 <li>The <code>readr</code> package is no longer a dependency.</li>
 </ul></div>
 <div class="section level3">
