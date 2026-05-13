@@ -32,13 +32,13 @@ Description: Provides a unified input-output interface for reading and writing
     include VTK (.vtk), VTP (.vtp), medInria FDS (.fds), MRtrix TCK/TSF
     (.tck/.tsf), and TrackVis TRK (.trk), with additional formats accessible
     via the 'DIPY' Python library through 'reticulate'. Bundles are represented
-    in R as S7 objects: a single tract (class 'streamline') stores its
-    coordinates, per-point scalar attributes, and per-streamline scalar
-    attributes in separate, typed slots; a collection of tracts (class
-    'bundle') wraps a list of streamlines together with optional bundle-level
-    metadata. VTK support is provided at compile time by the 'rvtk'
-    package, which supplies pre-compiled VTK libraries and headers so that no
-    manual VTK installation is required on most platforms.
+    in R using the S7 classes defined in the 'fiber' package: a single tract
+    (class 'streamline') stores its coordinates, per-point scalar attributes,
+    and per-streamline scalar attributes in separate, typed slots; a collection
+    of tracts (class 'bundle') wraps a list of streamlines together with
+    optional bundle-level metadata. VTK support is provided at compile time by
+    the 'rvtk' package, which supplies pre-compiled VTK libraries and headers
+    so that no manual VTK installation is required on most platforms.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LinkingTo: 
@@ -50,14 +50,12 @@ Imports:
     rlang,
     rvtk
 Suggests: 
-    covr,
     reticulate,
     tinytest
 SystemRequirements: Python (>= 3.7) with the 'dipy' package is optional;
     required only for TRX, FIB, and DPY bundle formats.
 Remotes:
-    astamm/fiber,
-    astamm/rvtk
+    astamm/fiber
 URL: https://github.com/astamm/riot,
     https://astamm.github.io/riot/
 BugReports: https://github.com/astamm/riot/issues

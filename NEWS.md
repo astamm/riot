@@ -14,10 +14,11 @@
   provision DIPY in an ephemeral virtual environment when one of the
   DIPY-backed formats (`.trx`, `.fib`, `.dpy`) is first used.
 
-## New S7 data model: `streamline` and `bundle` classes
+## S7 data model: `streamline` and `bundle` classes moved to `{fiber}`
 
 * **Breaking change**: the `maf_df` tibble (with columns `X`, `Y`, `Z`,
-  `PointId`, `StreamlineId`) is replaced by two new **S7** classes:
+  `PointId`, `StreamlineId`) is replaced by two **S7** classes now defined in
+  the [`fiber`](https://astamm.github.io/fiber/) package:
   * `streamline` — stores three typed slots accessed with `@`:
     - `@points`: an $n \times 3$ numeric matrix with columns `"X"`, `"Y"`,
       `"Z"` for the ordered coordinates of the $n$ points along the tract.
@@ -31,15 +32,14 @@
       implicit in list position and is no longer stored.
     - `@bundle_data`: a named list of bundle-level metadata (e.g. the affine
       transform used during tracking).
-* `read_bundle()` now returns a `streamline` when the file contains exactly one
+* **riot** no longer depends on **S7** directly; the S7 classes, constructors,
+  predicates, and methods (`new_streamline()`, `is_streamline()`,
+  `new_bundle()`, `is_bundle()`, `format()`, `print()`, `length()`, `[[`, `[`,
+  …) are all provided by **fiber** and re-exported from there.
+* **riot** now imports **fiber** instead of **S7**.
+* `read_bundle()` returns a `streamline` when the file contains exactly one
   tract, and a `bundle` otherwise.
 * `write_bundle()` accepts both `streamline` and `bundle` objects.
-* New constructors and predicates exported: `new_streamline()`,
-  `is_streamline()`, `new_bundle()`, `is_bundle()`.
-* `format()` and `print()` S7 methods provided for both classes.
-* `length()`, `[[`, and `[` S7 methods provided for `bundle`:
-  `bundle[[i]]` extracts the $i$-th `streamline`; `bundle[i]` returns a
-  sub-`bundle` preserving `@bundle_data`.
 * The `readr` package is no longer a dependency.
 
 ## C++ layer: elimination of intermediate CSV files
