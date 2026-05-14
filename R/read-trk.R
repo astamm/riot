@@ -217,7 +217,7 @@ read_trk <- function(input_file) {
   }
 
   # Property names (per-streamline) to be stored in @streamline_data
-  sl_cols <- head(header$property_names, header$n_properties)
+  sl_cols <- utils::head(header$property_names, header$n_properties)
   sl_cols <- sl_cols[nchar(sl_cols) > 0L]
 
   flat_list_to_bundle(flat, streamline_cols = sl_cols)

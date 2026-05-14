@@ -36,7 +36,7 @@ flat_list_to_bundle <- function(lst, streamline_cols = character(0L)) {
     pts <- cbind(X = X[rows], Y = Y[rows], Z = Z[rows])
 
     pd <- if (length(point_cols) > 0L) {
-      setNames(
+      stats::setNames(
         lapply(point_cols, function(col) lst[[col]][rows]),
         point_cols
       )
@@ -45,7 +45,7 @@ flat_list_to_bundle <- function(lst, streamline_cols = character(0L)) {
     }
 
     sld <- if (length(sl_cols) > 0L) {
-      setNames(
+      stats::setNames(
         lapply(sl_cols, function(col) lst[[col]][which(rows)[1L]]),
         sl_cols
       )

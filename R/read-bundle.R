@@ -73,7 +73,7 @@ read_bundle <- function(file, reference_file = NULL) {
 
       # Per-point attributes
       pd <- if (length(point_attributes) > 0L) {
-        setNames(
+        stats::setNames(
           lapply(point_attributes, function(attr) {
             tgm$data_per_point[attr][[index + 1]][seq_len(n_pts)]
           }),
@@ -85,7 +85,7 @@ read_bundle <- function(file, reference_file = NULL) {
 
       # Per-streamline attributes (one scalar per streamline)
       sld <- if (length(streamline_attributes) > 0L) {
-        setNames(
+        stats::setNames(
           lapply(streamline_attributes, function(attr) {
             tgm$data_per_streamline[attr][index + 1]
           }),

@@ -71,7 +71,7 @@ write_bundle <- function(x, file, reference_file = NULL) {
       names(sl@point_data)
     })))
     extra_data <- if (length(all_pd_keys) > 0L) {
-      setNames(
+      stats::setNames(
         lapply(all_pd_keys, function(nm) {
           lapply(x@streamlines, function(sl) sl@point_data[[nm]])
         }),
@@ -86,7 +86,7 @@ write_bundle <- function(x, file, reference_file = NULL) {
       names(sl@streamline_data)
     })))
     sl_data <- if (length(all_sld_keys) > 0L) {
-      setNames(
+      stats::setNames(
         lapply(all_sld_keys, function(nm) {
           unlist(lapply(x@streamlines, function(sl) sl@streamline_data[[nm]]))
         }),
