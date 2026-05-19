@@ -15,4 +15,5 @@ inst/vtk_config
 src/*.dll
 
 /.quarto/
+src/vtk_libs.rsp
 docs
