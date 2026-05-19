@@ -95,20 +95,20 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck, github::tractoverse/fiber@main, github::astamm/rvtk@royxgen8
+          extra-packages: any::rcmdcheck, github::tractoverse/fiber@main, github::astamm/rvtk@royxgen8, github::r-lib/sessioninfo
           needs: check
           cache-version: ${{ matrix.config.vtk }}
 
-      - name: Disable quarto CLI discovery (Windows)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          # The quarto R package calls system2("quarto", "-V", env = paste0("TMPDIR=", ...)).
-          # On Windows, R's system2() with `env` prepends the value as a positional argument
-          # instead of setting it as an environment variable, so the quarto CLI receives
-          # "TMPDIR=<path>" as a subcommand and errors. Setting QUARTO_PATH to a nonexistent
-          # value makes find_quarto() return NULL immediately without calling system2().
-          echo "QUARTO_PATH=nonexistent" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      # - name: Disable quarto CLI discovery (Windows)
+      #   if: runner.os == 'Windows'
+      #   shell: pwsh
+      #   run: |
+      #     # The quarto R package calls system2("quarto", "-V", env = paste0("TMPDIR=", ...)).
+      #     # On Windows, R's system2() with `env` prepends the value as a positional argument
+      #     # instead of setting it as an environment variable, so the quarto CLI receives
+      #     # "TMPDIR=<path>" as a subcommand and errors. Setting QUARTO_PATH to a nonexistent
+      #     # value makes find_quarto() return NULL immediately without calling system2().
+      #     echo "QUARTO_PATH=nonexistent" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - uses: r-lib/actions/check-r-package@v2
         with:
