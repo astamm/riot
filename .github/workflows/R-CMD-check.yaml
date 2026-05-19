@@ -99,15 +99,16 @@ jobs:
           needs: check
           cache-version: ${{ matrix.config.vtk }}
 
-      - name: Remove Quarto from PATH (Windows)
+      - name: Disable quarto CLI discovery (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          # The quarto R package calls system2("quarto", "-V", env = paste0("TMPDIR=", ...))
-          # which on Windows prepends the env string as a positional argument, causing
-          # quarto CLI to error. Removing quarto from PATH avoids the misbehaving call.
-          $paths = ($env:PATH -split ';') | Where-Object { $_ -notmatch '[Qq]uarto' }
-          "PATH=$($paths -join ';')" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          # The quarto R package calls system2("quarto", "-V", env = paste0("TMPDIR=", ...)).
+          # On Windows, R's system2() with `env` prepends the value as a positional argument
+          # instead of setting it as an environment variable, so the quarto CLI receives
+          # "TMPDIR=<path>" as a subcommand and errors. Setting QUARTO_PATH to a nonexistent
+          # value makes find_quarto() return NULL immediately without calling system2().
+          echo "QUARTO_PATH=nonexistent" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - uses: r-lib/actions/check-r-package@v2
         with:
