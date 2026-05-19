@@ -5,13 +5,14 @@
 #### Bug fixes
 
 - **Windows `R CMD check` fix: `quarto` CLI `TMPDIR` error.** The
-  `R-CMD-check` workflow now removes `quarto` from `PATH` on Windows
+  `R-CMD-check` workflow now sets `QUARTO_PATH=nonexistent` on Windows
   before running the check. The `quarto` R package calls
   `system2("quarto", "-V", env = paste0("TMPDIR=", …))`, which on
   Windows passes the env assignment as a positional argument to the CLI
   rather than setting it as an environment variable, causing
-  `ERROR: Unknown command "TMPDIR=…"`. Hiding the CLI avoids the
-  misbehaving call entirely.
+  `ERROR: Unknown command "TMPDIR=…"`. Setting `QUARTO_PATH` to a
+  nonexistent value makes `find_quarto()` return `NULL` immediately, so
+  `system2` is never called.
 
 - **`configure` / `cleanup` execute-permission warnings silenced.** The
   git index mode for both files is now `100755`, so R CMD check no
