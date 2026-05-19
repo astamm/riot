@@ -15,6 +15,4 @@ inst/vtk_config
 src/*.dll
 
 /.quarto/
-src/Makevars
-src/vtk_libs.rsp
 docs

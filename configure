@@ -1,4 +1,1 @@
 #!/bin/sh
-set -e
-: "${R_HOME:=$(R RHOME)}"
-"${R_HOME}/bin/Rscript" --vanilla tools/configure.R

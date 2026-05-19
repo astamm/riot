@@ -13,13 +13,20 @@
   never called.
 
 * **Windows `R CMD check` fix: `configure` fails with "unexpected end of input".**
-  The VTK flag resolution and `Makevars` template substitution have been moved
-  from inline shell code into `tools/configure.R`. Both `configure` and
-  `configure.win` now simply call `Rscript --vanilla tools/configure.R`.
-  The previous approach embedded a multi-line R expression in a `Rscript -e`
-  argument and used `sed` for substitution; under Rtools' `bash` on Windows
-  the newlines inside the double-quoted `-e` string caused R to receive a
-  truncated expression, producing "unexpected end of input / Execution halted".
+  `configure`, `configure.win`, and `src/Makevars.in` have been replaced by a
+  static `src/Makevars` that uses POSIX backtick syntax (per *Writing R
+  Extensions*) to call `tools/configure.R` directly at compile time:
+  ```makefile
+  PKG_CPPFLAGS = `"${R_HOME}/bin/Rscript" --vanilla ../tools/configure.R --cppflags`
+  PKG_LIBS     = `"${R_HOME}/bin/Rscript" --vanilla ../tools/configure.R --libs`
+  ```
+  `tools/configure.R` calls `rvtk::CppFlags()` or `rvtk::LdFlags(modules = …)`
+  and writes the result to stdout via `cat()`. The previous approach embedded a
+  multi-line R expression in a `Rscript -e` argument inside a shell `$()`
+  subshell; under Rtools' `bash` on Windows the embedded newlines caused R to
+  receive a truncated expression, producing "unexpected end of input".
+  `configure`, `configure.win`, and `cleanup` are now no-op stubs kept only to
+  suppress R CMD check warnings about missing scripts.
 
 * **`configure` / `cleanup` / `configure.win` execute-permission warnings silenced.**
   The git index mode for all three files is now `100755`, so R CMD check no
