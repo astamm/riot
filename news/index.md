@@ -1,5 +1,20 @@
 # Changelog
 
+## riot (development version)
+
+#### Bug fixes
+
+- **macOS `R CMD check` fix: `_NSEventTrackingRunLoopMode` not found.**
+  The `configure` script now calls
+  [`rvtk::LdFlagsFile()`](https://astamm.github.io/rvtk/reference/LdFlagsFile.html)
+  with an explicit `modules` argument, linking only the VTK I/O and
+  Common modules that riot actually uses. Previously, when `rvtk` fell
+  back to its pre-built static bundle (the case for the CRAN binary on
+  macOS CI), `-Wl,-all_load` forced every symbol from every `.a` —
+  including rendering modules that reference
+  `_NSEventTrackingRunLoopMode` from `AppKit.framework` — into
+  `riot.so`, causing `dlopen()` to fail at check time.
+
 ## riot 2.0.0
 
 ### API rename: `read_bundle()` and `write_bundle()`
@@ -23,7 +38,8 @@
 
 - **Breaking change**: the `maf_df` tibble (with columns `X`, `Y`, `Z`,
   `PointId`, `StreamlineId`) is replaced by two **S7** classes now
-  defined in the [`fiber`](https://astamm.github.io/fiber/) package:
+  defined in the [`fiber`](https://tractoverse.github.io/fiber/)
+  package:
   - `streamline` — stores three typed slots accessed with `@`:
     - `@points`: an $`n \times 3`$ numeric matrix with columns `"X"`,
       `"Y"`, `"Z"` for the ordered coordinates of the $`n`$ points along
@@ -41,8 +57,8 @@
     - `@bundle_data`: a named list of bundle-level metadata (e.g. the
       affine transform used during tracking).
 - **riot** no longer depends on **S7** directly; the S7 classes,
-  constructors, predicates, and methods (`new_streamline()`,
-  `is_streamline()`, `new_bundle()`, `is_bundle()`,
+  constructors, predicates, and methods (`streamline()`,
+  `is_streamline()`, `bundle()`, `is_bundle()`,
   [`format()`](https://rdrr.io/r/base/format.html),
   [`print()`](https://rdrr.io/r/base/print.html),
   [`length()`](https://rdrr.io/r/base/length.html), `[[`, `[`, …) are

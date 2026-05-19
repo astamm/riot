@@ -1,7 +1,7 @@
 # Export bundles from R
 
 This function exports a bundle stored as a
-[bundle](https://astamm.github.io/fiber/reference/new_bundle.html)
+[bundle](https://tractoverse.github.io/fiber/reference/bundle.html)
 object to a file in one of the supported formats. Supported formats
 include VTK (`.vtk`), VTP (`.vtp`), FDS (`.fds`), TRK (`.trk`), TCK
 (`.tck`), TRX (`.trx`), FIB (`.fib`), and DPY (`.dpy`). For formats that
@@ -18,7 +18,7 @@ write_bundle(x, file, reference_file = NULL)
 
 - x:
 
-  A [bundle](https://astamm.github.io/fiber/reference/new_bundle.html)
+  A [bundle](https://tractoverse.github.io/fiber/reference/bundle.html)
   object.
 
 - file:

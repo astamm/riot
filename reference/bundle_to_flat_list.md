@@ -15,8 +15,9 @@ bundle_to_flat_list(x)
 
 - x:
 
-  A [bundle](https://astamm.github.io/fiber/reference/bundle.html) or
-  [streamline](https://astamm.github.io/fiber/reference/streamline.html).
+  A [bundle](https://tractoverse.github.io/fiber/reference/bundle.html)
+  or
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.html).
 
 ## Value
 
