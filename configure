@@ -1,16 +1,4 @@
 #!/bin/sh
 set -e
 : "${R_HOME:=$(R RHOME)}"
-VTK_CPPFLAGS="$("${R_HOME}/bin/Rscript" --vanilla -e "rvtk::CppFlags()")"
-VTK_LIBS="$("${R_HOME}/bin/Rscript" --vanilla -e "rvtk::LdFlagsFile(
-  path = 'src/vtk_libs.rsp',
-  modules = c(
-    'VTK_IOLegacy', 'VTK_IOXML', 'VTK_IOXMLParser', 'VTK_IOCore',
-    'VTK_CommonCore', 'VTK_CommonDataModel', 'VTK_CommonExecutionModel',
-    'VTK_CommonMath', 'VTK_CommonMisc', 'VTK_CommonSystem', 'VTK_CommonTransforms'
-  )
-)")"
-
-sed -e "s|@VTK_CPPFLAGS@|${VTK_CPPFLAGS}|g" \
-    -e "s|@VTK_LIBS@|${VTK_LIBS}|g" \
-    src/Makevars.in > src/Makevars
+"${R_HOME}/bin/Rscript" --vanilla tools/configure.R

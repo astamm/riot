@@ -12,9 +12,18 @@
   value makes `find_quarto()` return `NULL` immediately, so `system2` is
   never called.
 
-* **`configure` / `cleanup` execute-permission warnings silenced.**
-  The git index mode for both files is now `100755`, so R CMD check no longer
-  needs to correct missing execute permissions at check time.
+* **Windows `R CMD check` fix: `configure` fails with "unexpected end of input".**
+  The VTK flag resolution and `Makevars` template substitution have been moved
+  from inline shell code into `tools/configure.R`. Both `configure` and
+  `configure.win` now simply call `Rscript --vanilla tools/configure.R`.
+  The previous approach embedded a multi-line R expression in a `Rscript -e`
+  argument and used `sed` for substitution; under Rtools' `bash` on Windows
+  the newlines inside the double-quoted `-e` string caused R to receive a
+  truncated expression, producing "unexpected end of input / Execution halted".
+
+* **`configure` / `cleanup` / `configure.win` execute-permission warnings silenced.**
+  The git index mode for all three files is now `100755`, so R CMD check no
+  longer needs to correct missing execute permissions at check time.
 
 * **macOS `R CMD check` fix: `_NSEventTrackingRunLoopMode` not found.**
   The `configure` script now calls `rvtk::LdFlagsFile()` with an explicit
