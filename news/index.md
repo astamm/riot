@@ -14,35 +14,32 @@
   nonexistent value makes `find_quarto()` return `NULL` immediately, so
   `system2` is never called.
 
-- **Windows `R CMD check` fix: `configure` fails with “unexpected end of
-  input”.** `configure`, `configure.win`, and `src/Makevars.in` have
-  been replaced by a static `src/Makevars` that uses POSIX backtick
-  syntax (per *Writing R Extensions*) to call `tools/configure.R`
-  directly at compile time:
+- **Windows `R CMD check` fix: VTK symbols undefined / linker
+  failures.** `configure`, `configure.win`, `cleanup`, `cleanup.win`,
+  and `src/Makevars.in` have been removed. They are replaced by a static
+  `src/Makevars` that uses POSIX backtick syntax (per *Writing R
+  Extensions*) to call `tools/configure.R` directly at compile time:
 
   ``` makefile
-  PKG_CPPFLAGS = `"${R_HOME}/bin/Rscript" --vanilla ../tools/configure.R --cppflags`
-  PKG_LIBS     = `"${R_HOME}/bin/Rscript" --vanilla ../tools/configure.R --libs`
+  PKG_CPPFLAGS = `"$(R_HOME)/bin/Rscript" ../tools/configure.R --cppflags`
+  PKG_LIBS     = `"$(R_HOME)/bin/Rscript" ../tools/configure.R --libs`
   ```
 
   `tools/configure.R` calls
   [`rvtk::CppFlags()`](https://astamm.github.io/rvtk/reference/CppFlags.html)
-  or `rvtk::LdFlags(modules = …)` and writes the result to stdout via
-  [`cat()`](https://rdrr.io/r/base/cat.html). The previous approach
-  embedded a multi-line R expression in a `Rscript -e` argument inside a
-  shell `$()` subshell; under Rtools’ `bash` on Windows the embedded
-  newlines caused R to receive a truncated expression, producing
-  “unexpected end of input”. `configure`, `configure.win`, and `cleanup`
-  are now no-op stubs kept only to suppress R CMD check warnings about
-  missing scripts.
-
-- **`configure` / `cleanup` / `configure.win` execute-permission
-  warnings silenced.** The git index mode for all three files is now
-  `100755`, so R CMD check no longer needs to correct missing execute
-  permissions at check time.
+  (for `--cppflags`) or
+  `rvtk::LdFlagsFile(path = "vtk_libs.rsp", modules = …)` (for
+  `--libs`). `LdFlagsFile()` writes the full (potentially very long on
+  Windows) list of static VTK libraries to `src/vtk_libs.rsp` and
+  returns `@vtk_libs.rsp`, which the linker reads directly — avoiding
+  Windows command-line length limits. The previous shell-based
+  `configure` approach embedded a multi-line R expression inside a `$()`
+  subshell; Rtools’ `bash` on Windows stripped the embedded newlines,
+  delivering a truncated expression to R and producing “unexpected end
+  of input / Execution halted”.
 
 - **macOS `R CMD check` fix: `_NSEventTrackingRunLoopMode` not found.**
-  The `configure` script now calls
+  `tools/configure.R` calls
   [`rvtk::LdFlagsFile()`](https://astamm.github.io/rvtk/reference/LdFlagsFile.html)
   with an explicit `modules` argument, linking only the VTK I/O and
   Common modules that riot actually uses. Previously, when `rvtk` fell
