@@ -4,6 +4,19 @@
 
 #### Bug fixes
 
+- **Windows `R CMD check` fix: `quarto` CLI `TMPDIR` error.** The
+  `R-CMD-check` workflow now removes `quarto` from `PATH` on Windows
+  before running the check. The `quarto` R package calls
+  `system2("quarto", "-V", env = paste0("TMPDIR=", …))`, which on
+  Windows passes the env assignment as a positional argument to the CLI
+  rather than setting it as an environment variable, causing
+  `ERROR: Unknown command "TMPDIR=…"`. Hiding the CLI avoids the
+  misbehaving call entirely.
+
+- **`configure` / `cleanup` execute-permission warnings silenced.** The
+  git index mode for both files is now `100755`, so R CMD check no
+  longer needs to correct missing execute permissions at check time.
+
 - **macOS `R CMD check` fix: `_NSEventTrackingRunLoopMode` not found.**
   The `configure` script now calls
   [`rvtk::LdFlagsFile()`](https://astamm.github.io/rvtk/reference/LdFlagsFile.html)
