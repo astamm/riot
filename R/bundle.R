@@ -53,13 +53,13 @@ flat_list_to_bundle <- function(lst, streamline_cols = character(0L)) {
       list()
     }
 
-    fiber::new_streamline(pts, point_data = pd, streamline_data = sld)
+    fiber::streamline(pts, point_data = pd, streamline_data = sld)
   })
 
   if (length(streamlines) == 1L) {
     streamlines[[1L]]
   } else {
-    fiber::new_bundle(streamlines)
+    fiber::bundle(streamlines)
   }
 }
 
@@ -75,7 +75,7 @@ flat_list_to_bundle <- function(lst, streamline_cols = character(0L)) {
 #' @keywords internal
 bundle_to_flat_list <- function(x) {
   if (fiber::is_streamline(x)) {
-    x <- fiber::new_bundle(list(x))
+    x <- fiber::bundle(list(x))
   }
 
   n_streamlines <- length(x@streamlines)

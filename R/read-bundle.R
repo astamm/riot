@@ -16,8 +16,8 @@
 #' information about the image space. The reference image is used to correctly position the
 #' bundle in the appropriate space. Default is `NULL`.
 #'
-#' @return A [bundle][new_bundle] object when the file contains multiple
-#'   streamlines, or a [streamline][new_streamline] object when it contains
+#' @return A [bundle][bundle] object when the file contains multiple
+#'   streamlines, or a [streamline][streamline] object when it contains
 #'   exactly one. Each `streamline` is a numeric matrix with at least three
 #'   named columns `"X"`, `"Y"`, and `"Z"` (one row per point along the
 #'   tract). Additional per-point scalar attributes, when present in the source
@@ -95,10 +95,10 @@ read_bundle <- function(file, reference_file = NULL) {
         list()
       }
 
-      fiber::new_streamline(pts, point_data = pd, streamline_data = sld)
+      fiber::streamline(pts, point_data = pd, streamline_data = sld)
     })
 
-    result <- fiber::new_bundle(streamlines)
+    result <- fiber::bundle(streamlines)
     # nocov end
   }
 

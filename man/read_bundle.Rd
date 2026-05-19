@@ -24,8 +24,8 @@ information about the image space. The reference image is used to correctly posi
 bundle in the appropriate space. Default is \code{NULL}.}
 }
 \value{
-A \link[fiber:new_bundle]{bundle} object when the file contains multiple
-streamlines, or a \link[fiber:new_streamline]{streamline} object when it contains
+A \link[fiber:bundle]{bundle} object when the file contains multiple
+streamlines, or a \link[fiber:streamline]{streamline} object when it contains
 exactly one. Each \code{streamline} is a numeric matrix with at least three
 named columns \code{"X"}, \code{"Y"}, and \code{"Z"} (one row per point along the
 tract). Additional per-point scalar attributes, when present in the source

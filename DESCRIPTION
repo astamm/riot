@@ -55,7 +55,7 @@ Suggests:
 SystemRequirements: Python (>= 3.7) with the 'dipy' package is optional;
     required only for TRX, FIB, and DPY bundle formats.
 Remotes:
-    astamm/fiber
+    tractoverse/fiber
 URL: https://github.com/astamm/riot,
     https://astamm.github.io/riot/
 BugReports: https://github.com/astamm/riot/issues

@@ -6,10 +6,10 @@ pts <- matrix(
   ncol = 3,
   dimnames = list(NULL, c("X", "Y", "Z"))
 )
-sl <- fiber::new_streamline(pts)
-sl_pd <- fiber::new_streamline(pts, point_data = list(FA = c(0.1, 0.2, 0.3)))
-sl_sld <- fiber::new_streamline(pts, streamline_data = list(weight = 0.5))
-b_plain <- fiber::new_bundle(list(sl, sl))
+sl <- fiber::streamline(pts)
+sl_pd <- fiber::streamline(pts, point_data = list(FA = c(0.1, 0.2, 0.3)))
+sl_sld <- fiber::streamline(pts, streamline_data = list(weight = 0.5))
+b_plain <- fiber::bundle(list(sl, sl))
 
 # ---- flat_list_to_bundle ----------------------------------------------------
 
@@ -76,12 +76,12 @@ flat_single <- riot:::bundle_to_flat_list(sl)
 expect_equal(unique(flat_single$StreamlineId), 1L)
 expect_equal(nrow(sl@points), length(flat_single$X))
 
-b_pd_rt <- fiber::new_bundle(list(sl_pd, sl_pd))
+b_pd_rt <- fiber::bundle(list(sl_pd, sl_pd))
 flat_pd <- riot:::bundle_to_flat_list(b_pd_rt)
 expect_true("FA" %in% names(flat_pd))
 expect_equal(length(flat_pd$FA), 2L * nrow(sl_pd@points))
 
-b_sld_rt <- fiber::new_bundle(list(sl_sld, sl_sld))
+b_sld_rt <- fiber::bundle(list(sl_sld, sl_sld))
 flat_sld <- riot:::bundle_to_flat_list(b_sld_rt)
 expect_true("weight" %in% names(flat_sld))
 grp1 <- flat_sld$weight[flat_sld$StreamlineId == 1L]

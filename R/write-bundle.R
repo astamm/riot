@@ -1,6 +1,6 @@
 #' Export bundles from R
 #'
-#' This function exports a bundle stored as a [bundle][new_bundle] object
+#' This function exports a bundle stored as a [bundle][bundle] object
 #' to a file in one of the supported formats. Supported formats include VTK
 #' (`.vtk`), VTP (`.vtp`), FDS (`.fds`), TRK (`.trk`), TCK (`.tck`), TRX
 #' (`.trx`), FIB (`.fib`), and DPY (`.dpy`). For formats that require a
@@ -11,7 +11,7 @@
 #' and `.fib` formats. Among these formats, only `.trk` and `.trx` formats are able to keep track of
 #' additional attributes assigned to either streamlines or points.
 #'
-#' @param x A [bundle][new_bundle] object.
+#' @param x A [bundle][bundle] object.
 #' @inheritParams read_bundle
 #'
 #' @return The input bundle (invisibly) so that the function can be
