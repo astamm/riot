@@ -27,16 +27,17 @@
 
   `tools/configure.R` calls
   [`rvtk::CppFlags()`](https://astamm.github.io/rvtk/reference/CppFlags.html)
-  (for `--cppflags`) or
-  `rvtk::LdFlagsFile(path = "vtk_libs.rsp", modules = …)` (for
-  `--libs`). `LdFlagsFile()` writes the full (potentially very long on
-  Windows) list of static VTK libraries to `src/vtk_libs.rsp` and
-  returns `@vtk_libs.rsp`, which the linker reads directly — avoiding
-  Windows command-line length limits. The previous shell-based
-  `configure` approach embedded a multi-line R expression inside a `$()`
-  subshell; Rtools’ `bash` on Windows stripped the embedded newlines,
-  delivering a truncated expression to R and producing “unexpected end
-  of input / Execution halted”.
+  or `rvtk::LdFlagsFile(path = "vtk_libs.rsp")` (no `modules` argument).
+  `LdFlagsFile()` writes the complete list of static VTK libraries to
+  `src/vtk_libs.rsp` and returns `@vtk_libs.rsp`, which the linker reads
+  directly — avoiding Windows command-line length limits. The `modules`
+  argument was dropped because `rvtk:::filter_libs()` matches module
+  names directly against `.a` filenames: on Windows the files are named
+  `libvtkIOLegacy-9.5.a` but the module names were `"VTK_IOLegacy"`
+  (uppercase prefix + underscore), so none matched and the `.rsp` file
+  contained no VTK libraries. On macOS/Linux with system VTK
+  (e.g. homebrew), `filter_libs` is not called, so `modules` was a no-op
+  there anyway.
 
 - **macOS `R CMD check` fix: `_NSEventTrackingRunLoopMode` not found.**
   `tools/configure.R` calls
