@@ -1,2 +1,2 @@
-PKG_CPPFLAGS = `"$(R_HOME)/bin/Rscript" ../tools/configure.R --cppflags`
-PKG_LIBS = `"$(R_HOME)/bin/Rscript" ../tools/configure.R --libs`
+PKG_CPPFLAGS = `"$(R_HOME)/bin$(R_ARCH_BIN)/Rscript" ../tools/configure.R --cppflags`
+PKG_LIBS = `"$(R_HOME)/bin$(R_ARCH_BIN)/Rscript" ../tools/configure.R --libs`
