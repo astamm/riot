@@ -16,11 +16,13 @@ vtk_modules <- c(
 )
 
 if (flag == "--cppflags") {
-  cat(rvtk::CppFlags())
+  rvtk::CppFlags()
 } else if (flag == "--libs") {
   # LdFlagsFile() writes the (potentially very long) list of static VTK
   # libraries to an .rsp response file and returns "@vtk_libs.rsp".
   # This avoids Windows command-line length limits for the linker invocation.
-  # Called from src/ by make, so the file is written to src/vtk_libs.rsp.
-  cat(rvtk::LdFlagsFile(path = "src/vtk_libs.rsp", modules = vtk_modules))
+  # Make invokes this script with cwd=src/, so path="vtk_libs.rsp" creates
+  # src/vtk_libs.rsp, and the linker resolves @vtk_libs.rsp from that same cwd.
+  # Note: LdFlagsFile() already calls writeLines() internally, so no cat() here.
+  rvtk::LdFlagsFile(path = "vtk_libs.rsp", modules = vtk_modules)
 }
