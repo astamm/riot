@@ -21,3 +21,4 @@ if (flag == "--cppflags") {
 } else if (flag == "--libs") {
   rvtk::LdFlagsFile(path = "vtk_libs.rsp", modules = vtk_modules)
 }
+
