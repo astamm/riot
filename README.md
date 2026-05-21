@@ -6,17 +6,17 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/astamm/riot/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/astamm/riot/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/tractoverse/riot/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tractoverse/riot/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/astamm/riot/graph/badge.svg)](https://app.codecov.io/gh/astamm/riot)
-[![pkgdown](https://github.com/astamm/riot/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/astamm/riot/actions/workflows/pkgdown.yaml)
+coverage](https://codecov.io/gh/tractoverse/riot/graph/badge.svg)](https://app.codecov.io/gh/tractoverse/riot)
+[![pkgdown](https://github.com/tractoverse/riot/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/tractoverse/riot/actions/workflows/pkgdown.yaml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/riot)](https://CRAN.R-project.org/package=riot)
 <!-- badges: end -->
 
 ## Overview
 
-The [**riot**](https://astamm.github.io/riot/) (R Input/Output for
+The [**riot**](https://tractoverse.github.io/riot/) (R Input/Output for
 Tractography) package provides an R interface for importing and
 exporting tractography data to and from `R`. Currently supported
 importing formats are:
@@ -51,7 +51,7 @@ exporting formats:
 ## Installation
 
 You can install the released version of
-[**riot**](https://astamm.github.io/riot/) from
+[**riot**](https://tractoverse.github.io/riot/) from
 [CRAN](https://cran.r-project.org) with:
 
 ``` r
@@ -59,12 +59,12 @@ install.packages("riot")
 ```
 
 Alternatively you can install the development version of
-[**riot**](https://astamm.github.io/riot/) from
+[**riot**](https://tractoverse.github.io/riot/) from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("astamm/riot")
+remotes::install_github("tractoverse/riot")
 ```
 
 ## Example

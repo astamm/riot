@@ -57,8 +57,8 @@ SystemRequirements: Python (>= 3.7) with the 'dipy' package is optional;
 Remotes:
     tractoverse/fiber,
     astamm/rvtk
-URL: https://github.com/astamm/riot,
-    https://astamm.github.io/riot/
-BugReports: https://github.com/astamm/riot/issues
+URL: https://github.com/tractoverse/riot,
+    https://tractoverse.github.io/riot/
+BugReports: https://github.com/tractoverse/riot/issues
 Config/roxygen2/version: 8.0.0
 Config/roxygen2/markdown: TRUE
