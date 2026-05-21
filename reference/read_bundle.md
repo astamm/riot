@@ -51,7 +51,7 @@ when present in the source file, appear as extra named columns.
 
 ## See also
 
-[`write_bundle()`](https://astamm.github.io/riot/reference/write_bundle.md)
+[`write_bundle()`](https://tractoverse.github.io/riot/reference/write_bundle.md)
 to export bundles from R.
 
 ## Examples

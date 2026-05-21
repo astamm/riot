@@ -56,9 +56,9 @@
 
 - **Breaking change**: `read_tractogram()` and `write_tractogram()` are
   renamed to
-  [`read_bundle()`](https://astamm.github.io/riot/reference/read_bundle.md)
+  [`read_bundle()`](https://tractoverse.github.io/riot/reference/read_bundle.md)
   and
-  [`write_bundle()`](https://astamm.github.io/riot/reference/write_bundle.md)
+  [`write_bundle()`](https://tractoverse.github.io/riot/reference/write_bundle.md)
   for consistency with the `bundle` data model.
 
 ### DIPY dependency declaration modernised
@@ -99,10 +99,10 @@
   [`length()`](https://rdrr.io/r/base/length.html), `[[`, `[`, …) are
   all provided by **fiber** and re-exported from there.
 - **riot** now imports **fiber** instead of **S7**.
-- [`read_bundle()`](https://astamm.github.io/riot/reference/read_bundle.md)
+- [`read_bundle()`](https://tractoverse.github.io/riot/reference/read_bundle.md)
   returns a `streamline` when the file contains exactly one tract, and a
   `bundle` otherwise.
-- [`write_bundle()`](https://astamm.github.io/riot/reference/write_bundle.md)
+- [`write_bundle()`](https://tractoverse.github.io/riot/reference/write_bundle.md)
   accepts both `streamline` and `bundle` objects.
 - The `readr` package is no longer a dependency.
 
@@ -186,10 +186,10 @@ In this first major release, we:
 - Added support to read
   [MRtrix](https://mrtrix.readthedocs.io/en/latest/getting_started/image_data.html)
   `.tck/.tsf` file formats
-  ([\#5](https://github.com/astamm/riot/issues/5)).
+  ([\#5](https://github.com/tractoverse/riot/issues/5)).
 - Added support to read
   [TrackVis](https://trackvis.org/docs/?subsect=fileformat) `.trk` file
-  formats ([\#5](https://github.com/astamm/riot/issues/5)).
+  formats ([\#5](https://github.com/tractoverse/riot/issues/5)).
 - Use only one core to compile VTK for compliance with CRAN policy
   (thanks to Prof. B. Ripley).
 - Added tilde expansion on file paths.

@@ -61,7 +61,7 @@ attributes assigned to either streamlines or points.
 
 ## See also
 
-[`read_bundle()`](https://astamm.github.io/riot/reference/read_bundle.md)
+[`read_bundle()`](https://tractoverse.github.io/riot/reference/read_bundle.md)
 to import bundles into R.
 
 ## Examples

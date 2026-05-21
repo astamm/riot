@@ -2,7 +2,7 @@
 
 ## Overview
 
-The [**riot**](https://astamm.github.io/riot/) (R Input/Output for
+The [**riot**](https://tractoverse.github.io/riot/) (R Input/Output for
 Tractography) package provides an R interface for importing and
 exporting tractography data to and from `R`. Currently supported
 importing formats are:
@@ -25,7 +25,7 @@ The package reads tractography data into S7 objects defined by the
 - `bundle` — an ordered collection of `streamline` objects in
   `@streamlines`, plus optional bundle-level metadata in `@bundle_data`.
 
-[`read_bundle()`](https://astamm.github.io/riot/reference/read_bundle.md)
+[`read_bundle()`](https://tractoverse.github.io/riot/reference/read_bundle.md)
 returns a `streamline` when the file contains a single tract and a
 `bundle` otherwise.
 
@@ -38,7 +38,7 @@ exporting formats:
 ## Installation
 
 You can install the released version of
-[**riot**](https://astamm.github.io/riot/) from
+[**riot**](https://tractoverse.github.io/riot/) from
 [CRAN](https://cran.r-project.org) with:
 
 ``` r
@@ -47,13 +47,13 @@ install.packages("riot")
 ```
 
 Alternatively you can install the development version of
-[**riot**](https://astamm.github.io/riot/) from
+[**riot**](https://tractoverse.github.io/riot/) from
 [GitHub](https://github.com/) with:
 
 ``` r
 
 # install.packages("remotes")
-remotes::install_github("astamm/riot")
+remotes::install_github("tractoverse/riot")
 ```
 
 ## Example
@@ -176,8 +176,8 @@ tractography file formats.
 
 ## All functions
 
-- [`read_bundle()`](https://astamm.github.io/riot/reference/read_bundle.md)
+- [`read_bundle()`](https://tractoverse.github.io/riot/reference/read_bundle.md)
   : Import bundles into R
-- [`write_bundle()`](https://astamm.github.io/riot/reference/write_bundle.md)
+- [`write_bundle()`](https://tractoverse.github.io/riot/reference/write_bundle.md)
   : Export bundles from R
 
