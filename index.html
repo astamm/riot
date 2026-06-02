@@ -74,7 +74,7 @@
 <li>
 <code>bundle</code> — an ordered collection of <code>streamline</code> objects in <code>@streamlines</code>, plus optional bundle-level metadata in <code>@bundle_data</code>.</li>
 </ul>
-<p><code><a href="reference/read_bundle.html">read_bundle()</a></code> returns a <code>streamline</code> when the file contains a single tract and a <code>bundle</code> otherwise.</p>
+<p><code><a href="reference/read_bundle.html">read_bundle()</a></code> returns a <code>streamline</code> when the file contains a single tract and a <code>bundle</code> otherwise. The optional <code>bundle_data</code> argument lets you attach a named list of bundle-level metadata (e.g. subject ID, hemisphere, or affine transform) directly at import time: the list is stored in the <code>@bundle_data</code> slot of the returned <code>bundle</code>.</p>
 <p>The package also allows to write bundles back into the following exporting formats:</p>
 <ul>
 <li>native <a href="https://vtk.org" class="external-link">VTK</a> <code>.vtk</code> and <code>.vtp</code> files; or,</li>
@@ -156,6 +156,22 @@
 <span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">cc_mid_trk</span></span>
 <span><span class="co">#&gt; &lt;bundle [525 streamlines | 29–270 pts/streamline]&gt;</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="attaching-bundle-level-metadata-with-bundle_data">Attaching bundle-level metadata with <code>bundle_data</code>
+<a class="anchor" aria-label="anchor" href="#attaching-bundle-level-metadata-with-bundle_data"></a>
+</h3>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">uf_left_meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_bundle.html">read_bundle</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"UF_left.vtk"</span>, package <span class="op">=</span> <span class="st">"riot"</span><span class="op">)</span>,</span>
+<span>  bundle_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>subject <span class="op">=</span> <span class="st">"sub-01"</span>, hemisphere <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">uf_left_meta</span><span class="op">@</span><span class="va">bundle_data</span></span>
+<span><span class="co">#&gt; $subject</span></span>
+<span><span class="co">#&gt; [1] "sub-01"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $hemisphere</span></span>
+<span><span class="co">#&gt; [1] "left"</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

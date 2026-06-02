@@ -34,6 +34,24 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="riot-development-version">riot (development version)<a class="anchor" aria-label="anchor" href="#riot-development-version"></a></h2>
 <div class="section level4">
+<h4 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h4>
+<ul><li>
+<strong><code><a href="../reference/read_bundle.html">read_bundle()</a></code> gains a <code>bundle_data</code> argument.</strong> An optional named list can now be passed to <code><a href="../reference/read_bundle.html">read_bundle()</a></code> and will be stored in the <code>@bundle_data</code> slot of the returned <code>bundle</code> object. This makes it easy to attach bundle-level metadata (e.g. subject ID, hemisphere, affine transform) at import time without a separate assignment step. When the file contains a single streamline the argument is ignored with a warning.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="internal-changes-development-version">Internal changes<a class="anchor" aria-label="anchor" href="#internal-changes-development-version"></a></h4>
+<ul><li>
+<strong>C++ source files renamed: <code>fascicle*</code> → <code>bundle*</code>.</strong> <code>src/fascicleReaders.{cpp,h}</code> and <code>src/fascicleWriters.{cpp,h}</code> have been renamed to <code>src/bundleReaders.{cpp,h}</code> and <code>src/bundleWriters.{cpp,h}</code> to align with the <code>bundle</code> terminology used throughout the package API. The include guards have been updated accordingly (<code>_BUNDLEREADERS_H</code>, <code>_BUNDLEWRITERS_H</code>). No functional change.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="performance-improvements-development-version">Performance improvements<a class="anchor" aria-label="anchor" href="#performance-improvements-development-version"></a></h4>
+<ul><li>
+<p><strong>TRK reader is now dramatically faster</strong> (up to ~20× on real-world data). Two bottlenecks were removed:</p>
+<ul><li><p><em>I/O layer:</em> the old <code>read_trk()</code> called <code><a href="https://rdrr.io/r/base/readBin.html" class="external-link">readBin()</a></code> twice per streamline (once for <code>num_points</code>, once for the point block), causing 2 × N sequential file reads. A new C++ function <code>ReadTRK()</code> replaces the R loop: it reads the entire file body in a single <code>fread()</code> call, then makes two fast in-memory passes — one to count total points and pre-allocate output vectors, and one to parse coordinates and scalars using direct <code>memcpy</code>-based reads with optional byte-swapping.</p></li>
+<li><p><em>Bundle assembly:</em> <code><a href="../reference/flat_list_to_bundle.html">flat_list_to_bundle()</a></code> previously evaluated <code>sid == i</code> inside a loop over all streamlines, making the conversion O(streamlines × points). It now calls <code>split(seq_along(sid), sid)</code> once (a C-level operation, O(points)) to compute per-streamline index vectors up front. This fix also benefits the VTK/VTP/FDS readers, which share the same conversion function.</p></li>
+</ul></li>
+</ul></div>
+<div class="section level4">
 <h4 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h4>
 <ul><li><p><strong>Windows <code>R CMD check</code> fix: <code>quarto</code> CLI <code>TMPDIR</code> error.</strong> The <code>R-CMD-check</code> workflow now sets <code>QUARTO_PATH=nonexistent</code> on Windows before running the check. The <code>quarto</code> R package calls <code>system2("quarto", "-V", env = paste0("TMPDIR=", …))</code>, which on Windows passes the env assignment as a positional argument to the CLI rather than setting it as an environment variable, causing <code>ERROR: Unknown command "TMPDIR=…"</code>. Setting <code>QUARTO_PATH</code> to a nonexistent value makes <code>find_quarto()</code> return <code>NULL</code> immediately, so <code>system2</code> is never called.</p></li>
 <li>
