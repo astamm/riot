@@ -49,6 +49,8 @@ Imports:
     fs,
     rlang,
     rvtk
+Remotes:
+    astamm/rvtk
 Suggests: 
     reticulate,
     tinytest
