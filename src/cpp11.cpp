@@ -5,28 +5,35 @@
 #include "cpp11/declarations.hpp"
 #include <R_ext/Visibility.h>
 
-// fascicleReaders.h
+// bundleReaders.h
 cpp11::writable::list ReadVTK(const std::string & inputTracts);
 extern "C" SEXP _riot_ReadVTK(SEXP inputTracts) {
   BEGIN_CPP11
     return cpp11::as_sexp(ReadVTK(cpp11::as_cpp<cpp11::decay_t<const std::string &>>(inputTracts)));
   END_CPP11
 }
-// fascicleReaders.h
+// bundleReaders.h
 cpp11::writable::list ReadVTP(const std::string & inputTracts);
 extern "C" SEXP _riot_ReadVTP(SEXP inputTracts) {
   BEGIN_CPP11
     return cpp11::as_sexp(ReadVTP(cpp11::as_cpp<cpp11::decay_t<const std::string &>>(inputTracts)));
   END_CPP11
 }
-// fascicleReaders.h
+// bundleReaders.h
 cpp11::writable::list ReadFDS(const std::string & inputTracts);
 extern "C" SEXP _riot_ReadFDS(SEXP inputTracts) {
   BEGIN_CPP11
     return cpp11::as_sexp(ReadFDS(cpp11::as_cpp<cpp11::decay_t<const std::string &>>(inputTracts)));
   END_CPP11
 }
-// fascicleWriters.h
+// bundleReaders.h
+cpp11::writable::list ReadTRK(const std::string & inputFile, int n_scalars, int n_properties, int n_count, bool little_endian, cpp11::strings scalar_names, cpp11::strings property_names);
+extern "C" SEXP _riot_ReadTRK(SEXP inputFile, SEXP n_scalars, SEXP n_properties, SEXP n_count, SEXP little_endian, SEXP scalar_names, SEXP property_names) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(ReadTRK(cpp11::as_cpp<cpp11::decay_t<const std::string &>>(inputFile), cpp11::as_cpp<cpp11::decay_t<int>>(n_scalars), cpp11::as_cpp<cpp11::decay_t<int>>(n_properties), cpp11::as_cpp<cpp11::decay_t<int>>(n_count), cpp11::as_cpp<cpp11::decay_t<bool>>(little_endian), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(scalar_names), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(property_names)));
+  END_CPP11
+}
+// bundleWriters.h
 void WriteVTK(cpp11::list inputTracts, const std::string & outputFile);
 extern "C" SEXP _riot_WriteVTK(SEXP inputTracts, SEXP outputFile) {
   BEGIN_CPP11
@@ -34,7 +41,7 @@ extern "C" SEXP _riot_WriteVTK(SEXP inputTracts, SEXP outputFile) {
     return R_NilValue;
   END_CPP11
 }
-// fascicleWriters.h
+// bundleWriters.h
 void WriteVTP(cpp11::list inputTracts, const std::string & outputFile);
 extern "C" SEXP _riot_WriteVTP(SEXP inputTracts, SEXP outputFile) {
   BEGIN_CPP11
@@ -42,7 +49,7 @@ extern "C" SEXP _riot_WriteVTP(SEXP inputTracts, SEXP outputFile) {
     return R_NilValue;
   END_CPP11
 }
-// fascicleWriters.h
+// bundleWriters.h
 void WriteFDS(cpp11::list inputTracts, const std::string & outputFile);
 extern "C" SEXP _riot_WriteFDS(SEXP inputTracts, SEXP outputFile) {
   BEGIN_CPP11
@@ -54,6 +61,7 @@ extern "C" SEXP _riot_WriteFDS(SEXP inputTracts, SEXP outputFile) {
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
     {"_riot_ReadFDS",  (DL_FUNC) &_riot_ReadFDS,  1},
+    {"_riot_ReadTRK",  (DL_FUNC) &_riot_ReadTRK,  7},
     {"_riot_ReadVTK",  (DL_FUNC) &_riot_ReadVTK,  1},
     {"_riot_ReadVTP",  (DL_FUNC) &_riot_ReadVTP,  1},
     {"_riot_WriteFDS", (DL_FUNC) &_riot_WriteFDS, 2},

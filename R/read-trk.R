@@ -154,55 +154,21 @@ read_trk <- function(input_file) {
                            {header$hdr_size}, must be 1000."
     )
   } # nocov end
-  tracks <- lapply(
-    seq_len(header$n_count),
-    function(.x) {
-      num_points <- readBin(fh, integer(), n = 1, size = 4, endian = endian)
-
-      tmp <- matrix(
-        readBin(
-          fh,
-          numeric(),
-          n = (3 + header$n_scalars) * num_points,
-          size = 4,
-          endian = endian
-        ),
-        ncol = num_points
-      )
-
-      out <- list(
-        X = tmp[1, ],
-        Y = tmp[2, ],
-        Z = tmp[3, ],
-        PointId = seq_len(num_points),
-        StreamlineId = rep(.x, num_points)
-      )
-
-      for (i in seq_len(header$n_scalars)) {
-        out[[header$scalar_names[i]]] <- tmp[3 + i, ]
-      }
-
-      props <- readBin(
-        fh,
-        numeric(),
-        n = header$n_properties,
-        size = 4,
-        endian = endian
-      )
-      for (i in seq_len(header$n_properties)) {
-        out[[header$property_names[i]]] <- rep(props[i], num_points)
-      }
-
-      out
-    }
+  scalar_names <- utils::head(header$scalar_names, max(header$n_scalars, 0L))
+  property_names <- utils::head(
+    header$property_names,
+    max(header$n_properties, 0L)
   )
 
-  # Combine all per-streamline lists into one flat list
-  nms <- names(tracks[[1L]])
-  flat <- lapply(nms, function(col) {
-    unlist(lapply(tracks, `[[`, col), use.names = FALSE)
-  })
-  names(flat) <- nms
+  flat <- ReadTRK(
+    inputFile = input_file,
+    n_scalars = header$n_scalars,
+    n_properties = header$n_properties,
+    n_count = header$n_count,
+    little_endian = (endian == "little"),
+    scalar_names = scalar_names,
+    property_names = property_names
+  )
 
   A <- header$vox2ras[1:3, 1:3]
   b <- header$vox2ras[1:3, 4]

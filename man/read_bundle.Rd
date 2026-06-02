@@ -4,7 +4,7 @@
 \alias{read_bundle}
 \title{Import bundles into R}
 \usage{
-read_bundle(file, reference_file = NULL)
+read_bundle(file, reference_file = NULL, bundle_data = list())
 }
 \arguments{
 \item{file}{A string specifying the path to the file containing the tractography data. Currently
@@ -22,6 +22,12 @@ supported files are:
 when importing \code{.trx}, \code{.fib}, or \code{.dpy} files, as these formats do not contain spatial
 information about the image space. The reference image is used to correctly position the
 bundle in the appropriate space. Default is \code{NULL}.}
+
+\item{bundle_data}{A named list of bundle-level metadata to store in the \verb{@bundle_data} slot of
+the returned \link[fiber:bundle]{bundle} object (e.g. the affine transform used during tracking, subject
+identifier, or any other scalar/vector annotation). Ignored with a warning when the file
+contains a single streamline (in which case a \link[fiber:streamline]{streamline} is returned).
+Default is \code{list()}.}
 }
 \value{
 A \link[fiber:bundle]{bundle} object when the file contains multiple
@@ -30,6 +36,8 @@ exactly one. Each \code{streamline} is a numeric matrix with at least three
 named columns \code{"X"}, \code{"Y"}, and \code{"Z"} (one row per point along the
 tract). Additional per-point scalar attributes, when present in the source
 file, appear as extra named columns.
+When a \code{bundle} is returned and \code{bundle_data} is non-empty, its \verb{@bundle_data}
+slot is populated with the supplied list.
 }
 \description{
 This is the go-to function to import bundles into R. Based on both VTK and DIPY, we currently
@@ -37,6 +45,13 @@ support eight different formats detailed in the documentation of input argument 
 }
 \examples{
 uf_left_vtk <- read_bundle(system.file("extdata", "UF_left.vtk",  package = "riot"))
+
+# Attach bundle-level metadata
+uf_left_vtk2 <- read_bundle(
+  system.file("extdata", "UF_left.vtk", package = "riot"),
+  bundle_data = list(subject = "sub-01", hemisphere = "left")
+)
+uf_left_vtk2@bundle_data
 }
 \seealso{
 \code{\link[=write_bundle]{write_bundle()}} to export bundles from R.

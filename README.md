@@ -40,7 +40,10 @@ The package reads tractography data into S7 objects defined by the
   `@streamlines`, plus optional bundle-level metadata in `@bundle_data`.
 
 `read_bundle()` returns a `streamline` when the file contains a single
-tract and a `bundle` otherwise.
+tract and a `bundle` otherwise. The optional `bundle_data` argument lets
+you attach a named list of bundle-level metadata (e.g. subject ID,
+hemisphere, or affine transform) directly at import time: the list is
+stored in the `@bundle_data` slot of the returned `bundle`.
 
 The package also allows to write bundles back into the following
 exporting formats:
@@ -129,6 +132,21 @@ cc_mid_trk <- read_bundle(system.file(
 ))
 cc_mid_trk
 #> <bundle [525 streamlines | 29–270 pts/streamline]>
+```
+
+### Attaching bundle-level metadata with `bundle_data`
+
+``` r
+uf_left_meta <- read_bundle(
+  system.file("extdata", "UF_left.vtk", package = "riot"),
+  bundle_data = list(subject = "sub-01", hemisphere = "left")
+)
+uf_left_meta@bundle_data
+#> $subject
+#> [1] "sub-01"
+#> 
+#> $hemisphere
+#> [1] "left"
 ```
 
 ## Dependencies

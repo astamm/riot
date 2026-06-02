@@ -15,6 +15,11 @@
 #' when importing `.trx`, `.fib`, or `.dpy` files, as these formats do not contain spatial
 #' information about the image space. The reference image is used to correctly position the
 #' bundle in the appropriate space. Default is `NULL`.
+#' @param bundle_data A named list of bundle-level metadata to store in the `@bundle_data` slot of
+#'   the returned [bundle][bundle] object (e.g. the affine transform used during tracking, subject
+#'   identifier, or any other scalar/vector annotation). Ignored with a warning when the file
+#'   contains a single streamline (in which case a [streamline][streamline] is returned).
+#'   Default is `list()`.
 #'
 #' @return A [bundle][bundle] object when the file contains multiple
 #'   streamlines, or a [streamline][streamline] object when it contains
@@ -22,12 +27,21 @@
 #'   named columns `"X"`, `"Y"`, and `"Z"` (one row per point along the
 #'   tract). Additional per-point scalar attributes, when present in the source
 #'   file, appear as extra named columns.
+#'   When a `bundle` is returned and `bundle_data` is non-empty, its `@bundle_data`
+#'   slot is populated with the supplied list.
 #'
 #' @seealso [write_bundle()] to export bundles from R.
 #' @export
 #' @examples
 #' uf_left_vtk <- read_bundle(system.file("extdata", "UF_left.vtk",  package = "riot"))
-read_bundle <- function(file, reference_file = NULL) {
+#'
+#' # Attach bundle-level metadata
+#' uf_left_vtk2 <- read_bundle(
+#'   system.file("extdata", "UF_left.vtk", package = "riot"),
+#'   bundle_data = list(subject = "sub-01", hemisphere = "left")
+#' )
+#' uf_left_vtk2@bundle_data
+read_bundle <- function(file, reference_file = NULL, bundle_data = list()) {
   input_file <- fs::path_expand(file)
   input_file <- fs::path_norm(input_file)
   ext <- fs::path_ext(input_file)
@@ -100,6 +114,16 @@ read_bundle <- function(file, reference_file = NULL) {
 
     result <- fiber::bundle(streamlines)
     # nocov end
+  }
+
+  if (length(bundle_data) > 0L) {
+    if (fiber::is_bundle(result)) {
+      result@bundle_data <- bundle_data
+    } else {
+      cli::cli_warn(
+        "{.arg bundle_data} is ignored when the file contains a single streamline."
+      )
+    }
   }
 
   cli::cli_alert_success(

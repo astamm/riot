@@ -29,15 +29,18 @@ flat_list_to_bundle <- function(lst, streamline_cols = character(0L)) {
   point_cols <- setdiff(all_extra, streamline_cols)
   sl_cols <- intersect(streamline_cols, all_extra)
 
-  ids <- sort(unique(sid))
+  # Build a list of point indices per streamline in O(n_points).
+  # split() handles unsorted StreamlineIds (e.g., from VTK readers).
+  # For sorted data (e.g., TRK reader), both split() and rle() work, but
+  # split() is the safe general choice and is implemented in C.
+  idx_by_sl <- split(seq_along(sid), sid)
 
-  streamlines <- lapply(ids, function(i) {
-    rows <- sid == i
-    pts <- cbind(X = X[rows], Y = Y[rows], Z = Z[rows])
+  streamlines <- lapply(idx_by_sl, function(idx) {
+    pts <- cbind(X = X[idx], Y = Y[idx], Z = Z[idx])
 
     pd <- if (length(point_cols) > 0L) {
       stats::setNames(
-        lapply(point_cols, function(col) lst[[col]][rows]),
+        lapply(point_cols, function(col) lst[[col]][idx]),
         point_cols
       )
     } else {
@@ -46,7 +49,7 @@ flat_list_to_bundle <- function(lst, streamline_cols = character(0L)) {
 
     sld <- if (length(sl_cols) > 0L) {
       stats::setNames(
-        lapply(sl_cols, function(col) lst[[col]][which(rows)[1L]]),
+        lapply(sl_cols, function(col) lst[[col]][idx[1L]]),
         sl_cols
       )
     } else {

@@ -1,5 +1,5 @@
-#ifndef _FIBERWRITERS_H
-#define _FIBERWRITERS_H
+#ifndef _BUNDLEWRITERS_H
+#define _BUNDLEWRITERS_H
 
 #include <cpp11.hpp>
 #include <string>
@@ -15,4 +15,4 @@ void WriteVTP(cpp11::list inputTracts, const std::string &outputFile);
 [[cpp11::register]]
 void WriteFDS(cpp11::list inputTracts, const std::string &outputFile);
 
-#endif /* _FIBERWRITERS_H */
+#endif /* _BUNDLEWRITERS_H */

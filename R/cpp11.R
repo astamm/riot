@@ -12,6 +12,10 @@ ReadFDS <- function(inputTracts) {
   .Call(`_riot_ReadFDS`, inputTracts)
 }
 
+ReadTRK <- function(inputFile, n_scalars, n_properties, n_count, little_endian, scalar_names, property_names) {
+  .Call(`_riot_ReadTRK`, inputFile, n_scalars, n_properties, n_count, little_endian, scalar_names, property_names)
+}
+
 WriteVTK <- function(inputTracts, outputFile) {
   invisible(.Call(`_riot_WriteVTK`, inputTracts, outputFile))
 }

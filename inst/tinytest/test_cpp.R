@@ -39,7 +39,7 @@ write_vtk_ascii <- function(path, points, cells, vectors_data = NULL) {
   writeLines(txt, path)
 }
 
-# ---- fascicleReaders: singleton streamline cell -----------------------------
+# ---- bundleReaders: singleton streamline cell -----------------------------
 # PolyDataToList line 27: `continue` when streamlineSize == 1.
 # PolyDataToList line 71: `continue` when streamlineId[i] == -1 (singleton's
 #   point is skipped during coordinate assembly).
@@ -82,12 +82,12 @@ expect_false(
 )
 unlink(f_sing)
 
-# ---- fascicleReaders + fascicleWriters: multi-component array roundtrip -----
+# ---- bundleReaders + bundleWriters: multi-component array roundtrip -----
 # Build a flat list with '#'-named columns (3-component array "tangent").
 # WriteVTK exercises the `else` branch in the '#'-detection while loop
-#   (fascicleWriters lines ~50-65).
+#   (bundleWriters lines ~50-65).
 # ReadVTK back exercises the nc > 1 `else` branch in PolyDataToList
-#   (fascicleReaders lines ~52-62), the per-point array copy (~83-88),
+#   (bundleReaders lines ~52-62), the per-point array copy (~83-88),
 #   and the result push (~100).
 
 flat_mc <- list(
@@ -111,10 +111,10 @@ expect_true("tangent#2" %in% names(result_mc))
 expect_equal(length(result_mc[["tangent#0"]]), 4L)
 unlink(f_mc)
 
-# ---- fascicleWriters: single-component extra column roundtrip ---------------
+# ---- bundleWriters: single-component extra column roundtrip ---------------
 # write_bundle with a bundle that carries an "FA" per-point column.
 # bundle_to_flat_list adds "FA" (no '#') → ListToPolyData enters while loop
-#   `if` branch (single-component, fascicleWriters ~line 51-54) and emits
+#   `if` branch (single-component, bundleWriters ~line 51-54) and emits
 #   "Number of arrays: 1" message.
 
 sl_fa <- matrix(
@@ -135,7 +135,7 @@ expect_true("FA" %in% names(result_fa))
 expect_equal(length(result_fa$FA), 3L)
 unlink(f_fa)
 
-# ---- fascicleWriters: defensive error – fewer than 5 columns ---------------
+# ---- bundleWriters: defensive error – fewer than 5 columns ---------------
 
 expect_error(
   riot:::WriteVTK(
@@ -144,7 +144,7 @@ expect_error(
   )
 )
 
-# ---- fascicleWriters: defensive error – wrong column names -----------------
+# ---- bundleWriters: defensive error – wrong column names -----------------
 
 expect_error(
   riot:::WriteVTK(
@@ -153,7 +153,7 @@ expect_error(
   )
 )
 
-# ---- fascicleWriters: defensive error – unsupported column type -------------
+# ---- bundleWriters: defensive error – unsupported column type -------------
 # Character columns are neither REALSXP nor INTSXP → triggers the
 # cpp11::stop("Unsupported column type in input data.") branch.
 

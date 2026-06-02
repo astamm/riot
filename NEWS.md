@@ -1,5 +1,43 @@
 # riot (development version)
 
+### New features
+
+* **`read_bundle()` gains a `bundle_data` argument.** An optional named list
+  can now be passed to `read_bundle()` and will be stored in the `@bundle_data`
+  slot of the returned `bundle` object. This makes it easy to attach
+  bundle-level metadata (e.g. subject ID, hemisphere, affine transform) at
+  import time without a separate assignment step. When the file contains a
+  single streamline the argument is ignored with a warning.
+
+### Internal changes
+
+* **C++ source files renamed: `fascicle*` → `bundle*`.**
+  `src/fascicleReaders.{cpp,h}` and `src/fascicleWriters.{cpp,h}` have been
+  renamed to `src/bundleReaders.{cpp,h}` and `src/bundleWriters.{cpp,h}` to
+  align with the `bundle` terminology used throughout the package API.
+  The include guards have been updated accordingly (`_BUNDLEREADERS_H`,
+  `_BUNDLEWRITERS_H`). No functional change.
+
+### Performance improvements
+
+* **TRK reader is now dramatically faster** (up to ~20× on real-world data).
+  Two bottlenecks were removed:
+
+  - *I/O layer:* the old `read_trk()` called `readBin()` twice per streamline
+    (once for `num_points`, once for the point block), causing 2 × N sequential
+    file reads. A new C++ function `ReadTRK()` replaces the R loop: it reads the
+    entire file body in a single `fread()` call, then makes two fast in-memory
+    passes — one to count total points and pre-allocate output vectors, and one
+    to parse coordinates and scalars using direct `memcpy`-based reads with
+    optional byte-swapping.
+
+  - *Bundle assembly:* `flat_list_to_bundle()` previously evaluated
+    `sid == i` inside a loop over all streamlines, making the conversion
+    O(streamlines × points). It now calls `split(seq_along(sid), sid)` once
+    (a C-level operation, O(points)) to compute per-streamline index vectors
+    up front. This fix also benefits the VTK/VTP/FDS readers, which share
+    the same conversion function.
+
 ### Bug fixes
 
 * **Windows `R CMD check` fix: `quarto` CLI `TMPDIR` error.**
